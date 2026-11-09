@@ -1,9 +1,10 @@
 # EA UNSW website
 
 Static website for Effective Altruism UNSW. The site is a single `index.html`
-file and can be deployed with Cloudflare Pages using the **Direct Upload** or
-Git integration option. For Git integration, use this repository, set the build
-command to blank, and set the output directory to `/`.
+file and can be deployed with Cloudflare Pages using the Git integration.
+Select this repository and the `main` production branch. Leave the build
+command blank and set the build output directory to `.` so Pages serves the
+top-level `index.html`.
 
 The site contains no API keys or build-time secrets. Do not commit Cloudflare
 tokens, API keys, account credentials, or private member information here.
