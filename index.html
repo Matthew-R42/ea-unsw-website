@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Effective Altruism UNSW</title>
+<meta name="description" content="A student society at UNSW exploring how to do the most good through evidence and careful reasoning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #faf7f2;
+  --paper-deep: #f2ece2;
+  --white: #ffffff;
+  --ink: #1d2a2e;
+  --ink-soft: #4b5b60;
+  --teal: #0c869b;
+  --teal-strong: #0a6c7e;
+  --teal-deep: #054d5a;
+  --teal-wash: #e4f2f4;
+  --line: #dfd8cc;
+  --gold: #f5b82e;
+  --gold-deep: #e0a415;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --wrap: 1120px;
+  --gutter: 32px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.65 var(--sans); }
+h1, h2, h3 { font-family: var(--serif); color: var(--teal-deep); font-weight: 500; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--teal-strong); text-underline-offset: 3px; }
+a:hover { color: var(--teal-deep); }
+:focus-visible { outline: 3px solid var(--gold-deep); outline-offset: 2px; border-radius: 2px; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+.eyebrow { font: 600 13px/1.4 var(--sans); letter-spacing: 0.09em; text-transform: uppercase; color: var(--teal-strong); }
+
+/* Navigation */
+.site-head { position: sticky; top: 0; z-index: 10; background: rgba(250, 247, 242, 0.96); border-bottom: 1px solid var(--line); }
+.nav { display: flex; align-items: center; gap: 28px; min-height: 72px; }
+.brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--teal-deep); margin-right: auto; }
+.brand svg { width: 27px; height: 40px; flex: none; }
+.brand-text { font: 600 18px/1.12 var(--serif); }
+.brand-text small { display: block; font: 600 12px/1.3 var(--sans); letter-spacing: 0.1em; color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 24px; list-style: none; margin: 0; padding: 0; font-size: 15px; font-weight: 500; }
+.nav-links a { color: var(--ink); text-decoration: none; padding: 6px 0; display: inline-block; }
+.nav-links a:hover { color: var(--teal-strong); }
+.nav-links a.btn-primary, .nav-links a.btn-primary:hover { color: #1f1a0a; padding: 10px 17px; }
+.has-menu { position: relative; }
+.has-menu > a::after { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 2px 2px 8px; border-right: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; transform: rotate(45deg); }
+.submenu { position: absolute; top: 100%; left: -16px; min-width: 190px; list-style: none; margin: 0; padding: 8px; background: var(--white); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 10px 28px rgba(5, 77, 90, 0.12); display: none; }
+.submenu a { display: block; padding: 8px 10px; border-radius: 5px; }
+.submenu a:hover { background: var(--teal-wash); }
+.has-menu:hover .submenu, .has-menu:focus-within .submenu { display: block; }
+.menu-toggle { display: none; font: 600 15px var(--sans); color: var(--teal-deep); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; cursor: pointer; }
+
+/* Buttons */
+.btn { display: inline-block; font: 600 16px/1.2 var(--sans); padding: 14px 24px; border-radius: 7px; text-decoration: none; border: 1.5px solid transparent; transition: background-color .15s, color .15s; }
+.btn-primary { background: var(--gold); color: #1f1a0a; }
+.btn-primary:hover { background: var(--gold-deep); color: #1f1a0a; }
+.btn-secondary { border-color: var(--teal-strong); color: var(--teal-strong); }
+.btn-secondary:hover { background: var(--teal-strong); color: var(--white); }
+.btn-small { font-size: 15px; padding: 10px 17px; }
+.btn-light { border-color: rgba(255, 255, 255, 0.7); color: var(--white); }
+.btn-light:hover { background: var(--white); color: var(--teal-deep); }
+
+/* Hero */
+.hero { border-bottom: 1px solid var(--line); background-image: linear-gradient(rgba(12, 134, 155, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(12, 134, 155, 0.05) 1px, transparent 1px); background-size: 64px 64px; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-top: 84px; padding-bottom: 88px; }
+.hero h1 { font-size: clamp(44px, 6.1vw, 76px); line-height: 1.04; margin: 18px 0 24px; }
+.hero h1 span { color: var(--teal); }
+.lede { font-size: 21px; line-height: 1.5; max-width: 34em; color: var(--ink); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.hero-note { margin-top: 20px; font-size: 15px; color: var(--ink-soft); }
+.hero-mark { justify-self: center; width: min(100%, 250px); }
+.hero-mark svg { display: block; width: 100%; height: auto; }
+
+/* Sections */
+section { padding: 84px 0; }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 36px; flex-wrap: wrap; }
+.section-head h2, .sec-title { font-size: clamp(30px, 3.6vw, 42px); line-height: 1.14; }
+.section-head p { color: var(--ink-soft); max-width: 36em; margin-top: 8px; }
+
+/* Two column intro */
+.intro { background: var(--white); border-bottom: 1px solid var(--line); }
+.intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.intro-col { padding-right: 56px; }
+.intro-col + .intro-col { padding: 0 0 0 56px; border-left: 1px solid var(--line); }
+.intro-col h2 { font-size: clamp(27px, 3vw, 35px); line-height: 1.18; margin: 10px 0 18px; }
+.intro-col p + p { margin-top: 14px; }
+.more { display: inline-block; margin-top: 20px; font-weight: 600; font-size: 16px; }
+
+/* Events */
+.event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.event { background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--teal); border-radius: 6px; padding: 24px; display: flex; flex-direction: column; }
+.event .date { font: 600 13.5px/1.4 var(--sans); color: var(--teal-strong); }
+.event h3 { font-size: 23px; line-height: 1.25; margin: 10px 0 10px; }
+.event p { font-size: 15.5px; line-height: 1.55; color: var(--ink-soft); }
+.past { margin-top: 34px; padding-top: 22px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 150px 1fr; gap: 12px 24px; font-size: 15.5px; }
+.past h3 { font: 600 13px/1.6 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.past ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.past time { display: inline-block; min-width: 92px; color: var(--ink-soft); }
+
+/* Fellowship */
+.fellowship { background: var(--teal-deep); color: #e9f3f4; }
+.fellowship h2 { color: var(--white); font-size: clamp(34px, 4.4vw, 52px); line-height: 1.08; margin: 12px 0 20px; }
+.fellowship .eyebrow { color: #8fd5e0; }
+.fellowship-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 64px; align-items: start; }
+.fellowship p { font-size: 18px; }
+.facts { margin: 0; border-top: 1px solid rgba(255, 255, 255, 0.24); }
+.facts div { display: grid; grid-template-columns: 124px 1fr; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.24); }
+.facts dt { font-weight: 600; font-size: 14px; color: #8fd5e0; line-height: 1.7; }
+.facts dd { margin: 0; color: var(--white); font-size: 16.5px; line-height: 1.5; }
+
+/* Causes */
+.cause-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }
+.cause { padding: 28px 30px 8px 0; }
+.cause + .cause { padding-left: 30px; border-left: 1px solid var(--line); }
+.cause .num { font: 500 15px var(--serif); color: var(--teal); }
+.cause h3 { font-size: 24px; line-height: 1.22; margin: 8px 0 12px; }
+.cause p { font-size: 16px; color: var(--ink-soft); }
+.reading { margin-top: 36px; padding: 18px 22px; background: var(--paper-deep); border-radius: 6px; font-size: 15.5px; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; }
+.reading strong { font-weight: 600; color: var(--teal-deep); }
+
+/* Society */
+.society { background: var(--paper-deep); }
+.society-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.photo { aspect-ratio: 3 / 2; border-radius: 6px; background: var(--teal-wash); border: 1px solid var(--line); display: grid; place-content: center; text-align: center; padding: 24px; color: var(--teal-deep); font-size: 15px; }
+.photo strong { display: block; font: 500 22px/1.3 var(--serif); margin-bottom: 4px; }
+.society h2 { margin: 10px 0 18px; }
+.steps { list-style: none; margin: 22px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.steps li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.steps strong { font-weight: 600; color: var(--teal-deep); }
+
+/* Join */
+.join { background: var(--white); text-align: center; }
+.join h2 { font-size: clamp(34px, 4.4vw, 50px); line-height: 1.1; }
+.join p { max-width: 34em; margin: 16px auto 0; color: var(--ink-soft); }
+.join .actions { justify-content: center; }
+.join-links { margin-top: 22px; font-size: 15.5px; }
+
+/* Footer */
+.foot { background: var(--ink); color: #dfe4e2; padding: 52px 0 40px; font-size: 15px; }
+.foot a { color: #fff; }
+.foot-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr auto; gap: 40px; align-items: start; }
+.foot h3 { font: 600 12.5px/1.4 var(--sans); letter-spacing: .09em; text-transform: uppercase; color: #9fb0ad; margin-bottom: 12px; }
+.foot ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.foot .brand { color: #fff; margin-bottom: 14px; }
+.foot .brand small { color: #8fd5e0; }
+.arc { width: 96px; height: 112px; border: 1px solid rgba(255,255,255,.4); color: #f5c75c; border-radius: 4px; display: grid; place-content: center; text-align: center; font-size: 12.5px; line-height: 1.3; padding: 8px; }
+
+@media (max-width: 960px) {
+  :root { --gutter: 24px; }
+  .menu-toggle { display: block; }
+  .nav { flex-wrap: wrap; gap: 12px; padding: 10px 0; }
+  .nav-links { display: none; order: 3; width: 100%; flex-direction: column; align-items: stretch; gap: 0; padding: 6px 0 10px; font-size: 17px; }
+  .nav-links.open { display: flex; }
+  .nav-links > li > a { padding: 11px 0; display: block; }
+  .nav-links .btn { text-align: center; margin-top: 10px; padding: 13px; }
+  .has-menu > a::after { display: none; }
+  .submenu { position: static; display: block; border: 0; box-shadow: none; background: none; padding: 0 0 4px 16px; min-width: 0; }
+  .submenu a { padding: 8px 0; font-size: 16px; color: var(--ink-soft); }
+  .hero-grid { grid-template-columns: 1fr; padding-top: 52px; padding-bottom: 56px; gap: 0; }
+  .hero-mark { display: none; }
+  section { padding: 60px 0; }
+  .intro-grid, .event-grid, .cause-grid, .fellowship-grid, .society-grid { grid-template-columns: 1fr; }
+  .fellowship-grid, .society-grid { gap: 36px; }
+  .intro-col { padding: 0; }
+  .intro-col + .intro-col { padding: 36px 0 0; margin-top: 36px; border-left: 0; border-top: 1px solid var(--line); }
+  .cause, .cause + .cause { padding: 24px 0; border-left: 0; }
+  .cause + .cause { border-top: 1px solid var(--line); }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+  .foot-grid > :first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  :root { --gutter: 16px; }
+  body { font-size: 16.5px; }
+  .lede { font-size: 19px; }
+  .actions .btn { width: 100%; text-align: center; }
+  .past { grid-template-columns: 1fr; }
+  .facts div { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bulb" viewBox="-2 -2 68 100">
+    <g fill="none" stroke="currentColor" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M31 62 H25 C19.5 62 18 56.5 15.5 52 C11.5 45.5 5 39.5 5 29 A27 27 0 0 1 59 29 C59 38.5 52.5 44 48.8 50.5 C46.2 55 46 60 46 67 C46 71.5 43 74 38 74 H26"/>
+      <path d="M30 45 C21.5 37 19 30 22 25.5 C25 21 31.5 22 32 28.5 C32.5 22 39.5 21 42.3 25.5 C45.5 30.5 42.5 39 33.5 53 C32.5 55 31.5 57 30.5 59"/>
+      <path d="M26 74 C38 74 45 76.5 42 81 C40.5 83 34 83.3 26 83"/>
+      <path d="M26 83 C35 83.2 42.5 85.5 41.5 90.5"/>
+    </g>
+  </symbol>
+</svg>
+
+
+<header class="site-head">
+  <div class="wrap">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="#top" aria-label="EA UNSW home">
+        <svg aria-hidden="true"><use href="#bulb"/></svg>
+        <span class="brand-text">Effective Altruism<small>UNSW</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#what-is-ea">What is EA?</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#fellowship">Fellowship</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a class="btn btn-primary btn-small" href="https://campus.hellorubric.com/?s=15954&amp;mid=23499">Join Us</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Arc-affiliated student society</p>
+        <h1>Effective Altruism <span>UNSW</span></h1>
+        <p class="lede">A student society finding the best ways to help others, using evidence and careful reasoning.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://campus.hellorubric.com/?s=15954&amp;mid=23499">Join Us</a>
+          <a class="btn btn-secondary" href="#fellowship">Intro Fellowship</a>
+        </div>
+        <p class="hero-note">Open to all UNSW students. No background needed.</p>
+      </div>
+      <div class="hero-mark" style="color:var(--teal)" aria-hidden="true"><svg viewBox="-2 -2 68 100"><use href="#bulb" x="-2" y="-2" width="68" height="100"/></svg></div>
+    </div>
+  </div>
+
+  <section class="intro" id="about">
+    <div class="wrap intro-grid">
+      <div class="intro-col" id="what-is-ea">
+        <p class="eyebrow">The idea</p>
+        <h2>What is effective altruism?</h2>
+        <p>Effective altruism is a research field and a practical community. It aims to find the best ways to help others, and to put them into practice.</p>
+        <p>It starts from a simple question: with limited time and money, how can we do the most good? The answers draw on evidence and careful reasoning, and they stay open to challenge.</p>
+        <a class="more" href="#causes">The causes we discuss &rarr;</a>
+      </div>
+      <div class="intro-col">
+        <p class="eyebrow">The society</p>
+        <h2>What is EA UNSW?</h2>
+        <p>EA UNSW is a student society for people who want to think seriously about doing good, through their studies, careers and giving. We began in 2019 and relaunched in 2026.</p>
+        <p>We run discussion groups and social events during term. We are planning an Intro Fellowship for Term 1 2027. Membership is free.</p>
+        <a class="more" href="#events">See what we're planning &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="events">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">What's on</p>
+          <h2>Coming up</h2>
+        </div>
+        <a class="more" href="https://www.instagram.com/effectivealtruism_unsw" style="margin:0">Event updates &rarr;</a>
+      </div>
+      <div class="event-grid">
+        <article class="event">
+          <p class="date">UNSW O-Week, 8 to 12 February 2027</p>
+          <h3>Meet EA UNSW</h3>
+          <p>We plan to welcome students during O-Week. Follow our social channels for confirmed stall details and Term 1 activities.</p>
+        </article>
+      </div>
+      <div class="past">
+        <h3>Recently</h3>
+        <ul>
+          <li>Discussion groups and social events throughout term</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="fellowship" id="fellowship">
+    <div class="wrap fellowship-grid">
+      <div>
+        <p class="eyebrow">Planned for Term 1 2027</p>
+        <h2>Intro Fellowship</h2>
+        <p>We are planning a small-group introduction to effective altruism for students curious about how to do the most good. Dates, format and registration details will be announced when confirmed.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://linktr.ee/effectivealtruism_unsw">Follow updates</a>
+        </div>
+      </div>
+      <dl class="facts">
+        <div><dt>When</dt><dd>Planned for Term 1 2027</dd></div>
+        <div><dt>Details</dt><dd>To be announced</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="causes">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Where the ideas lead</p>
+          <h2>Causes we discuss</h2>
+          <p>Effective altruism is a way of asking the question, not a fixed list of answers. These are three areas people in the community often work on.</p>
+        </div>
+      </div>
+      <div class="cause-grid">
+        <article class="cause">
+          <span class="num">01</span>
+          <h3>Global health and development</h3>
+          <p>People use evidence and careful comparisons to explore ways of improving health and reducing poverty.</p>
+        </article>
+        <article class="cause">
+          <span class="num">02</span>
+          <h3>Animal welfare</h3>
+          <p>People consider how to reduce animal suffering and improve the treatment of animals.</p>
+        </article>
+        <article class="cause">
+          <span class="num">03</span>
+          <h3>AI and other global catastrophic risks</h3>
+          <p>People study ways to reduce risks from powerful technologies and other threats that could affect many people.</p>
+        </article>
+      </div>
+      <div class="reading" id="resources">
+        <strong>Read further</strong>
+        <a href="https://www.effectivealtruism.org/articles/introduction-to-effective-altruism">Introduction to effective altruism</a>
+        <a href="https://www.givewell.org/">GiveWell</a>
+        <a href="https://80000hours.org/">80,000 Hours</a>
+        <a href="https://www.givingwhatwecan.org/">Giving What We Can</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="society">
+    <div class="wrap society-grid">
+      <div class="photo" aria-hidden="true"><div><strong>Learn together</strong>Curious questions, open discussion.</div></div>
+      <div>
+        <p class="eyebrow">Our sessions</p>
+        <h2 class="sec-title">What to expect</h2>
+        <p>Our sessions are built so that a first-time visitor can take part straight away.</p>
+        <ul class="steps">
+          <li><strong>Start together.</strong> A short overview or reading on the topic.</li>
+          <li><strong>Discuss.</strong> Work through the question in conversation.</li>
+          <li><strong>Decide.</strong> Finish with something to decide, try or follow up on.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="join">
+    <div class="wrap">
+      <h2>Join EA UNSW</h2>
+      <p>Membership is free. Join through Arc's club portal, or follow us for event and fellowship updates.</p>
+      <div class="actions"><a class="btn btn-primary" href="https://campus.hellorubric.com/?s=15954&amp;mid=23499">Join on Rubric</a></div>
+      <p class="join-links">Updates and community links are on our <a href="https://linktr.ee/effectivealtruism_unsw">Linktree</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot" id="contact">
+  <div class="wrap foot-grid">
+    <div>
+      <a class="brand" href="#top" aria-label="EA UNSW home">
+        <svg aria-hidden="true"><use href="#bulb"/></svg>
+        <span class="brand-text">Effective Altruism<small>UNSW</small></span>
+      </a>
+      <p>An Arc-affiliated student club, independently run by UNSW students.</p>
+    </div>
+    <div>
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#what-is-ea">What is EA?</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#fellowship">Fellowship</a></li>
+        <li><a href="#resources">Resources</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <ul>
+        <li><a href="mailto:effectivealtruismunsw@gmail.com">Email us</a></li>
+        <li><a href="https://www.instagram.com/effectivealtruism_unsw">Instagram</a></li>
+        <li><a href="https://linktr.ee/effectivealtruism_unsw">Linktree</a></li>
+      </ul>
+    </div>
+    <div class="arc" aria-label="Affiliated with Arc">Arc<br>UNSW</div>
+  </div>
+</footer>
+
+<script>
+  var toggle = document.querySelector('.menu-toggle');
+  var links = document.getElementById('nav-links');
+  toggle.addEventListener('click', function () {
+    var open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.textContent = open ? 'Close' : 'Menu';
+  });
+  links.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && links.classList.contains('open')) toggle.click();
+  });
+</script>
+</body>
+</html>
