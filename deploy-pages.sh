@@ -14,7 +14,7 @@ set +a
 : "${CLOUDFLARE_API_TOKEN:?CLOUDFLARE_API_TOKEN is not set in ~/.secrets.env}"
 : "${CLOUDFLARE_ACCOUNT_ID:?CLOUDFLARE_ACCOUNT_ID is not set in ~/.secrets.env}"
 
-project_name="${CLOUDFLARE_PAGES_PROJECT:-ea-unsw-site}"
+project_name="${CLOUDFLARE_PAGES_PROJECT:-ea-unsw-website}"
 
 exec npx wrangler pages deploy . \
     --project-name="$project_name" \

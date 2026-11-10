@@ -19,17 +19,11 @@ From this repository, deploy the committed or working-tree contents with:
 The script reads `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` from
 `~/.secrets.env`. It never writes those values to the repository. The token
 needs Cloudflare Pages Edit access for the account. The default Pages project
-name is `ea-unsw-site`; set `CLOUDFLARE_PAGES_PROJECT` in the shell to use a
+name is `ea-unsw-website`; set `CLOUDFLARE_PAGES_PROJECT` in the shell to use a
 different existing project.
 
-The first deployment requires the Pages project to exist. Create it once in
-Cloudflare Pages, or run:
-
-```sh
-npx wrangler pages project create ea-unsw-site --production-branch=main
-```
-
-The default Pages URL will be `ea-unsw-site.pages.dev`. Connecting
+The Pages project already exists. Its Pages URL is
+`ea-unsw-website.pages.dev`. Connecting
 `eaunsw.com` or a hostname under it is a separate Cloudflare DNS and custom
 domain step. The current repository does not assume that connection exists.
 
