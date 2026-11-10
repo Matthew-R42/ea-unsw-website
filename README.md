@@ -9,8 +9,21 @@ tokens, API keys, account credentials, or private member information here.
 
 ## Updating the site
 
-Edit `index.html`, check the rendered result locally, then commit the change.
-From this repository, deploy the committed or working-tree contents with:
+Edit `index.html`, check the rendered result locally, then commit and push to
+`main`. That is all. The Cloudflare Pages project `ea-unsw-website` is connected
+to this GitHub repository, so every push to `main` triggers a Cloudflare build
+and updates the live site automatically. Anyone with push access to this repo
+can deploy this way, and no Cloudflare credentials are needed to do it.
+
+There are no secrets or API tokens stored in this repository or its GitHub
+Actions, by design. The only thing that can deploy is a push to the connected
+repo, which reaches this site and nothing else.
+
+### Manual deploy (fallback)
+
+If you need to push the working tree without committing, or the Git integration
+is unavailable, deploy by hand from a machine that has the Cloudflare values in
+`~/.secrets.env`:
 
 ```sh
 ./deploy-pages.sh
