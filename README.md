@@ -1,15 +1,38 @@
 # EA UNSW website
 
-Static website for Effective Altruism UNSW. The site is a single `index.html`
-file and is deployed directly to Cloudflare Pages, like `mtw4244.work`.
-There is no build step.
+Static website for Effective Altruism UNSW. The site is six hand-edited HTML
+pages plus one shared stylesheet and one shared script, deployed directly to
+Cloudflare Pages, like `mtw4244.work`. There is no build step.
+
+| File | Page |
+| --- | --- |
+| `index.html` | Home |
+| `what-is-ea.html` | What is EA? |
+| `events.html` | Term events timeline |
+| `fellowship.html` | Intro Fellowship |
+| `about.html` | About the society |
+| `join.html` | Get involved, all links |
+| `assets/site.css` | All styles and colours (tokens at the top) |
+| `assets/site.js` | Menu, animations, token jars, lens toggles, timeline |
+
+The header and footer are repeated in every page, so a change to the menu or
+footer links has to be made in all six files.
 
 The site contains no API keys or build-time secrets. Do not commit Cloudflare
 tokens, API keys, account credentials, or private member information here.
 
 ## Updating the site
 
-Edit `index.html`, check the rendered result locally, then commit and push to
+To change an event, edit its `<article class="wk">` block in `events.html`.
+The black bars are `<span class="redact">` elements: replace one with plain
+text when a detail is ready to announce. The three teaser cards on the home
+page are separate and live in `index.html`.
+
+To preview locally, run `python3 -m http.server 4173` in this folder and open
+<http://127.0.0.1:4173/>. Adding `?still` to any page address freezes the
+animations, which helps when taking screenshots.
+
+Edit the page, check the rendered result locally, then commit and push to
 `main`. That is all. The Cloudflare Pages project `ea-unsw-website` is connected
 to this GitHub repository, so every push to `main` triggers a Cloudflare build
 and updates the live site automatically. Anyone with push access to this repo
