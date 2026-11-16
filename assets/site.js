@@ -151,7 +151,7 @@
       for (var i = 0; i < parts.length; i++) {
         var p = parts[i];
         var dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
-        if (d2 < 9000 && d2 > 0.01) { var f = (1 - d2 / 9000) * 1.6, d = Math.sqrt(d2); p.vx += dx / d * f; p.vy += dy / d * f; }
+        if (d2 < 4000 && d2 > 0.01) { var f = (1 - d2 / 4000) * 1.6, d = Math.sqrt(d2); p.vx += dx / d * f; p.vy += dy / d * f; }
         if (p.free || el < p.delay) {
           p.vx += Math.cos(now / 2300 + p.seed) * 0.004; p.vy += Math.sin(now / 2700 + p.seed) * 0.004;
           p.vx *= 0.985; p.vy *= 0.985;
@@ -187,63 +187,6 @@
     start();
   })();
 
-  /* Token jars: five tokens, split however you like. Stays in this browser. */
-  (function () {
-    var box = $('#jars');
-    if (!box) return;
-    var jars = $$('.jar', box), tray = $('#tray'), result = $('#jar-result');
-    var TOTAL = 5, KEY = 'eaunsw-jars', counts = jars.map(function () { return 0; });
-    var names = jars.map(function (j) { return j.getAttribute('data-name'); });
-    var phrases = jars.map(function (j) { return j.getAttribute('data-phrase') || j.getAttribute('data-name').toLowerCase(); });
-    var SLOTS = [[8, 4], [36, 3], [63, 5], [21, 27], [50, 28]];
-    try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && saved.length === counts.length) counts = saved.map(function (n) { return clamp(n | 0, 0, TOTAL); }); } catch (e) {}
-    if (counts.reduce(sum, 0) > TOTAL) counts = counts.map(function () { return 0; });
-    function sum(a, b) { return a + b; }
-    function left() { return TOTAL - counts.reduce(sum, 0); }
-    function save() { try { localStorage.setItem(KEY, JSON.stringify(counts)); } catch (e) {} }
-    function addToken(i, k, animate) {
-      var t = doc.createElement('span'), s = SLOTS[k % SLOTS.length];
-      t.className = 'jar-token';
-      t.style.left = s[0] + '%'; t.style.bottom = s[1] + '%';
-      if (!animate) t.style.animation = 'none';
-      $('.jar-glass', jars[i]).appendChild(t);
-    }
-    function render() {
-      var l = left();
-      $$('.tok', tray).forEach(function (tok, i) { tok.classList.toggle('spent', i >= l); });
-      $('#tray-label').textContent = l === 0 ? 'All spent.' : l + (l === 1 ? ' token left' : ' tokens left');
-      jars.forEach(function (j, i) {
-        $('.jar-count', j).textContent = counts[i] ? counts[i] + ' of ' + TOTAL : ' ';
-        j.classList.toggle('full', l === 0);
-        j.setAttribute('aria-label', names[i] + ', ' + counts[i] + ' of your ' + TOTAL + ' tokens');
-      });
-      if (l === 0) {
-        var picks = counts.map(function (c, i) { return c ? c + ' in ' + phrases[i] : ''; }).filter(Boolean);
-        var all = picks.length === 1;
-        var msg = (all ? 'All five in ' + phrases[counts.indexOf(TOTAL)] + '. Bold.' : 'You put ' + picks.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.') +
-          ' There is no answer key. People who think hard about this still disagree, and that argument is most of the fun. ';
-        result.textContent = msg;
-        var again = doc.createElement('button');
-        again.type = 'button'; again.textContent = 'Take your tokens back';
-        again.addEventListener('click', function () { counts = counts.map(function () { return 0; }); $$('.jar-token', box).forEach(function (t) { t.remove(); }); save(); render(); });
-        result.appendChild(again);
-      } else if (l === TOTAL) {
-        result.textContent = 'Tap a jar to drop a token in.';
-      } else {
-        result.textContent = 'Keep going. You can stack them all in one jar or spread them out.';
-      }
-    }
-    counts.forEach(function (c, i) { for (var k = 0; k < c; k++) addToken(i, k, false); });
-    jars.forEach(function (j, i) {
-      j.addEventListener('click', function () {
-        if (left() <= 0) return;
-        addToken(i, counts[i], !calm);
-        counts[i]++; save(); render();
-      });
-    });
-    render();
-  })();
-
   /* Three lenses: big, overlooked, solvable */
   (function () {
     var fig = $('#lens-figure');
@@ -264,6 +207,7 @@
       btns.forEach(function (b) { $('#' + b.getAttribute('data-lens')).classList.toggle('off', b.getAttribute('aria-pressed') !== 'true'); });
       fig.classList.toggle('all', key === '111');
       say.textContent = LINES[key];
+      $$('.lens-ex').forEach(function (ex) { ex.hidden = ex.getAttribute('data-key') !== key; });
     }
     btns.forEach(function (b) {
       b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); update(); });
@@ -277,7 +221,7 @@
     if (!grid) return;
     var dots = [];
     for (var i = 0; i < 80; i++) { var d = doc.createElement('i'); grid.appendChild(d); dots.push(d); }
-    function fill() { dots.forEach(function (d, i) { setTimeout(function () { d.classList.add('on'); }, calm ? 0 : i * 22); }); }
+    function fill() { dots.forEach(function (d, i) { setTimeout(function () { d.classList.add(i === 0 ? 'one' : 'on'); }, calm ? 0 : i * 22); }); }
     if (calm || !('IntersectionObserver' in window)) { fill(); return; }
     var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { fill(); io.disconnect(); } }, { threshold: 0.4 });
     io.observe(grid);
@@ -288,7 +232,7 @@
     var tl = $('.timeline');
     if (!tl) return;
     var fill = $('.timeline-fill', tl), weeks = $$('.wk', tl), cells = {}, ticking = false;
-    $$('.strip [data-wk]').forEach(function (c) { cells[c.getAttribute('data-wk')] = c; });
+    $$('.strip li[data-wk]').forEach(function (c) { cells[c.getAttribute('data-wk')] = c; });
     function update() {
       ticking = false;
       var r = tl.getBoundingClientRect(), mid = window.innerHeight * 0.45;
@@ -309,4 +253,191 @@
     window.addEventListener('resize', update);
     update();
   })();
+  /* One shared tooltip for anything with data-tip (week dots, black bars, join button) */
+  (function () {
+    var tip = doc.createElement('div'), cur = null;
+    tip.id = 'tip'; tip.setAttribute('role', 'tooltip');
+    doc.body.appendChild(tip);
+    function show(el) {
+      cur = el;
+      var t = el.getAttribute('data-tip'), h = el.getAttribute('data-tip-title');
+      tip.textContent = '';
+      if (h) { var b = doc.createElement('b'); b.textContent = h; tip.appendChild(b); }
+      tip.appendChild(doc.createTextNode(t));
+      tip.style.left = '0px'; tip.style.top = '0px';
+      var r = el.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+      var x = clamp(r.left + r.width / 2 - tw / 2, 8, root.clientWidth - tw - 8);
+      var y = r.top - th - 10;
+      if (y < 6) y = r.bottom + 10;
+      tip.style.left = (x + window.scrollX) + 'px'; tip.style.top = (y + window.scrollY) + 'px';
+      tip.classList.add('show');
+    }
+    function hide() { cur = null; tip.classList.remove('show'); }
+    $$('[data-tip]').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { show(el); });
+      el.addEventListener('mouseleave', hide);
+      el.addEventListener('focus', function () { show(el); });
+      el.addEventListener('blur', hide);
+      el.addEventListener('click', function (e) { if (el.tagName !== 'A') { e.stopPropagation(); if (cur === el && tip.classList.contains('show') && e.detail === 0) hide(); else show(el); } });
+    });
+    doc.addEventListener('click', hide);
+    window.addEventListener('scroll', hide, { passive: true });
+  })();
+
+  /* Effective + Altruism: tap the brain for questions, tap the heart to widen the circle */
+  $$('.word-art').forEach(function (btn) {
+    var words = (btn.getAttribute('data-words') || '').split('|'), n = 0, timer;
+    var heart = btn.hasAttribute('data-heart');
+    btn.addEventListener('click', function () {
+      var old = $('.bubble', btn); if (old) old.remove();
+      var b = doc.createElement('span'); b.className = 'bubble'; b.textContent = words[n % words.length]; n++;
+      btn.appendChild(b);
+      btn.classList.remove('beat', 'fire'); void btn.offsetWidth; btn.classList.add(heart ? 'beat' : 'fire');
+      if (heart && !calm) for (var k = 0; k < 4; k++) {
+        var f = doc.createElement('span'); f.className = 'floaty';
+        f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffd23f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
+        f.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px'); f.style.animationDelay = (k * 90) + 'ms';
+        btn.appendChild(f); (function (f) { setTimeout(function () { f.remove(); }, 1500); })(f);
+      }
+      clearTimeout(timer); timer = setTimeout(function () { b.remove(); btn.classList.remove('fire'); }, 2600);
+    });
+  });
+
+  /* How rich am I: World Bank income distribution, 2024, in 2021 international dollars per day.
+     Each pair is [dollars per day, share of the world living on less]. Source: pip.worldbank.org */
+  (function () {
+    var box = $('#rich');
+    if (!box) return;
+    var PIP = [[1, .0116], [2, .048], [3, .1012], [4.2, .1821], [6, .3249], [8.3, .4616], [10, .5287], [15, .6516], [20, .7239], [25, .7722], [30, .8067], [40, .855], [50, .8889], [60, .9142], [75, .9409], [100, .9668], [125, .9803], [150, .9876], [200, .9943], [250, .9969], [300, .9982], [400, .9992], [500, .9996]];
+    /* AUD today -> 2021 AUD (CPI 124.27 / 148.46) -> 2021 international dollars (PPP 1.5099) -> per day */
+    var K = (124.27 / 148.46) / 1.5099 / 365, MEDIAN_AUD = 9.27 / K;
+    function share(aud) {
+      var d = aud * K;
+      if (d <= PIP[0][0]) return PIP[0][1] * d / PIP[0][0];
+      for (var i = 1; i < PIP.length; i++) if (d <= PIP[i][0]) {
+        var a = PIP[i - 1], b = PIP[i], t = (Math.log(d) - Math.log(a[0])) / (Math.log(b[0]) - Math.log(a[0]));
+        return a[1] + (b[1] - a[1]) * t;
+      }
+      return 0.9996;
+    }
+    var input = $('#rich-income'), range = $('#rich-range'), grid = $('#people'), dots = [];
+    for (var i = 0; i < 100; i++) { var d = doc.createElement('i'); grid.appendChild(d); dots.push(d); }
+    var LO = Math.log(1000), HI = Math.log(250000);
+    function money(n) { return '$' + Math.round(n).toLocaleString('en-AU'); }
+    function render(aud) {
+      aud = clamp(aud || 0, 0, 5000000);
+      var s = share(aud), pc = s * 100, below = Math.min(99, Math.floor(pc));
+      $('#rich-pct').textContent = pc >= 99.95 ? '99.9' : (pc >= 99 ? pc.toFixed(1) : String(Math.round(pc)));
+      var times = aud / MEDIAN_AUD;
+      $('#rich-times').textContent = times >= 10 ? Math.round(times) + ' times' : (times >= 1.15 ? times.toFixed(1) + ' times' : (times > 0.85 ? 'about the same as' : 'below'));
+      $('#rich-times-tail').textContent = times > 0.85 && times < 1.15 ? ' the global median.' : (times <= 0.85 ? ' the global median.' : ' the global median.');
+      var one = aud * 0.01;
+      $('#rich-warm').textContent = aud < 1000 ? 'Type a number, drag the slider or tap an amount to see where it lands.' :
+        (pc >= 50 ? 'This is not a guilt trip. It means your spare change goes a long way: 1% of that income is ' + money(one) + ' a year, about ' + money(Math.max(1, one / 52)) + ' a week, and where it goes matters a lot.' :
+          'Money is tight on that income, and that is fine. Time, skills and a future career count for just as much as dollars.');
+      dots.forEach(function (el, i) { el.className = i < below ? 'below' : (i === below ? 'you' : ''); });
+      $('#people-key').textContent = 'If the world were 100 people lined up by income: ' + below + ' have less than you, ' + (99 - below) + ' have more.';
+    }
+    function setAll(aud, from) {
+      if (from !== 'input') input.value = Math.round(aud);
+      if (from !== 'range') range.value = Math.round(clamp((Math.log(Math.max(aud, 1000)) - LO) / (HI - LO), 0, 1) * 1000);
+      render(aud);
+    }
+    input.addEventListener('input', function () { setAll(parseFloat(input.value.replace(/[^0-9.]/g, '')) || 0, 'input'); });
+    range.addEventListener('input', function () { var v = Math.exp(LO + (HI - LO) * range.value / 1000); setAll(v >= 10000 ? Math.round(v / 1000) * 1000 : Math.round(v / 100) * 100, 'range'); });
+    $$('[data-income]', box).forEach(function (b) { b.addEventListener('click', function () { setAll(parseFloat(b.getAttribute('data-income'))); }); });
+    setAll(parseFloat(input.value) || 25000);
+  })();
+
+  /* Causes: pick one to open its video and links */
+  (function () {
+    var tabs = $$('button.cause[data-panel]');
+    if (!tabs.length) return;
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (o) { var on = o === t; o.setAttribute('aria-selected', on ? 'true' : 'false'); $('#' + o.getAttribute('data-panel')).hidden = !on; });
+      });
+    });
+  })();
+
+  /* YouTube: nothing loads from YouTube until someone presses play */
+  $$('.yt[data-yt]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = doc.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + b.getAttribute('data-yt') + '?autoplay=1&rel=0';
+      f.title = b.getAttribute('aria-label') || 'Video';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.allowFullscreen = true;
+      var wrap = doc.createElement('div'); wrap.className = 'yt'; wrap.appendChild(f);
+      b.replaceWith(wrap);
+    });
+  });
+
+  /* 2,000 dots: what the price of one guide dog buys in sight-restoring surgery */
+  (function () {
+    var c = $('#cmp-dots');
+    if (!c || !c.getContext) return;
+    var ctx = c.getContext('2d'), COLS = 50, ROWS = 40, N = 2000, S = 12;
+    c.width = COLS * S; c.height = ROWS * S;
+    function draw(n) {
+      ctx.clearRect(0, 0, c.width, c.height);
+      for (var i = 0; i < n; i++) {
+        ctx.fillStyle = i % 7 === 0 ? '#ffd23f' : '#0c869b';
+        ctx.beginPath(); ctx.arc((i % COLS) * S + S / 2, Math.floor(i / COLS) * S + S / 2, S * 0.34, 0, 6.2832); ctx.fill();
+      }
+    }
+    if (calm || !('IntersectionObserver' in window)) { draw(N); return; }
+    draw(0);
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      var t0 = 0;
+      (function step(now) { if (!t0) t0 = now; var n = Math.min(N, Math.round((now - t0) / 2200 * N)); draw(n); if (n < N) requestAnimationFrame(step); })(performance.now());
+    }, { threshold: 0.3 });
+    io.observe(c);
+  })();
+
+  /* Money bars fill when they scroll into view */
+  $$('.mbar').forEach(function (m) {
+    if (calm || !('IntersectionObserver' in window)) { m.classList.add('go'); return; }
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { m.classList.add('go'); io.disconnect(); } }, { threshold: 0.5 });
+    io.observe(m);
+  });
+
+  /* Syllabus: open the session named in the address, e.g. fellowship.html#s3 */
+  function openFromHash() {
+    var el = location.hash && doc.getElementById(location.hash.slice(1));
+    if (el && el.tagName === 'DETAILS') { el.open = true; el.scrollIntoView(); }
+  }
+  window.addEventListener('hashchange', openFromHash);
+  openFromHash();
+
+  /* Forms. There is no server behind this site, so a form turns the answers into
+     an email to the club address. Nothing is sent until the person presses send
+     in their own email app. To use a Google Form or another service instead,
+     set data-action on the <form> to its address and remove this handler. */
+  $$('form[data-mailto]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var lines = [], seen = {}, err = $('.form-err', form);
+      $$('[name]', form).forEach(function (f) {
+        var name = f.name;
+        if (seen[name]) return;
+        var label = f.getAttribute('data-label') || name, val;
+        if (f.type === 'checkbox') { seen[name] = 1; val = $$('[name="' + name + '"]:checked', form).map(function (c) { return c.value; }).join(', '); }
+        else if (f.type === 'radio') { seen[name] = 1; var r = $('[name="' + name + '"]:checked', form); val = r ? r.value : ''; }
+        else val = f.value.trim();
+        lines.push(label + ':\n' + (val || '(left blank)') + '\n');
+      });
+      if (!form.checkValidity()) { if (err) err.hidden = false; form.reportValidity(); return; }
+      if (err) err.hidden = true;
+      var body = lines.join('\n'), to = form.getAttribute('data-mailto'), subject = form.getAttribute('data-subject');
+      var href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      var done = $('#' + form.getAttribute('data-done'));
+      $('textarea', done).value = 'To: ' + to + '\nSubject: ' + subject + '\n\n' + body;
+      $('a.btn', done).href = href;
+      form.hidden = true; done.hidden = false; done.scrollIntoView({ block: 'center' });
+      location.href = href;
+    });
+  });
 })();

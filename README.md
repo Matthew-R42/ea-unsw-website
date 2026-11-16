@@ -6,17 +6,19 @@ Cloudflare Pages, like `mtw4244.work`. There is no build step.
 
 | File | Page |
 | --- | --- |
-| `index.html` | Home |
-| `what-is-ea.html` | What is EA? |
+| `index.html` | Home, including the income calculator |
+| `what-is-ea.html` | What is EA?, causes, videos |
 | `events.html` | Term events timeline |
-| `fellowship.html` | Intro Fellowship |
-| `about.html` | About the society |
-| `join.html` | Get involved, all links |
+| `fellowship.html` | Intro Fellowship syllabus and readings |
+| `fellowship-signup.html` | Fellowship sign-up form |
+| `team.html` | Exec team, where the money goes, subcommittee |
+| `subcommittee.html` | Subcommittee application form |
 | `assets/site.css` | All styles and colours (tokens at the top) |
-| `assets/site.js` | Menu, animations, token jars, lens toggles, timeline |
+| `assets/site.js` | Menu, animations, calculator, tooltips, forms |
+| `assets/arc-clubs.png` | Arc Clubs logo used in the footer |
 
 The header and footer are repeated in every page, so a change to the menu or
-footer links has to be made in all six files.
+footer links has to be made in every page.
 
 The site contains no API keys or build-time secrets. Do not commit Cloudflare
 tokens, API keys, account credentials, or private member information here.
@@ -27,6 +29,19 @@ To change an event, edit its `<article class="wk">` block in `events.html`.
 The black bars are `<span class="redact">` elements: replace one with plain
 text when a detail is ready to announce. The three teaser cards on the home
 page are separate and live in `index.html`.
+
+The two forms have no server behind them. Pressing send opens the visitor's
+email app with their answers addressed to the club inbox, and nothing is sent
+until they press send there. To collect answers with a Google Form instead,
+point the "Sign up" and "Apply" buttons at the form's address.
+
+Team photos: save a square image in `assets/team/` and replace the letter
+inside that person's `<div class="avatar">` in `team.html` with
+`<img src="assets/team/name.jpg" alt="">`.
+
+The income calculator uses World Bank Poverty and Inequality Platform figures
+for 2024 (2021 international dollars). The numbers and the conversion from
+Australian dollars sit at the top of the calculator block in `assets/site.js`.
 
 To preview locally, run `python3 -m http.server 4173` in this folder and open
 <http://127.0.0.1:4173/>. Adding `?still` to any page address freezes the
