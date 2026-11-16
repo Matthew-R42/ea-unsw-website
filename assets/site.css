@@ -1088,3 +1088,8 @@ button[disabled] { opacity: .6; cursor: progress; }
   .wk-card .star { grid-column: 2; grid-row: 2; justify-self: end; margin-right: 30px; }
   .wk-card .wk-body > :only-child { grid-column: 1 / -1; }
 }
+/* Home page event cards: week label beside the drawing, title underneath */
+.tcard { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 16px; row-gap: 12px; }
+.tcard .art { grid-column: 1; grid-row: 1; }
+.tcard .label { grid-column: 2; grid-row: 1; margin: 0; font-size: 20px; }
+.tcard h3 { grid-column: 1 / -1; }
