@@ -948,3 +948,7 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .lens-core { pointer-events: none; }
 .page-hero-art text { font: 600 12.5px var(--hand); }
 .rolecard.pick[aria-pressed="true"]::after { color: #fff; font-size: 18px; }
+
+/* Hidden field that only bots fill in */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+button[disabled] { opacity: .6; cursor: progress; }

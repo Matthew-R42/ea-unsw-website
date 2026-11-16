@@ -497,12 +497,14 @@
      in their own email app. To use a Google Form or another service instead,
      set data-action on the <form> to its address and remove this handler. */
   $$('form[data-mailto]').forEach(function (form) {
+    var sending = false;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (sending) return;
       var lines = [], seen = {}, err = $('.form-err', form);
       $$('[name]', form).forEach(function (f) {
         var name = f.name;
-        if (seen[name]) return;
+        if (seen[name] || name === 'website') return;
         var label = f.getAttribute('data-label') || name, val;
         if (f.type === 'checkbox') { seen[name] = 1; val = $$('[name="' + name + '"]:checked', form).map(function (c) { return c.value; }).join(', '); }
         else if (f.type === 'radio') { seen[name] = 1; var r = $('[name="' + name + '"]:checked', form); val = r ? r.value : ''; }
@@ -512,14 +514,41 @@
       if (!form.checkValidity()) { if (err) err.hidden = false; form.reportValidity(); return; }
       if (err) err.hidden = true;
       var body = lines.join('\n'), to = form.getAttribute('data-mailto'), subject = form.getAttribute('data-subject');
-      var href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      var done = $('#' + form.getAttribute('data-done'));
-      $('textarea', done).value = 'To: ' + to + '\nSubject: ' + subject + '\n\n' + body;
-      $('a.btn', done).href = href;
-      form.hidden = true; done.hidden = false; done.scrollIntoView({ block: 'center' }); confetti(done);
-      location.href = href;
+      var emailEl = $('input[type="email"]', form), nameEl = $('input[type="text"][required]', form), hp = $('input[name="website"]', form);
+      var btn = $('button[type="submit"]', form), btnHtml = btn ? btn.innerHTML : '';
+
+      /* Fallback: open the visitor's own email app with the answers filled in. */
+      function viaEmailApp() {
+        var href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        var done = $('#' + form.getAttribute('data-done'));
+        $('textarea', done).value = 'To: ' + to + '\nSubject: ' + subject + '\n\n' + body;
+        $('a.btn', done).href = href;
+        form.hidden = true; done.hidden = false; done.scrollIntoView({ block: 'center' }); confetti(done);
+        location.href = href;
+      }
+
+      /* First choice: send through the site, which emails the person a confirmation with a cancel link. */
+      var api = form.getAttribute('data-api'), sent = api && $('#' + form.getAttribute('data-sent'));
+      if (!api || !sent || !window.fetch) { viaEmailApp(); return; }
+      sending = true;
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+      var ctl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { if (ctl) ctl.abort(); }, 12000);
+      fetch(api, {
+        method: 'POST', headers: { 'content-type': 'application/json' }, signal: ctl ? ctl.signal : undefined,
+        body: JSON.stringify({ form: form.getAttribute('data-form'), name: nameEl ? nameEl.value.trim() : '', email: emailEl ? emailEl.value.trim() : '', answers: body, website: hp ? hp.value : '' })
+      }).then(function (res) { return res.ok ? res.json() : { ok: false }; }).then(function (out) {
+        if (!out || !out.ok) throw new Error('not sent');
+        $('.sent-to', sent).textContent = emailEl ? emailEl.value.trim() : 'you';
+        form.hidden = true; sent.hidden = false; sent.scrollIntoView({ block: 'center' }); confetti(sent);
+      }).catch(function () {
+        viaEmailApp();
+      }).then(function () {
+        clearTimeout(timer); sending = false;
+        if (btn) { btn.disabled = false; btn.innerHTML = btnHtml; }
+      });
     });
   });
+
   /* ---------- v4: more to play with ---------- */
   var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   function store(key, val) { try { if (val === undefined) return JSON.parse(localStorage.getItem(key) || '[]'); localStorage.setItem(key, JSON.stringify(val)); } catch (e) { return []; } }

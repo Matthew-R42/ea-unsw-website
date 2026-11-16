@@ -58,7 +58,8 @@
 </section>
 <section class="band">
   <div class="wrap">
-    <form class="form" id="fellowship-form" data-mailto="effectivealtruismunsw@gmail.com" data-subject="Intro Fellowship sign-up, Term 1 2027" data-done="fellowship-done" novalidate>
+    <form class="form" id="fellowship-form" data-mailto="effectivealtruismunsw@gmail.com" data-subject="Intro Fellowship sign-up, Term 1 2027" data-done="fellowship-done" data-sent="fellowship-sent" data-form="fellowship" data-api="/api/signup" novalidate>
+      <div class="hp" aria-hidden="true"><label for="fellowship-website">Leave this empty</label><input id="fellowship-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <div class="field" style="--i:1"><label for="f-name">Your name</label><input id="f-name" name="f-name" type="text" data-label="Your name" placeholder="" required></div>
       <div class="field" style="--i:2"><label for="f-email">Email</label><span class="hint">Your student email is best.</span><input id="f-email" name="f-email" type="email" data-label="Email" placeholder="" required></div>
       <div class="field" style="--i:3"><label for="f-degree">Degree and year <span class="hint">(optional)</span></label><input id="f-degree" name="f-degree" type="text" data-label="Degree and year" placeholder="e.g. Science, 2nd year"></div>
@@ -69,12 +70,17 @@
       <div class="field" style="--i:8"><label for="f-else">Anything else we should know? <span class="hint">(optional)</span></label><span class="hint">Access needs, dietary requirements, questions.</span><textarea id="f-else" name="f-else" data-label="Anything else we should know?"></textarea></div>
       <p class="form-err" hidden>Please fill in the fields marked as required.</p>
       <div class="actions"><button class="btn btn-sun" type="submit">Send my sign-up <span class="arrow">&rarr;</span></button></div>
-      <p class="small">Your answers go by email to the EA UNSW exec and nowhere else.</p>
+      <p class="small">Your answers are emailed to the EA UNSW exec. You get a confirmation email with a link to cancel any time.</p>
     </form>
+    <div class="form-done form-sent" id="fellowship-sent" hidden>
+      <h2 style="font-size:32px">You're in. Check your inbox.</h2>
+      <p>We've emailed a confirmation to <b class="sent-to"></b>. It has a link to cancel, any time, no questions asked.</p>
+      <p class="small">Nothing there in a few minutes? Check spam, or write to effectivealtruismunsw@gmail.com.</p>
+    </div>
     <div class="form-done" id="fellowship-done" hidden>
       <h2 style="font-size:32px">One more step: press send</h2>
       <p>Your email app should have opened with your answers. <b>Nothing is sent until you press send there.</b></p>
-      <p class="small">No email app? Copy this and send it to effectivealtruismunsw@gmail.com.</p>
+      <p class="small">No email app? Copy this and send it to effectivealtruismunsw@gmail.com. To cancel later, email us at the same address.</p>
       <textarea id="fellowship-done-text" readonly aria-label="Your answers"></textarea>
       <div class="actions"><a class="btn btn-sun" href="mailto:effectivealtruismunsw@gmail.com">Open my email app again</a></div>
     </div>
