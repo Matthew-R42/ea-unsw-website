@@ -1050,3 +1050,7 @@ button[disabled] { opacity: .6; cursor: progress; }
 .upnext a:hover .arrow { transform: translateX(4px); }
 .dist-tip.tone-teal { background: var(--teal); color: #fff; }
 .dist-tip.tone-grey { background: #cfe0e0; color: var(--ink); }
+/* Session names under the fellowship path: bold display font so they stand out */
+.path span.n { font: 700 clamp(14.5px, 1.45vw, 18px)/1.15 var(--display); letter-spacing: -0.01em; color: var(--ink); text-wrap: balance; }
+@media (max-width: 640px) { .path li { padding: 0 1px; } .path span.n { font-size: 13.5px; letter-spacing: -0.025em; } }
+.path { align-items: start; }
