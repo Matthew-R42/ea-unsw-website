@@ -24,6 +24,9 @@ Cloudflare Pages, like `mtw4244.work`. There is no build step.
 
 The header and footer are repeated in every page, so a change to the menu or
 footer links has to be made in every page.
+The home page is the exception: its footer is yellow and joined to the "Come
+say hi" section, and its social links are the labelled buttons in that
+section (`<ul class="say-hi">`) rather than icons in the footer.
 
 The site contains no API keys or build-time secrets. Do not commit Cloudflare
 tokens, API keys, account credentials, or private member information here.
