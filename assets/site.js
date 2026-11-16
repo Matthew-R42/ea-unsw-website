@@ -598,12 +598,15 @@
       e.preventDefault();
       if (busy) return;
       busy = true;
-      var opening = !d.open;
-      if (opening) d.open = true;
-      var h = body.offsetHeight;
-      body.style.overflow = 'hidden';
-      var a = body.animate(opening ? [{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }] : [{ height: h + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' });
-      a.onfinish = a.oncancel = function () { if (!opening) d.open = false; body.style.overflow = ''; busy = false; };
+      /* Animate the whole box between its closed and open heights, so padding and margins shrink too
+         and nothing is left hanging at the end. The text fades quickly so it is gone before the box shuts. */
+      var opening = !d.open, from = d.offsetHeight, to;
+      d.open = !d.open; to = d.offsetHeight;
+      if (!opening) d.open = true;
+      d.style.overflow = 'hidden'; d.style.boxSizing = 'border-box';
+      var fade = body.animate(opening ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 0 }], { duration: opening ? 320 : 140, easing: 'ease', fill: 'forwards' });
+      var a = d.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: opening ? 320 : 220, easing: opening ? 'cubic-bezier(.2,.8,.2,1)' : 'cubic-bezier(.4,0,.6,1)' });
+      a.onfinish = a.oncancel = function () { if (!opening) d.open = false; fade.cancel(); d.style.overflow = ''; d.style.boxSizing = ''; busy = false; };
     });
   });
 
