@@ -27,11 +27,26 @@
   }
   if (themeBtn) {
     themeBtn.addEventListener('click', function () {
-      var next = doc.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      doc.documentElement.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      showTheme();
-      window.dispatchEvent(new Event('themechange'));
+      var html = doc.documentElement, next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      function apply() {
+        html.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        showTheme();
+        window.dispatchEvent(new Event('themechange'));
+      }
+      /* Fade between themes: a cross-fade of the whole page where the browser can do it,
+         otherwise every colour eases across. Instant when motion is reduced. */
+      if (calm) { apply(); return; }
+      if (doc.startViewTransition) {
+        html.classList.add('theme-swap');
+        var vt = doc.startViewTransition(apply);
+        var done = function () { html.classList.remove('theme-swap'); };
+        vt.finished.then(done, done);
+      } else {
+        html.classList.add('theme-fade');
+        apply();
+        setTimeout(function () { html.classList.remove('theme-fade'); }, 520);
+      }
     });
   }
   showTheme();

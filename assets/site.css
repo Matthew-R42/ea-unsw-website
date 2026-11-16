@@ -1299,3 +1299,16 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .best-tag { position: absolute; top: -15px; right: 20px; z-index: 2; padding: 6px 12px 5px; border-radius: 999px; background: var(--sun); border: 2px solid var(--ink); font: 700 13px/1 var(--hand); text-transform: uppercase; letter-spacing: .04em; color: #0a2a30; transform: rotate(2deg); white-space: nowrap; }
 :root[data-theme="dark"] .best-tag { border-color: var(--sun); }
 .icard canvas { color: var(--ink); }
+
+/* Fading between light and dark */
+@keyframes theme-out { to { opacity: 0; } }
+@keyframes theme-in { from { opacity: 0; } }
+:root.theme-swap::view-transition-old(root), :root.theme-swap::view-transition-old(site-head) { animation: theme-out .45s ease both; }
+:root.theme-swap::view-transition-new(root), :root.theme-swap::view-transition-new(site-head) { animation: theme-in .45s ease both; }
+:root.theme-swap::view-transition-group(site-head) { animation-duration: .45s; }
+:root.theme-fade, :root.theme-fade *, :root.theme-fade *::before, :root.theme-fade *::after { transition: background-color .45s ease, color .45s ease, border-color .45s ease, fill .45s ease, stroke .45s ease, box-shadow .45s ease !important; }
+/* dark mode highlighter: a dimmer yellow so the light text on top stays readable */
+:root[data-theme="dark"] .hl { background: linear-gradient(transparent 56%, rgba(255, 218, 31, .34) 56% 92%, transparent 92%); }
+/* Arc logo links to Arc */
+.arc-link { display: block; flex: none; border-radius: 6px; transition: transform .2s cubic-bezier(.3, 1.6, .5, 1); }
+.arc-link:hover { transform: rotate(-4deg) scale(1.06); }
