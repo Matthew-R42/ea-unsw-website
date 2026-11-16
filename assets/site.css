@@ -952,3 +952,27 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 /* Hidden field that only bots fill in */
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 button[disabled] { opacity: .6; cursor: progress; }
+
+/* Event emojis and "Words you'll learn today" */
+.emo, .emo-dot, .emo-inline { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; line-height: 1; }
+.wk-card { position: relative; }
+.wk-card .emo { position: absolute; top: -18px; right: -14px; width: 56px; height: 56px; display: grid; place-items: center; font-size: 29px; background: var(--card); border: 2px solid var(--ink); border-radius: 50%; box-shadow: 3px 3px 0 var(--ink); transform: rotate(10deg); transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); pointer-events: none; }
+.wk-card:hover .emo { transform: rotate(-10deg) scale(1.18); }
+.emo-inline { font-size: 1.25em; vertical-align: -0.12em; margin-right: 2px; }
+.wk-fellow { align-items: start; }
+.wk-fellow .emo-dot { width: 46px; height: 46px; display: grid; place-items: center; font-size: 24px; background: #fff; border: 2px solid var(--ink); border-radius: 50%; transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+.wk-fellow:hover .emo-dot { transform: rotate(-12deg) scale(1.12); }
+.wk-fellow .arrow { align-self: center; }
+.wk-fellow .words { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
+.wk-fellow .w-lab { font: 600 14.5px/1.2 var(--hand); color: var(--sun); margin-right: 4px; }
+.wk-fellow .words i { font: 600 13.5px/1 var(--body); font-style: normal; padding: 5px 10px 6px; border-radius: 999px; border: 1.5px solid rgba(169, 223, 230, .6); color: #fff; }
+.wk-fellow .words i[data-tip] { cursor: help; }
+.wk-fellow .words i[data-tip]:hover { background: var(--sun); border-color: var(--sun); color: var(--ink); }
+.ideas { align-items: center; }
+.ideas .ideas-lab { font: 600 15.5px/1.2 var(--hand); color: var(--ink); margin-right: 4px; flex-basis: 100%; }
+.ideas span[data-tip] { cursor: help; transition: background .15s ease, color .15s ease; }
+.ideas span[data-tip]:hover, .ideas span[data-tip]:focus-visible { background: var(--sun); color: var(--ink); }
+@media (max-width: 640px) {
+  .wk-card .emo { top: -14px; right: -8px; width: 46px; height: 46px; font-size: 24px; }
+  .wk-fellow .emo-dot { width: 38px; height: 38px; font-size: 20px; }
+}
