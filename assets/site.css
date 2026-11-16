@@ -1098,3 +1098,5 @@ button[disabled] { opacity: .6; cursor: progress; }
 .tcard .art { grid-column: 2; }
 .tcard .label { grid-column: 3; justify-self: start; }
 .tcard h3 { grid-column: 1 / -1; text-align: center; }
+/* "the most" on the What is EA hero: a fainter version of the kindness glow */
+b.sunny { text-shadow: 0 0 6px rgba(255, 218, 31, .5), 0 0 16px rgba(255, 218, 31, .3); }
