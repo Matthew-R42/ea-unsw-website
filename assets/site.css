@@ -1289,7 +1289,8 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 :root[data-theme="dark"] .strip-bar { background: rgba(10, 30, 34, .94); }
 .give-note { margin-top: 22px; max-width: none; text-wrap: nowrap; }
 @media (max-width: 1000px) { .give-note { text-wrap: wrap; } }
-/* Which charity each card is about */
-.icard .via { margin-top: 3px; font-size: 14.5px; color: var(--ink-soft); }
-.icard .via a { color: inherit; }
-.icard .via a:hover { color: var(--ink); }
+/* Which charity each card is about: name and mini logo on the right */
+.what-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; }
+.icard .via { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; font-size: 14px; font-weight: 600; color: var(--ink-soft); text-decoration: none; white-space: nowrap; }
+.icard .via img { width: 22px; height: 22px; border-radius: 6px; background: #fff; box-shadow: 0 0 0 1.5px var(--line); object-fit: contain; flex: none; }
+.icard .via:hover { color: var(--ink); text-decoration: underline; }
