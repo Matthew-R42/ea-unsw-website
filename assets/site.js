@@ -544,7 +544,7 @@
       $('#give-ops').textContent = ops.toLocaleString('en-AU');
       $('#give-ops-what').textContent = ops === 1 ? 'person could see again' : 'people could see again';
       $('#give-dog').textContent = dog >= 100 ? '1' : (dog >= 10 ? Math.round(dog) + '%' : (Math.round(dog * 10) / 10) + '%');
-      $('#give-dog-what').textContent = dog >= 100 ? 'guide dog' : 'of one guide dog';
+      $('#give-dog-what').textContent = dog >= 100 ? 'guide dog' : 'of a guide dog';
       $('#give-fill').style.width = clamp(dog, 0, 100) + '%';
       var full = dog >= 100;
       card.classList.toggle('full', full); moment.classList.toggle('show', full);
