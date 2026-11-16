@@ -738,7 +738,7 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .icard canvas { display: block; width: 100%; height: auto; margin-top: 10px; }
 .icard .track { height: 22px; margin-top: 10px; border: 2px solid var(--ink); border-radius: 999px; background: var(--wash); overflow: hidden; }
 .icard .fill { height: 100%; width: 0; background: var(--sun); border-right: 2px solid var(--ink); transition: width .35s ease; }
-.icard.win { background: var(--sun); box-shadow: 6px 6px 0 var(--ink); }
+.icard.win { position: relative; border: 3px solid var(--teal); box-shadow: 7px 7px 0 var(--teal); }
 .icard.win .n { color: var(--ink); }
 .or { justify-self: center; font: 700 19px/1 var(--hand); }
 
@@ -1208,7 +1208,6 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 :root[data-theme="dark"] .foot.foot-sun,
 :root[data-theme="dark"] .hours i:hover,
 :root[data-theme="dark"] .icard .fill,
-:root[data-theme="dark"] .icard.win,
 :root[data-theme="dark"] .ideas span[data-tip]:focus-visible,
 :root[data-theme="dark"] .ideas span[data-tip]:hover,
 :root[data-theme="dark"] .jar-token,
@@ -1259,7 +1258,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
   --ink: #0a2a30; color: #0a2a30;
 }
 /* their own text colour too (zero specificity, so any colour a rule sets still wins) */
-:where(:root[data-theme="dark"]) :where(#tip, .avatar, .band-sun, .btn-sun, .bubble, .checks label:has(input:checked), .chip .pulse, .chipbtn:hover, .dist-tip, .extras a:hover, .face.back, .foot.foot-sun, .hours i:hover, .icard .fill, .icard.win, .ideas span[data-tip]:focus-visible, .ideas span[data-tip]:hover, .jar-token, .link-tile:hover, .marquee, .mbar .fill, .mbar .track, .on-dark .btn-ghost:hover, .path .last a, .path a, .path li a, .people i.you, .prog i, .read:hover, .res a:hover, .reward, .rich-warm, .rolecard.pick[aria-pressed="true"], .say-hi a, .sched-head .chip, .social a:hover, .star[aria-pressed="true"], .strip .dot, .strip li.on:hover, .strip-key i, .tag-sun, .tick, .tile.sunny, .toggle[aria-pressed="true"], .tray .tok, .upnext, .value:nth-child(2), .vs, .wk-fellow .emo-dot, .wk-fellow .words i[data-tip]:hover, .wk.is-now .wk-node, .yt .play, a.chip:hover, button.cause[aria-selected="true"]) { color: var(--ink); }
+:where(:root[data-theme="dark"]) :where(#tip, .avatar, .band-sun, .btn-sun, .bubble, .checks label:has(input:checked), .chip .pulse, .chipbtn:hover, .dist-tip, .extras a:hover, .face.back, .foot.foot-sun, .hours i:hover, .icard .fill, .ideas span[data-tip]:focus-visible, .ideas span[data-tip]:hover, .jar-token, .link-tile:hover, .marquee, .mbar .fill, .mbar .track, .on-dark .btn-ghost:hover, .path .last a, .path a, .path li a, .people i.you, .prog i, .read:hover, .res a:hover, .reward, .rich-warm, .rolecard.pick[aria-pressed="true"], .say-hi a, .sched-head .chip, .social a:hover, .star[aria-pressed="true"], .strip .dot, .strip li.on:hover, .strip-key i, .tag-sun, .tick, .tile.sunny, .toggle[aria-pressed="true"], .tray .tok, .upnext, .value:nth-child(2), .vs, .wk-fellow .emo-dot, .wk-fellow .words i[data-tip]:hover, .wk.is-now .wk-node, .yt .play, a.chip:hover, button.cause[aria-selected="true"]) { color: var(--ink); }
 :root[data-theme="dark"] .grid-paper:not(.band-night):not(.band-sun) { background-image: linear-gradient(rgba(169, 223, 230, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(169, 223, 230, 0.05) 1px, transparent 1px); }
 :root[data-theme="dark"] .site-head.light { background: rgba(10, 30, 34, .94); }
 :root[data-theme="dark"] .dm-in { background: var(--night-shadow); color: #fff; box-shadow: inset 0 0 0 2px var(--line); }
@@ -1294,4 +1293,9 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .icard .via { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; font-size: 14px; font-weight: 600; color: var(--ink-soft); text-decoration: none; white-space: nowrap; }
 .icard .via img { width: 22px; height: 22px; border-radius: 6px; background: #fff; box-shadow: 0 0 0 1.5px var(--line); object-fit: contain; flex: none; }
 .icard .via:hover { color: var(--ink); text-decoration: underline; }
-.lens-sub { margin-top: 12px; font-size: 18.5px; color: var(--ink-soft); }
+.lens .prose p.lens-sub { margin-top: 14px; font: 700 23px/1.2 var(--hand); letter-spacing: .01em; color: var(--teal-strong); }
+
+/* The people card stands out with a teal frame and a yellow tag instead of a yellow fill */
+.best-tag { position: absolute; top: -15px; right: 20px; z-index: 2; padding: 6px 12px 5px; border-radius: 999px; background: var(--sun); border: 2px solid var(--ink); font: 700 13px/1 var(--hand); text-transform: uppercase; letter-spacing: .04em; color: #0a2a30; transform: rotate(2deg); white-space: nowrap; }
+:root[data-theme="dark"] .best-tag { border-color: var(--sun); }
+.icard canvas { color: var(--ink); }

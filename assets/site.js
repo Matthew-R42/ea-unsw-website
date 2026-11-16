@@ -31,6 +31,7 @@
       doc.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) {}
       showTheme();
+      window.dispatchEvent(new Event('themechange'));
     });
   }
   showTheme();
@@ -529,18 +530,22 @@
     if (!box) return;
     var OP = 50, DOG = 50000, input = $('#give'), range = $('#give-range'), c = $('#give-dots'), ctx = c.getContext('2d');
     var LO = Math.log(100), HI = Math.log(50000), COLS = 50, S = 14;
-    var card = $('#dog-card'), moment = $('#dog-moment'), wasFull = false, wave = 0;
+    var card = $('#dog-card'), moment = $('#dog-moment'), wasFull = false, wave = 0, lastOps = 0;
+    /* dots take the card's text colour, so they suit light and dark mode */
+    function ink() { return getComputedStyle(c).color || '#0a2a30'; }
+    window.addEventListener('themechange', function () { if (!wave) draw(lastOps); });
     function draw(n) {
       var rows = Math.max(1, Math.ceil(n / COLS));
       c.width = COLS * S; c.height = rows * S;
       for (var i = 0; i < n; i++) {
-        ctx.fillStyle = '#0a2a30';
+        ctx.fillStyle = ink();
         ctx.beginPath(); ctx.arc((i % COLS) * S + S / 2, Math.floor(i / COLS) * S + S / 2, S * 0.36, 0, 6.2832); ctx.fill();
       }
     }
     function render(v) {
       v = clamp(v || 0, 0, 50000);
       var ops = Math.floor(v / OP), dog = v / DOG * 100;
+      lastOps = ops;
       $('#give-ops').textContent = ops.toLocaleString('en-AU');
       $('#give-ops-what').textContent = ops === 1 ? 'person could see again' : 'people could see again';
       $('#give-dog').textContent = dog >= 100 ? '1' : (dog >= 10 ? Math.round(dog) + '%' : (Math.round(dog * 10) / 10) + '%');
@@ -580,7 +585,7 @@
           var col = i % COLS, row = Math.floor(i / COLS), k = clamp((t - (col + row) / span * 750) / 280, 0, 1);
           if (k < 1) more = true;
           if (k <= 0) continue;
-          ctx.fillStyle = k < 1 ? '#0c869b' : '#0a2a30';
+          ctx.fillStyle = k < 1 ? '#0c869b' : ink();
           ctx.beginPath(); ctx.arc(col * S + S / 2, row * S + S / 2, S * 0.36 * Math.max(0, back(k)), 0, 6.2832); ctx.fill();
         }
         wave = more ? requestAnimationFrame(step) : 0;
