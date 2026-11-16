@@ -545,7 +545,7 @@
     if (!box) return;
     var OP = 50, DOG = 50000, input = $('#give'), range = $('#give-range'), c = $('#give-dots'), ctx = c.getContext('2d');
     var LO = Math.log(100), HI = Math.log(50000), COLS = 50, S = 14;
-    var card = $('#dog-card'), moment = $('#dog-moment'), wasFull = false, wave = 0, lastOps = 0;
+    var win = $('.icard.win'), card = $('#dog-card'), moment = $('#dog-moment'), wasFull = false, wave = 0, lastOps = 0;
     /* dots take the card's text colour, so they suit light and dark mode */
     function ink() { return getComputedStyle(c).color || '#0a2a30'; }
     window.addEventListener('themechange', function () { if (!wave) draw(lastOps); });
@@ -569,14 +569,14 @@
       var full = dog >= 100;
       card.classList.toggle('full', full); moment.classList.toggle('show', full); box.classList.toggle('is-full', full);
       if (full && !wasFull) cheer(ops);
-      else if (!full) { card.classList.remove('cheer'); cancelAnimationFrame(wave); wave = 0; draw(ops); }
+      else if (!full) { card.classList.remove('cheer'); win.classList.remove('cheer'); cancelAnimationFrame(wave); wave = 0; draw(ops); }
       else if (!wave) draw(ops);
       wasFull = full;
     }
     /* Reaching one whole guide dog: the dog hops, paw prints run along the bar, a "Fully trained" stamp lands,
        and the people grid fills in as a wave, so the 1 dog and the 1,000 people arrive together. */
     function cheer(n) {
-      card.classList.remove('cheer'); void card.offsetWidth; card.classList.add('cheer');
+      [card, win].forEach(function (el) { el.classList.remove('cheer'); void el.offsetWidth; el.classList.add('cheer'); });
       if (calm) { draw(n); return; }
       var track = $('.track', card);
       $$('.paw', track).forEach(function (pw) { pw.remove(); });

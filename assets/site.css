@@ -1296,10 +1296,13 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .lens .prose p.lens-sub { margin-top: 14px; font: 700 23px/1.2 var(--hand); letter-spacing: .01em; color: var(--teal-strong); }
 
 /* The people card stands out with a teal frame and a yellow tag instead of a yellow fill */
-.best-tag { position: absolute; top: -15px; right: 20px; z-index: 2; padding: 6px 12px 5px; border-radius: 999px; background: var(--sun); border: 2px solid var(--ink); font: 700 13px/1 var(--hand); text-transform: uppercase; letter-spacing: .04em; color: #0a2a30; transform: rotate(2deg) scale(.5); opacity: 0; visibility: hidden; white-space: nowrap; transition: opacity .15s ease, transform .15s ease, visibility 0s .15s; }
-/* only once the slider reaches one whole guide dog, landing just after the dog's stamp */
-#impact.is-full .best-tag { opacity: 1; visibility: visible; transform: rotate(2deg); transition: opacity .25s ease .9s, transform .45s cubic-bezier(.2, 1.5, .4, 1) .9s, visibility 0s .9s; }
-:root[data-theme="dark"] .best-tag { border-color: var(--sun); }
+.best-tag { position: absolute; top: 14px; right: 18px; z-index: 2; padding: 5px 10px 4px; border-radius: 8px; background: var(--sun); border: 2.5px solid #0a2a30; font: 700 13.5px/1.1 var(--hand); text-transform: uppercase; letter-spacing: .04em; color: #0a2a30; text-align: center; opacity: 0; visibility: hidden; transform: rotate(-6deg) scale(.6); pointer-events: none; white-space: nowrap; }
+/* shown at one whole guide dog, landing at the same moment as the Fully trained! stamp */
+#impact.is-full .best-tag { opacity: 1; visibility: visible; transform: rotate(-6deg); }
+.icard.win { overflow: hidden; }
+.icard.win.cheer .best-tag { animation: tagin .45s cubic-bezier(.2, 1.4, .4, 1) .75s both; }
+@keyframes tagin { from { opacity: 0; transform: rotate(-18deg) scale(1.7); } to { opacity: 1; transform: rotate(-6deg) scale(1); } }
+@media (max-width: 760px) { .best-tag { top: 12px; right: 12px; font-size: 12px; padding: 5px 7px 4px; } #impact.is-full .best-tag { transform: rotate(-6deg); } }
 .icard canvas { color: var(--ink); }
 
 /* Fading between light and dark */
