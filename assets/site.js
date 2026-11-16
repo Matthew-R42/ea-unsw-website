@@ -544,7 +544,7 @@
     var box = $('#impact');
     if (!box) return;
     var OP = 50, DOG = 50000, input = $('#give'), range = $('#give-range'), c = $('#give-dots'), ctx = c.getContext('2d');
-    var LO = Math.log(100), HI = Math.log(50000), COLS = 50, S = 14;
+    var LO = Math.log(50), HI = Math.log(50000), COLS = 50, S = 14;
     var win = $('.icard.win'), card = $('#dog-card'), moment = $('#dog-moment'), wasFull = false, wave = 0, lastOps = 0;
     /* dots take the card's text colour, so they suit light and dark mode */
     function ink() { return getComputedStyle(c).color || '#0a2a30'; }
@@ -623,7 +623,7 @@
     }
     function setAll(v, from) {
       if (from !== 'input') input.value = Math.round(v);
-      if (from !== 'range') range.value = Math.round(clamp((Math.log(Math.max(v, 100)) - LO) / (HI - LO), 0, 1) * 1000);
+      if (from !== 'range') range.value = Math.round(clamp((Math.log(Math.max(v, 50)) - LO) / (HI - LO), 0, 1) * 1000);
       render(v);
     }
     /* Digits only: letters and symbols are refused as you type, and stripped from anything pasted. */
