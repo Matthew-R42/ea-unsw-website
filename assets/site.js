@@ -811,9 +811,10 @@
   /* Cards lean towards the cursor */
   if (fine && !calm) $$('.tcard, .cause, .tile, .link-tile, .icard, .reward, .rolecard, .read, .person.flip').forEach(function (el) {
     el.classList.add('tilts');
+    var big = el.classList.contains('person');   /* team cards lean further */
     el.addEventListener('pointermove', function (e) {
       var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      el.style.transform = 'perspective(800px) rotateX(' + (-y * 7).toFixed(2) + 'deg) rotateY(' + (x * 8).toFixed(2) + 'deg) translateY(-4px)';
+      el.style.transform = 'perspective(800px) rotateX(' + (-y * (big ? 14 : 7)).toFixed(2) + 'deg) rotateY(' + (x * (big ? 18 : 8)).toFixed(2) + 'deg) translateY(' + (big ? -8 : -4) + 'px)' + (big ? ' scale(1.03)' : '');
     });
     el.addEventListener('pointerleave', function () { el.style.transform = ''; });
   });
