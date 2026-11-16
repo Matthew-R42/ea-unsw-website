@@ -548,7 +548,8 @@
     var win = $('.icard.win'), card = $('#dog-card'), moment = $('#dog-moment'), wasFull = false, wave = 0, lastOps = 0;
     /* dots take the card's text colour, so they suit light and dark mode */
     function ink() { return getComputedStyle(c).color || '#0a2a30'; }
-    window.addEventListener('themechange', function () { if (!wave) draw(lastOps); });
+    var MAX = 999999999, lastDots = 0;
+    window.addEventListener('themechange', function () { if (!wave) draw(lastDots); });
     function draw(n) {
       var rows = Math.max(1, Math.ceil(n / COLS));
       c.width = COLS * S; c.height = rows * S;
@@ -558,19 +559,31 @@
       }
     }
     function render(v) {
-      v = clamp(v || 0, 0, 50000);
-      var ops = Math.floor(v / OP), dog = v / DOG * 100;
+      v = clamp(v || 0, 0, MAX);
+      var ops = Math.floor(v / OP), dog = v / DOG * 100, dogs = v / DOG;
       lastOps = ops;
+      /* Past 1,000 people each dot stands for 10, 100, ... people, so the grid never grows past 20 rows. */
+      var per = 1;
+      while (ops / per > 1000) per *= 10;
+      var dots = Math.ceil(ops / per), key = $('#give-key');
+      lastDots = dots;
+      key.hidden = per === 1;
+      key.textContent = 'Each dot is ' + per.toLocaleString('en-AU') + ' people';
+      var people = ops.toLocaleString('en-AU') + (ops === 1 ? ' person' : ' people');
+      var shown = dogs >= 10 ? Math.floor(dogs) : Math.floor(dogs * 10) / 10, dogWord = shown === 1 ? 'guide dog' : 'guide dogs';
       $('#give-ops').textContent = ops.toLocaleString('en-AU');
       $('#give-ops-what').textContent = ops === 1 ? 'person could see again' : 'people could see again';
-      $('#give-dog').textContent = dog >= 100 ? '1' : (dog >= 10 ? Math.round(dog) + '%' : (Math.round(dog * 10) / 10) + '%');
-      $('#give-dog-what').textContent = dog >= 100 ? 'guide dog' : 'of a guide dog';
+      $('#give-dog').textContent = dog >= 100 ? shown.toLocaleString('en-AU') : (dog >= 10 ? Math.round(dog) + '%' : (Math.round(dog * 10) / 10) + '%');
+      $('#give-dog-what').textContent = dog >= 100 ? dogWord : 'of a guide dog';
       $('#give-fill').style.width = clamp(dog, 0, 100) + '%';
+      $('#dm-amt').textContent = Math.round(v).toLocaleString('en-AU');
+      $('#dm-dogs').textContent = shown.toLocaleString('en-AU') + ' ' + dogWord;
+      $('#dm-ppl').textContent = people;
       var full = dog >= 100;
       card.classList.toggle('full', full); moment.classList.toggle('show', full); box.classList.toggle('is-full', full);
-      if (full && !wasFull) cheer(ops);
-      else if (!full) { card.classList.remove('cheer'); win.classList.remove('cheer'); cancelAnimationFrame(wave); wave = 0; draw(ops); }
-      else if (!wave) draw(ops);
+      if (full && !wasFull) cheer(dots);
+      else if (!full) { card.classList.remove('cheer'); win.classList.remove('cheer'); cancelAnimationFrame(wave); wave = 0; draw(dots); }
+      else if (!wave) draw(dots);
       wasFull = full;
     }
     /* Reaching one whole guide dog: the dog hops, paw prints run along the bar, a "Fully trained" stamp lands,
@@ -604,6 +617,7 @@
           ctx.beginPath(); ctx.arc(col * S + S / 2, row * S + S / 2, S * 0.36 * Math.max(0, back(k)), 0, 6.2832); ctx.fill();
         }
         wave = more ? requestAnimationFrame(step) : 0;
+        if (!more && n !== lastDots) draw(lastDots);
       }
       wave = requestAnimationFrame(step);
     }
@@ -612,7 +626,19 @@
       if (from !== 'range') range.value = Math.round(clamp((Math.log(Math.max(v, 100)) - LO) / (HI - LO), 0, 1) * 1000);
       render(v);
     }
-    input.addEventListener('input', function () { setAll(parseFloat(input.value.replace(/[^0-9.]/g, '')) || 0, 'input'); });
+    /* Digits only: letters and symbols are refused as you type, and stripped from anything pasted. */
+    input.addEventListener('beforeinput', function (e) {
+      if (e.inputType === 'insertText' && e.data && /\D/.test(e.data)) e.preventDefault();
+    });
+    input.addEventListener('input', function () {
+      var raw = input.value, clean = raw.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 9);
+      if (clean !== raw) {
+        var pos = Math.max(0, (input.selectionStart || clean.length) - (raw.length - clean.length));
+        input.value = clean;
+        try { input.setSelectionRange(pos, pos); } catch (e) {}
+      }
+      setAll(parseInt(clean, 10) || 0, 'input');
+    });
     range.addEventListener('input', function () { var v = Math.exp(LO + (HI - LO) * range.value / 1000); setAll(v >= 1000 ? Math.round(v / 100) * 100 : Math.round(v / 10) * 10, 'range'); });
     $$('[data-give]', box).forEach(function (b) { b.addEventListener('click', function () { setAll(parseFloat(b.getAttribute('data-give'))); }); });
     setAll(parseFloat(input.value) || 2500);

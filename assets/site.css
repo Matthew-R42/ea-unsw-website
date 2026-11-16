@@ -1317,3 +1317,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 /* Arc logo links to Arc */
 .arc-link { display: block; flex: none; border-radius: 6px; transition: transform .2s cubic-bezier(.3, 1.6, .5, 1); }
 .arc-link:hover { transform: rotate(-4deg) scale(1.06); }
+
+/* Above 1,000 people the dots are scaled; this says by how much */
+.dot-key { margin-top: 8px; font: 700 14px/1.2 var(--hand); color: var(--ink-soft); }
+.icard .n { overflow-wrap: anywhere; }
