@@ -297,8 +297,15 @@
   $$('.word-art').forEach(function (btn) {
     var words = (btn.getAttribute('data-words') || '').split('|'), last = -1, timer;
     var heart = btn.hasAttribute('data-heart');
+    /* Fade a bubble out, then remove it (the timeout covers reduced motion, where no animation runs) */
+    function fade(el) {
+      if (el.classList.contains('out')) return;
+      el.classList.add('out');
+      var gone = function () { if (el.parentNode) el.remove(); };
+      el.addEventListener('animationend', gone); setTimeout(gone, 450);
+    }
     btn.addEventListener('click', function (e) {
-      var old = $('.bubble', btn); if (old) old.remove();
+      $$('.bubble', btn).forEach(fade);
       var n; do { n = Math.floor(Math.random() * words.length); } while (n === last && words.length > 1);
       last = n;
       var b = doc.createElement('span'); b.className = 'bubble'; b.textContent = words[n];
@@ -315,7 +322,7 @@
           btn.appendChild(f); (function (f) { setTimeout(function () { f.remove(); }, 1600); })(f);
         }
       }
-      clearTimeout(timer); timer = setTimeout(function () { b.remove(); btn.classList.remove('fire'); }, 2600);
+      clearTimeout(timer); timer = setTimeout(function () { fade(b); btn.classList.remove('fire'); }, 2600);
     });
   });
 

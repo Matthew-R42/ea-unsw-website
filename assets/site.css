@@ -1014,3 +1014,7 @@ button[disabled] { opacity: .6; cursor: progress; }
 .sched-head .chip { color: var(--ink); font: 600 15px/1.3 var(--body); letter-spacing: 0; padding: 7px 14px; border: 2px solid var(--ink); background: #fff; }
 .sched-head .chip .pulse { border: 1.5px solid var(--ink); width: 10px; height: 10px; }
 .sched-head a.chip:hover { background: var(--ink); color: #fff; }
+
+/* Brain and heart bubbles fade up and away instead of vanishing */
+.bubble.out { animation: popout .32s ease-in forwards; }
+@keyframes popout { from { opacity: 1; transform: translate(-50%, -100%) scale(1); } to { opacity: 0; transform: translate(-50%, -135%) scale(.85); } }
