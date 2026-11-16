@@ -368,10 +368,10 @@
     add('line', { x1: 0, y1: PADT - 6, x2: 0, y2: H - PADB, stroke: '#0a2a30', 'stroke-width': 2.5, 'stroke-dasharray': '5 5' });
     add('circle', { cx: 0, cy: PADT - 8, r: 7, fill: '#ffda1f', stroke: '#0a2a30', 'stroke-width': 2.5 });
     var youT = add('text', { x: 13, y: PADT - 2, 'class': 'you-t' }, 'you');
-    var LO = Math.log(1000), HI = Math.log(250000);
+    var LO = Math.log(1000), HI = Math.log(250000), mineNow = -1;
     function render(aud) {
       aud = clamp(aud || 0, 0, 5000000);
-      var pc = share(aud) * 100, x = xOf(aud), mine = Math.min(BINS - 1, Math.floor(x / bw));
+      var pc = share(aud) * 100, x = xOf(aud), mine = Math.min(BINS - 1, Math.floor(x / bw)); mineNow = mine;
       $('#rich-pct').textContent = pc >= 99.95 ? '99.9%' : (pc >= 99 ? pc.toFixed(1) + '%' : Math.round(pc) + '%');
       bars.forEach(function (b, i) { b.setAttribute('fill', i < mine ? '#0c869b' : (i === mine ? '#ffda1f' : '#cfe0e0')); b.setAttribute('stroke', i === mine ? '#0a2a30' : 'none'); b.setAttribute('stroke-width', 2); });
       you.setAttribute('transform', 'translate(' + x + ' 0)');
@@ -391,7 +391,49 @@
     svg.addEventListener('pointerdown', function (e) { dragging = true; if (svg.setPointerCapture) svg.setPointerCapture(e.pointerId); fromPointer(e); });
     svg.addEventListener('pointermove', function (e) { if (dragging) fromPointer(e); });
     ['pointerup', 'pointercancel'].forEach(function (n) { svg.addEventListener(n, function () { dragging = false; }); });
+    /* Keep "Richer than 99.9% of the world" on one line: size the heading so its widest
+       version fits the box, so the font doesn't jump as the number changes. */
+    var head = $('.rich-head', box), pct = $('#rich-pct');
+    function fitHead() {
+      if (!head) return;
+      var keep = pct.textContent;
+      head.style.fontSize = ''; pct.textContent = '99.9%';
+      var room = head.clientWidth, need = head.scrollWidth;
+      if (need > room) head.style.fontSize = (parseFloat(getComputedStyle(head).fontSize) * room / need * 0.98) + 'px';
+      pct.textContent = keep;
+    }
+    var fitT; window.addEventListener('resize', function () { clearTimeout(fitT); fitT = setTimeout(fitHead, 100); });
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(fitHead);
+
+    /* Hover a bar: highlight it and say who lives there */
+    var holder = svg.parentNode, hov = -1, tipEl = doc.createElement('div');
+    tipEl.className = 'dist-tip'; tipEl.setAttribute('aria-hidden', 'true'); holder.appendChild(tipEl);
+    function money(v) { return v < 1000 ? '$' + Math.round(v / 10) * 10 : (v < 10000 ? '$' + (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : '$' + Math.round(v / 1000) + 'k'); }
+    function people(f) { var m = f * 8100; return m >= 1000 ? 'about ' + (m / 1000).toFixed(1).replace(/\.0$/, '') + ' billion people' : (m >= 1 ? 'about ' + Math.round(m) + ' million people' : 'under a million people'); }
+    function showBar(i) {
+      if (i === hov) return;
+      if (hov >= 0) bars[hov].classList.remove('hov');
+      hov = i;
+      if (i < 0) { svg.classList.remove('hovering'); tipEl.classList.remove('show'); return; }
+      bars[i].classList.add('hov'); svg.classList.add('hovering');
+      var lo = Math.exp(X0 + (X1 - X0) * i / BINS), hi = Math.exp(X0 + (X1 - X0) * (i + 1) / BINS);
+      tipEl.innerHTML = '';
+      var b = doc.createElement('b'); b.textContent = (i === 0 ? 'Under ' + money(hi) : money(lo) + ' to ' + money(hi)) + ' a year'; tipEl.appendChild(b);
+      tipEl.appendChild(doc.createTextNode((i === mineNow ? "That's you. " : '') + people(heights[i]) + ' (' + (heights[i] * 100 < 0.1 ? 'under 0.1' : (heights[i] * 100).toFixed(1)) + '%)'));
+      var sr = svg.getBoundingClientRect(), hr = holder.getBoundingClientRect(), br = bars[i].getBoundingClientRect();
+      tipEl.classList.add('show');
+      var tw = tipEl.offsetWidth, cx = br.left + br.width / 2 - hr.left;
+      tipEl.style.left = clamp(cx - tw / 2, 0, hr.width - tw) + 'px';
+      tipEl.style.top = (Math.min(br.top, sr.top + sr.height * 0.55) - hr.top - tipEl.offsetHeight - 10) + 'px';
+    }
+    svg.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      var r = svg.getBoundingClientRect(); showBar(clamp(Math.floor((e.clientX - r.left) / r.width * BINS), 0, BINS - 1));
+    });
+    svg.addEventListener('pointerleave', function () { showBar(-1); });
+
     setAll(parseFloat(input.value) || 6000);
+    fitHead();
   })();
 
   /* Causes: pick one to open its video and links */
