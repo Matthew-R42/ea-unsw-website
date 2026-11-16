@@ -1054,3 +1054,8 @@ button[disabled] { opacity: .6; cursor: progress; }
 .path span.n { font: 700 clamp(14.5px, 1.45vw, 18px)/1.15 var(--display); letter-spacing: -0.01em; color: var(--ink); text-wrap: balance; }
 @media (max-width: 640px) { .path li { padding: 0 1px; } .path span.n { font-size: 13.5px; letter-spacing: -0.025em; } }
 .path { align-items: start; }
+
+/* Flex week circle: drawn dashes (16, evenly spaced) instead of a dashed border, which leaves uneven gaps */
+.path .rest { border: 0; background: var(--paper) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><circle cx='30' cy='30' r='28.5' fill='none' stroke='%233f5b61' stroke-width='2.5' pathLength='96' stroke-dasharray='3.5 2.5' stroke-linecap='round'/></svg>") center / 100% 100% no-repeat; font: 700 13px/1 var(--body); color: var(--ink-soft); }
+.path li.flex span.n { color: var(--ink-soft); opacity: .6; }
+.path li.flex span.w { opacity: .7; }
