@@ -13,7 +13,7 @@
   --night: #04343d;
   --night-shadow: #021f25;
   --wash: #e0f0f1;
-  --sun: #ffd23f;
+  --sun: #ffda1f;
   --sun-deep: #f0b51f;
   --mist: #a9dfe6;
   --display: "Bricolage Grotesque", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
@@ -117,7 +117,7 @@ a:hover { color: var(--deep); }
 .hero-note b { color: var(--sun); font-weight: 700; }
 .hero-art { aspect-ratio: 4 / 5; max-height: 520px; width: 100%; justify-self: center; }
 .chip { display: inline-flex; align-items: center; gap: 9px; font: 500 13px/1.3 var(--mono); letter-spacing: .04em; padding: 7px 12px; border-radius: 999px; border: 1.5px solid currentColor; }
-.chip .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 0 rgba(255, 210, 63, .7); animation: pulse 2s infinite; }
+.chip .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 0 rgba(255, 218, 31, .7); animation: pulse 2s infinite; }
 .hero .chip { color: #fff; margin-top: 26px; font: 600 14.5px/1.3 var(--body); letter-spacing: 0; border-color: rgba(255, 255, 255, .55); }
 .hero .chip b { color: #fff; font-weight: 500; }
 
@@ -358,7 +358,7 @@ a.tcard:hover { transform: translateY(-5px) rotate(-.6deg); box-shadow: 6px 8px 
 @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes slide { to { transform: translateX(-50%); } }
-@keyframes pulse { 70% { box-shadow: 0 0 0 9px rgba(255, 210, 63, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 210, 63, 0); } }
+@keyframes pulse { 70% { box-shadow: 0 0 0 9px rgba(255, 218, 31, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 218, 31, 0); } }
 @keyframes float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(2deg); } }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-5deg); } 60% { transform: rotate(4deg); } 85% { transform: rotate(-2deg); } }
@@ -797,7 +797,7 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 @media (max-width: 640px) { .wk-panel { padding: 16px 14px; border-radius: 18px; } }
 
 /* 16 Nov feedback */
-.kind { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 1.25em; color: var(--sun); text-shadow: 0 0 6px rgba(255, 210, 63, .9), 0 0 16px rgba(255, 210, 63, .8), 0 0 34px rgba(255, 210, 63, .6); padding: 0 .06em; line-height: 0; }
+.kind { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 1.25em; color: var(--sun); text-shadow: 0 0 6px rgba(255, 218, 31, .9), 0 0 16px rgba(255, 218, 31, .8), 0 0 34px rgba(255, 218, 31, .6); padding: 0 .06em; line-height: 0; }
 .btn .mark { margin: 0 -2px 0 2px; }
 #tip { max-width: 290px; }
 .word-side { padding-top: 46px; }
@@ -817,3 +817,134 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .join .badge { right: auto; left: calc(50% + 250px); width: 130px; height: 130px; top: calc(50% - 65px); }
 .join .badge { left: calc(75% + 41px); }
 .join .badge text { font-size: 15.5px; letter-spacing: 0; font-weight: 600; }
+
+/* ---------- v4: calmer colours + more to play with ----------
+   Dark only at the top (header and hero) and in the footer. Everything between
+   is light: paper, a pale teal, and a pale UNSW yellow. */
+:root { --sun: #ffda1f; --soft: #fff5c9; }
+
+/* Header: dark over the hero, light once you scroll past it */
+.site-head { background: var(--night); -webkit-backdrop-filter: none; backdrop-filter: none; transition: background-color .3s ease, border-color .3s ease; }
+.site-head.scrolled { border-bottom-color: rgba(169, 223, 230, .2); }
+.site-head .brand { color: #fff; }
+.site-head .brand .bulb { color: var(--sun); }
+.site-head .brand-text b { color: var(--mist); }
+.site-head .nav-links a:not(.btn) { color: #fff; }
+.site-head .nav-links a:not(.btn)::before { height: 3px; bottom: 3px; }
+.site-head .menu-toggle { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .7); }
+.site-head .btn { border-color: var(--night-shadow); box-shadow: 3px 3px 0 var(--night-shadow); }
+.site-head.light { background: rgba(244, 249, 248, .95); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom-color: var(--ink); }
+.site-head.light .brand { color: var(--ink); }
+.site-head.light .brand .bulb { color: var(--teal); }
+.site-head.light .brand-text b { color: var(--teal-strong); }
+.site-head.light .nav-links a:not(.btn) { color: var(--ink); }
+.site-head.light .nav-links a:not(.btn)::before { height: 9px; bottom: 7px; }
+.site-head.light .menu-toggle { background: var(--card); color: var(--ink); border-color: var(--ink); }
+.site-head.light .btn { border-color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+
+/* Every page opens on the same dark hero, then eases into the light page */
+.page-hero { border-bottom: 0; background-color: var(--night); color: #dcefee; isolation: isolate; }
+.page-hero h1 { color: #fff; }
+.page-hero .em { color: var(--sun); }
+.page-hero .lede { color: #dcefee; }
+.page-hero .label { color: var(--mist); }
+.page-hero .wrap { position: relative; z-index: 1; padding-block: 60px 96px; }
+.page-hero canvas.dots { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.sunny { color: var(--sun); font-weight: inherit; }
+.edge { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 44px; display: block; z-index: 2; pointer-events: none; }
+.edge path { fill: var(--paper); }
+.hero-grid { padding-bottom: 124px; }
+
+/* Light bands */
+.band { position: relative; }
+.band-soft { background: var(--soft); }
+.band-soft.grid-paper { background-image: linear-gradient(rgba(10, 42, 48, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 42, 48, .05) 1px, transparent 1px); }
+/* A soft light follows the cursor across any graph-paper band */
+.grid-paper::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(280px circle at var(--mx, -999px) var(--my, -999px), var(--spot, rgba(255, 218, 31, .3)), transparent 70%); }
+.grid-paper > .wrap { position: relative; z-index: 1; }
+.band-night.grid-paper, .hero.grid-paper { --spot: rgba(169, 223, 230, .13); }
+.band-sun.grid-paper { --spot: rgba(255, 255, 255, .45); }
+.band-soft.grid-paper { --spot: rgba(255, 255, 255, .7); }
+
+/* Parts that used to sit on dark bands */
+.lens-c { fill: rgba(12, 134, 155, .10); stroke: var(--teal); cursor: pointer; }
+.lens-c.off { fill: transparent; }
+.lens-c:hover { fill: rgba(12, 134, 155, .2); }
+.lens-t { fill: var(--ink); pointer-events: none; }
+.toggle { border-color: var(--ink); color: var(--ink); background: var(--card); }
+.toggle[aria-pressed="true"] { border-color: var(--ink); }
+.lens-say { color: var(--ink-soft); }
+.lens-ex { background: var(--card); border-color: var(--ink); }
+.lens-ex b { color: var(--ink); }
+.lens-ex span { color: var(--ink-soft); }
+.path::before { border-top-color: var(--ink-soft); }
+.path a { border-color: var(--ink); }
+.path .rest { background: var(--paper); border-color: var(--ink-soft); color: var(--ink-soft); }
+.path span.w { color: var(--teal-strong); }
+.path span.n { color: var(--ink); }
+.mbar .track { background: #fff; border-color: var(--ink); }
+.mbar .fill { border-right-color: var(--ink); }
+.mbar p { color: var(--ink); }
+.mbar { cursor: pointer; }
+
+/* Team cards flip */
+.person.flip { padding: 0; border: 0; background: none; perspective: 900px; cursor: pointer; display: block; }
+.person.flip:hover, .person.flip:nth-child(even):hover { transform: none; box-shadow: none; }
+.flip-in { position: relative; height: 262px; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.3, 1.2, .4, 1); }
+.person.flip:hover .flip-in { transform: rotateY(14deg); }
+.person.flip.flipped .flip-in { transform: rotateY(180deg); }
+.person.flip.flipped:hover .flip-in { transform: rotateY(166deg); }
+.face { position: absolute; inset: 0; display: grid; gap: 7px; justify-items: center; align-content: center; text-align: center; padding: 16px 12px; border: 2px solid var(--ink); border-radius: var(--radius); background: var(--card); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.face.back { transform: rotateY(180deg); background: var(--sun); }
+.face.back .hand { font-family: var(--hand); font-weight: 600; font-size: 16px; margin-top: 4px; }
+.face.back .todo { border-color: var(--ink); color: var(--ink); }
+.flip-hint { font-family: var(--hand); font-size: 13.5px; color: var(--ink-soft); }
+.person.flip:focus-visible { outline: 3px solid var(--sun-deep); outline-offset: 4px; border-radius: var(--radius); }
+
+/* Pick the subcommittee roles that sound like you */
+.pick-hint { font-family: var(--hand); font-weight: 600; font-size: 18px; color: var(--teal-strong); margin: -22px 0 18px; }
+.rolecard.pick { cursor: pointer; position: relative; user-select: none; -webkit-user-select: none; }
+.rolecard.pick::after { content: ""; position: absolute; top: 18px; right: 18px; width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; display: grid; place-content: center; font: 800 16px/1 var(--body); }
+.rolecard.pick[aria-pressed="true"] { background: var(--sun); box-shadow: 6px 8px 0 var(--ink); }
+.rolecard.pick[aria-pressed="true"]::after { content: "\2713"; background: var(--ink); color: var(--sun); }
+.rolecard.pick[aria-pressed="true"] ul { color: var(--ink); }
+
+/* Star the events you're keen on */
+.star { justify-self: start; display: inline-flex; align-items: center; gap: 7px; font: 600 15px/1 var(--hand); padding: 8px 13px 8px 9px; border-radius: 999px; border: 2px solid var(--ink); background: var(--card); color: var(--ink); cursor: pointer; transition: background-color .15s ease, transform .2s cubic-bezier(.3, 1.6, .5, 1); }
+.star svg { width: 18px; height: 18px; fill: #fff; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; transition: fill .15s ease, transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+.star:hover { transform: translateY(-2px) rotate(-2deg); }
+.star[aria-pressed="true"] { background: var(--sun); }
+.star[aria-pressed="true"] svg { fill: var(--ink); transform: rotate(72deg) scale(1.15); }
+.strip li.starred::after { content: "\2605"; position: absolute; top: -10px; right: -5px; z-index: 2; font-size: 19px; line-height: 1; color: var(--sun); -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; pointer-events: none; }
+
+/* Tick off readings as you go */
+.read-wrap { position: relative; display: grid; }
+.read-wrap .read { padding-right: 60px; }
+.tick { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; color: transparent; cursor: pointer; display: grid; place-content: center; font: 800 17px/1 var(--body); transition: background-color .15s ease, transform .25s cubic-bezier(.3, 1.6, .5, 1); }
+.tick::before { content: "\2713"; }
+.tick:hover { transform: scale(1.18); color: var(--line); }
+.tick[aria-pressed="true"] { background: var(--teal); color: #fff; }
+.read-wrap.done .read { background: var(--wash); }
+.prog { display: inline-flex; gap: 5px; margin-left: 10px; vertical-align: middle; }
+.prog i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; transition: background-color .2s ease; }
+.prog i.on { background: var(--teal); }
+.path a.done::after { content: "\2713"; position: absolute; right: -7px; top: -7px; width: 24px; height: 24px; border-radius: 50%; background: var(--teal); color: #fff; border: 2px solid var(--ink); font: 800 13px/20px var(--body); text-align: center; }
+
+/* Small things that answer back */
+.art.boing svg { animation: boing .6s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes boing { 0% { transform: scale(1) rotate(0); } 35% { transform: scale(1.25) rotate(-10deg); } 70% { transform: scale(.95) rotate(6deg); } 100% { transform: scale(1) rotate(0); } }
+.tile .art, .rolecard .art, .wk-card .art, .cmp .art, .icard .art, .reward .art, .lens-ex .art { cursor: pointer; }
+.dist { cursor: ew-resize; touch-action: pan-y; }
+.tcard, .cause, .tile, .link-tile, .icard, .reward, .wk-card, .rolecard, .read { will-change: transform; }
+
+@media (max-width: 980px) { .hero-grid { padding-bottom: 40px; } .page-hero .wrap { padding-block: 44px 76px; } }
+@media (max-width: 640px) { .flip-in { height: 236px; } .pick-hint { margin-top: -10px; } }
+
+/* The Altruism card goes pale yellow so no dark block sits on the light page */
+.word-teal { background: var(--soft); color: var(--ink); }
+.word-teal h3 { color: var(--ink); }
+.word-teal p.more-text { color: var(--ink-soft); }
+.word-teal .tap-hint { color: var(--teal-strong); }
+.lens-core { pointer-events: none; }
+.page-hero-art text { font: 600 12.5px var(--hand); }
+.rolecard.pick[aria-pressed="true"]::after { color: #fff; font-size: 18px; }

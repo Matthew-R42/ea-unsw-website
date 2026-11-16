@@ -18,7 +18,12 @@
       toggle.textContent = open ? 'Close' : 'Menu';
     });
   }
-  function onScrollHead() { if (head) head.classList.toggle('scrolled', window.scrollY > 8); }
+  var topHero = $('.hero, .page-hero');
+  function onScrollHead() {
+    if (!head) return;
+    head.classList.toggle('scrolled', window.scrollY > 8);
+    head.classList.toggle('light', !topHero || topHero.getBoundingClientRect().bottom < 70);
+  }
   onScrollHead();
   window.addEventListener('scroll', onScrollHead, { passive: true });
 
@@ -128,15 +133,15 @@
       ctx.clearRect(0, 0, W, H);
       if (glow.a > 0.01) {
         var g = ctx.createRadialGradient(glow.x, glow.y, 0, glow.x, glow.y, glow.r);
-        g.addColorStop(0, 'rgba(255,210,63,' + (0.2 * glow.a) + ')');
-        g.addColorStop(1, 'rgba(255,210,63,0)');
+        g.addColorStop(0, 'rgba(255,218,31,' + (0.2 * glow.a) + ')');
+        g.addColorStop(1, 'rgba(255,218,31,0)');
         ctx.fillStyle = g;
         ctx.fillRect(glow.x - glow.r, glow.y - glow.r, glow.r * 2, glow.r * 2);
       }
       for (var i = 0; i < parts.length; i++) {
         var p = parts[i];
         ctx.globalAlpha = p.free ? p.a : 0.95;
-        ctx.fillStyle = p.free ? '#a9dfe6' : (p.heart ? '#ffffff' : '#ffd23f');
+        ctx.fillStyle = p.free ? '#a9dfe6' : (p.heart ? '#ffffff' : '#ffda1f');
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, 6.2832);
         ctx.fill();
@@ -180,6 +185,11 @@
     window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(build, 150); });
     hero.addEventListener('pointermove', function (e) { var r = hero.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
     hero.addEventListener('pointerleave', function () { mouse.x = mouse.y = -9999; });
+    hero.addEventListener('click', function (e) {
+      if (e.target.closest('a, button')) return;
+      var r = hero.getBoundingClientRect(), cx = e.clientX - r.left, cy = e.clientY - r.top;
+      parts.forEach(function (p) { var dx = p.x - cx, dy = p.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1; if (d < 340) { var f = (1 - d / 340) * 18; p.vx += dx / d * f; p.vy += dy / d * f; } });
+    });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) start(); else stop(); }).observe(hero);
     }
@@ -299,7 +309,7 @@
         var x = keyboard ? r.width / 2 : e.clientX - r.left, y = keyboard ? r.height / 2 : e.clientY - r.top;
         for (var k = 0; k < 5; k++) {
           var f = doc.createElement('span'); f.className = 'floaty';
-          f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffd23f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
+          f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
           f.style.left = x + 'px'; f.style.top = y + 'px';
           f.style.setProperty('--dx', (Math.random() * 140 - 70) + 'px'); f.style.animationDelay = (k * 70) + 'ms';
           btn.appendChild(f); (function (f) { setTimeout(function () { f.remove(); }, 1600); })(f);
@@ -349,14 +359,14 @@
     var you = el('g', { 'class': 'you-line' });
     function add(name, attrs, txt) { var e = doc.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); if (txt) e.textContent = txt; you.appendChild(e); return e; }
     add('line', { x1: 0, y1: PADT - 6, x2: 0, y2: H - PADB, stroke: '#0a2a30', 'stroke-width': 2.5, 'stroke-dasharray': '5 5' });
-    add('circle', { cx: 0, cy: PADT - 8, r: 7, fill: '#ffd23f', stroke: '#0a2a30', 'stroke-width': 2.5 });
+    add('circle', { cx: 0, cy: PADT - 8, r: 7, fill: '#ffda1f', stroke: '#0a2a30', 'stroke-width': 2.5 });
     var youT = add('text', { x: 13, y: PADT - 2, 'class': 'you-t' }, 'you');
     var LO = Math.log(1000), HI = Math.log(250000);
     function render(aud) {
       aud = clamp(aud || 0, 0, 5000000);
       var pc = share(aud) * 100, x = xOf(aud), mine = Math.min(BINS - 1, Math.floor(x / bw));
       $('#rich-pct').textContent = pc >= 99.95 ? '99.9%' : (pc >= 99 ? pc.toFixed(1) + '%' : Math.round(pc) + '%');
-      bars.forEach(function (b, i) { b.setAttribute('fill', i < mine ? '#0c869b' : (i === mine ? '#ffd23f' : '#cfe0e0')); b.setAttribute('stroke', i === mine ? '#0a2a30' : 'none'); b.setAttribute('stroke-width', 2); });
+      bars.forEach(function (b, i) { b.setAttribute('fill', i < mine ? '#0c869b' : (i === mine ? '#ffda1f' : '#cfe0e0')); b.setAttribute('stroke', i === mine ? '#0a2a30' : 'none'); b.setAttribute('stroke-width', 2); });
       you.setAttribute('transform', 'translate(' + x + ' 0)');
       var flip = x > W * 0.7;
       youT.setAttribute('x', flip ? -12 : 12); youT.setAttribute('text-anchor', flip ? 'end' : 'start');
@@ -369,6 +379,11 @@
     input.addEventListener('input', function () { setAll(parseFloat(input.value.replace(/[^0-9.]/g, '')) || 0, 'input'); });
     range.addEventListener('input', function () { var v = Math.exp(LO + (HI - LO) * range.value / 1000); setAll(v >= 10000 ? Math.round(v / 1000) * 1000 : Math.round(v / 100) * 100, 'range'); });
     $$('[data-income]', box).forEach(function (b) { b.addEventListener('click', function () { setAll(parseFloat(b.getAttribute('data-income'))); }); });
+    var dragging = false;
+    function fromPointer(e) { var r = svg.getBoundingClientRect(), v = Math.exp(X0 + (X1 - X0) * clamp((e.clientX - r.left) / r.width, 0, 1)); setAll(v >= 10000 ? Math.round(v / 1000) * 1000 : Math.round(v / 100) * 100); }
+    svg.addEventListener('pointerdown', function (e) { dragging = true; if (svg.setPointerCapture) svg.setPointerCapture(e.pointerId); fromPointer(e); });
+    svg.addEventListener('pointermove', function (e) { if (dragging) fromPointer(e); });
+    ['pointerup', 'pointercancel'].forEach(function (n) { svg.addEventListener(n, function () { dragging = false; }); });
     setAll(parseFloat(input.value) || 6000);
   })();
 
@@ -459,7 +474,7 @@
 
   function confetti(host) {
     if (calm) return;
-    var cols = ['#ffd23f', '#0c869b', '#a9dfe6', '#0a2a30', '#ff8f6b'];
+    var cols = ['#ffda1f', '#0c869b', '#a9dfe6', '#0a2a30', '#ff8f6b'];
     for (var i = 0; i < 36; i++) {
       var c = doc.createElement('span'); c.className = 'confetti';
       c.style.background = cols[i % cols.length];
@@ -505,4 +520,150 @@
       location.href = href;
     });
   });
+  /* ---------- v4: more to play with ---------- */
+  var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function store(key, val) { try { if (val === undefined) return JSON.parse(localStorage.getItem(key) || '[]'); localStorage.setItem(key, JSON.stringify(val)); } catch (e) { return []; } }
+  function toggleIn(list, v) { var i = list.indexOf(v); if (i < 0) list.push(v); else list.splice(i, 1); return i < 0; }
+
+  /* Inner-page heroes: drifting dots that link up with the cursor */
+  $$('.page-hero canvas.dots').forEach(function (c) {
+    if (!c.getContext) return;
+    var hero = c.parentNode, ctx = c.getContext('2d'), W = 0, H = 0, pts = [], m = { x: -999, y: -999 }, raf = 0, on = false;
+    function size() {
+      var r = hero.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height; c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = clamp(Math.round(W * H / 13000), 22, 90); pts = [];
+      for (var i = 0; i < n; i++) pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, r: .9 + Math.random() * 1.9, a: .25 + Math.random() * .45, sun: Math.random() < .22 });
+      draw();
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i], dx = p.x - m.x, dy = p.y - m.y, d = Math.sqrt(dx * dx + dy * dy), near = d < 170;
+        if (near) { ctx.globalAlpha = (1 - d / 170) * .55; ctx.strokeStyle = '#ffda1f'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+        ctx.globalAlpha = near ? 1 : p.a; ctx.fillStyle = near || p.sun ? '#ffda1f' : '#a9dfe6';
+        ctx.beginPath(); ctx.arc(p.x, p.y, near ? p.r + 1 : p.r, 0, 6.2832); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    function tick() {
+      if (!on) return;
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i]; p.x += p.vx; p.y += p.vy;
+        if (p.x < -8) p.x = W + 8; else if (p.x > W + 8) p.x = -8;
+        if (p.y < -8) p.y = H + 8; else if (p.y > H + 8) p.y = -8;
+      }
+      draw(); raf = requestAnimationFrame(tick);
+    }
+    size();
+    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(size, 150); });
+    hero.addEventListener('pointermove', function (e) { var r = hero.getBoundingClientRect(); m.x = e.clientX - r.left; m.y = e.clientY - r.top; if (calm) draw(); });
+    hero.addEventListener('pointerleave', function () { m.x = m.y = -999; if (calm) draw(); });
+    if (calm) return;
+    function go(v) { if (v && !on) { on = true; raf = requestAnimationFrame(tick); } else if (!v) { on = false; cancelAnimationFrame(raf); } }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { go(es[0].isIntersecting && !doc.hidden); }).observe(hero); else go(true);
+    doc.addEventListener('visibilitychange', function () { go(!doc.hidden); });
+  });
+
+  /* A soft light follows the cursor over graph-paper bands */
+  if (fine) $$('.grid-paper').forEach(function (b) {
+    b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.setProperty('--mx', (e.clientX - r.left) + 'px'); b.style.setProperty('--my', (e.clientY - r.top) + 'px'); });
+    b.addEventListener('pointerleave', function () { b.style.setProperty('--mx', '-999px'); });
+  });
+
+  /* Cards lean towards the cursor */
+  if (fine && !calm) $$('.tcard, .cause, .tile, .link-tile, .icard, .reward, .wk-card, .rolecard, .read').forEach(function (el) {
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      el.style.transform = 'perspective(800px) rotateX(' + (-y * 7).toFixed(2) + 'deg) rotateY(' + (x * 8).toFixed(2) + 'deg) translateY(-4px)';
+    });
+    el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+  });
+
+  /* Illustrations bounce when poked */
+  doc.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('.art');
+    if (!a || e.target.closest('a, button, [role="button"], summary')) return;
+    a.classList.remove('boing'); void a.offsetWidth; a.classList.add('boing');
+  });
+
+  /* Anything with role=button answers to Enter and Space */
+  function pressable(el, fn) {
+    el.addEventListener('click', fn);
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(e); } });
+  }
+
+  /* Team cards flip over */
+  $$('.person.flip').forEach(function (card) {
+    pressable(card, function () { var on = card.classList.toggle('flipped'); card.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+  });
+
+  /* Money bars refill when clicked */
+  $$('.mbar').forEach(function (m) { m.addEventListener('click', function () { m.classList.remove('go'); void m.offsetWidth; setTimeout(function () { m.classList.add('go'); }, 60); }); });
+
+  /* Lens circles are switches too */
+  $$('.toggle[data-lens]').forEach(function (b) { var c = doc.getElementById(b.getAttribute('data-lens')); if (c) c.addEventListener('click', function () { b.click(); }); });
+
+  /* Subcommittee: pick the roles that sound like you, and the form opens with them ticked */
+  (function () {
+    var picks = $$('.rolecard.pick'), apply = $('#apply-subcom'), hint = $('#pick-hint');
+    if (picks.length && apply) {
+      var base = apply.getAttribute('href');
+      picks.forEach(function (card) {
+        pressable(card, function () {
+          card.setAttribute('aria-pressed', card.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+          var chosen = picks.filter(function (p) { return p.getAttribute('aria-pressed') === 'true'; });
+          var areas = chosen.map(function (p) { return p.getAttribute('data-area'); });
+          apply.setAttribute('href', areas.length ? base + '?area=' + encodeURIComponent(areas.join('|')) : base);
+          if (hint) hint.textContent = areas.length ? 'Nice. We will tick ' + chosen.map(function (p) { return $('h3', p).textContent; }).join(' + ') + ' on your application.' : 'Tap the ones that sound like you.';
+        });
+      });
+    }
+    var m = /[?&]area=([^&]+)/.exec(location.search);
+    if (m) decodeURIComponent(m[1]).split('|').forEach(function (a) { $$('input[name="s-area"]').forEach(function (i) { if (i.value === a) i.checked = true; }); });
+  })();
+
+  /* Events: star the ones you're keen on. Stays in this browser. */
+  (function () {
+    var KEY = 'eaunsw-stars', stars = store(KEY);
+    function paint() { $$('.strip li[data-wk]').forEach(function (li) { li.classList.toggle('starred', stars.indexOf(li.getAttribute('data-wk')) >= 0); }); }
+    $$('.wk').forEach(function (wk) {
+      var body = $('.wk-card .wk-body', wk), h = body && $('h3', body);
+      if (!body || !h) return;
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'star'; b.id = 'star-' + wk.id;
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 L14.9 8.6 L21.5 9.5 L16.7 14.1 L17.9 20.7 L12 17.5 L6.1 20.7 L7.3 14.1 L2.5 9.5 L9.1 8.6 Z"/></svg><span></span>';
+      function set() { var on = stars.indexOf(wk.id) >= 0; b.setAttribute('aria-pressed', on ? 'true' : 'false'); $('span', b).textContent = on ? 'See you there' : "I'm keen"; b.setAttribute('aria-label', (on ? 'Unstar ' : 'Star ') + h.textContent); }
+      b.addEventListener('click', function () { toggleIn(stars, wk.id); store(KEY, stars); set(); paint(); });
+      set(); body.appendChild(b);
+    });
+    paint();
+  })();
+
+  /* Fellowship: tick off readings. Stays in this browser. */
+  (function () {
+    var KEY = 'eaunsw-read', read = store(KEY);
+    function paintPath() {
+      $$('.path a').forEach(function (a) {
+        var m = /#s(\d)$/.exec(a.getAttribute('href') || '');
+        if (m && +m[1] <= 6) a.classList.toggle('done', read.indexOf('s' + m[1] + '-0') >= 0 && read.indexOf('s' + m[1] + '-1') >= 0);
+      });
+    }
+    $$('details.sess').forEach(function (d) {
+      var links = $$('a.read', d), label = $('summary .label', d);
+      if (!links.length) return;
+      var prog = doc.createElement('span'); prog.className = 'prog'; prog.setAttribute('aria-hidden', 'true');
+      links.forEach(function () { prog.appendChild(doc.createElement('i')); });
+      if (label) label.appendChild(prog);
+      links.forEach(function (a, i) {
+        var key = d.id + '-' + i, wrap = doc.createElement('div'), b = doc.createElement('button'), title = ($('b', a) || a).textContent;
+        wrap.className = 'read-wrap'; a.parentNode.insertBefore(wrap, a); wrap.appendChild(a);
+        b.type = 'button'; b.className = 'tick'; b.id = 'tick-' + key;
+        function set() { var on = read.indexOf(key) >= 0; b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.setAttribute('aria-label', (on ? 'Mark as not read: ' : 'Mark as read: ') + title); wrap.classList.toggle('done', on); prog.children[i].classList.toggle('on', on); }
+        b.addEventListener('click', function () { toggleIn(read, key); store(KEY, read); set(); paintPath(); });
+        set(); wrap.appendChild(b);
+      });
+    });
+    paintPath();
+  })();
 })();
