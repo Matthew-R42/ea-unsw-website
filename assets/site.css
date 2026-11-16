@@ -295,7 +295,7 @@ a.tcard:hover { transform: translateY(-5px) rotate(-.6deg); box-shadow: 6px 8px 
 .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 18px; align-items: center; padding: 18px 22px; font: 700 20px/1.25 var(--display); letter-spacing: -0.015em; }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::after { content: "+"; flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--sun); border: 2px solid var(--ink); display: grid; place-content: center; font: 600 20px/1 var(--body); transition: transform .25s ease; }
-.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details[open]:not(.closing) summary::after { transform: rotate(45deg); }
 .faq details p { padding: 0 22px 20px; color: var(--ink-soft); max-width: 44em; }
 
 /* Reading list and link tiles */
@@ -546,7 +546,7 @@ button.cause[aria-selected="true"] p { color: var(--ink); }
 .path span.n { font-size: 14.5px; line-height: 1.25; color: #fff; }
 .sessions { display: grid; gap: 16px; }
 .sess { border: 2px solid var(--ink); border-radius: var(--radius); background: var(--card); overflow: hidden; scroll-margin-top: 100px; }
-.sess[open] { box-shadow: 6px 6px 0 var(--ink); }
+.sess[open]:not(.closing) { box-shadow: 6px 6px 0 var(--ink); }
 .sess summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 84px minmax(0, 1fr) 40px; gap: 20px; align-items: center; padding: 20px 24px; }
 .sess summary::-webkit-details-marker { display: none; }
 .sess summary .art { width: 84px; height: 84px; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); }
@@ -554,7 +554,7 @@ button.cause[aria-selected="true"] p { color: var(--ink); }
 .sess summary h3 { font-size: clamp(24px, 3vw, 32px); margin: 4px 0; }
 .sess summary .q { font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--ink-soft); }
 .sess summary::after { content: "+"; width: 38px; height: 38px; border-radius: 50%; background: var(--sun); border: 2px solid var(--ink); display: grid; place-content: center; font: 600 22px/1 var(--body); transition: transform .25s ease; }
-.sess[open] summary::after { transform: rotate(45deg); }
+.sess[open]:not(.closing) summary::after { transform: rotate(45deg); }
 .sess-body { padding: 4px 24px 26px; display: grid; gap: 18px; animation: rise .4s ease both; }
 .sess-body > p { max-width: 46em; }
 .ideas { display: flex; flex-wrap: wrap; gap: 8px; }

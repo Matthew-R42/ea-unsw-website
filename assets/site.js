@@ -235,14 +235,14 @@
     if (!fig) return;
     var btns = $$('.toggle[data-lens]'), say = $('#lens-say');
     var LINES = {
-      '111': 'Big, overlooked and solvable. That overlap is where an extra hour or dollar tends to go furthest, so that is where people look first.',
-      '110': 'Big and overlooked, but nobody knows how to make progress yet. Worth researching, hard to act on today.',
-      '101': 'Big and solvable, but already crowded. Good work is happening, so your extra help adds a bit less.',
-      '011': 'Overlooked and solvable, but small. A nice win that does not change much.',
-      '100': 'A huge problem, but crowded and stuck. Caring about it is easy. Helping is the hard part.',
-      '010': 'Nobody is working on it. Sometimes that is a clue, sometimes there is a reason.',
-      '001': 'Easy to fix, and plenty of people are already fixing it. You are probably not needed here.',
-      '000': 'Not big, not overlooked, not solvable. Thousands of people are already chasing it, and perfect may be impossible.'
+      '111': 'When all three overlap, that is where an extra hour of your time has the most impact on the world.',
+      '110': 'This is a very important issue that not many people have thought about. But unfortunately, there\'s nothing we can really <i>do</i> about it, at least with our current technology and research.',
+      '101': 'It\'s important, don\'t get us wrong, not to mention we know exactly how to fix it. But so many people are working on it already that your extra pair of hands could add much more value somewhere else.',
+      '011': 'You know, it\'s nice to fix these small things. But there are much more pressing problems in the world we could be working on instead.',
+      '100': 'Look, everyone cares about it, including us. But you\'ve got so many people already working on it, and, like, what are we supposed to do?',
+      '010': 'Nobody is working on it. There is probably a reason nobody is working on it.',
+      '001': 'We know how to fix it, and people are already fixing it. If you don\'t help fix it, don\'t worry. There are more important things you could be working on, and someone else will probably take your place.',
+      '000': 'It\'s fun, I get it. But thousands of people are already doing it, it\'s virtually impossible to get a <i>perfect</i> speedrun, and, let\'s face it, it\'s not that important in the grand scheme of things.'
     };
     function update() {
       var key = btns.map(function (b) { return b.getAttribute('aria-pressed') === 'true' ? '1' : '0'; }).join('');
@@ -253,9 +253,17 @@
         $$('.m-' + id.slice(5), fig).forEach(function (m) { m.classList.toggle('off', off); });
       });
       fig.classList.toggle('all', key === '111');
-      say.textContent = LINES[key];
+      say.innerHTML = LINES[key];   /* fixed text above, with a few words in italics */
       $$('.lens-ex').forEach(function (ex) { ex.hidden = ex.getAttribute('data-key') !== key; });
     }
+    function fitSay() {
+      var keep = say.innerHTML, tallest = 0;
+      say.style.minHeight = '0px';
+      Object.keys(LINES).forEach(function (k) { say.innerHTML = LINES[k]; tallest = Math.max(tallest, say.offsetHeight); });
+      say.innerHTML = keep; say.style.minHeight = tallest + 'px';
+    }
+    window.addEventListener('resize', fitSay);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(fitSay);
     btns.forEach(function (b) {
       b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); update(); });
     });
@@ -664,11 +672,11 @@
          and nothing is left hanging at the end. The text fades quickly so it is gone before the box shuts. */
       var opening = !d.open, from = d.offsetHeight, to;
       d.open = !d.open; to = d.offsetHeight;
-      if (!opening) d.open = true;
+      if (!opening) { d.open = true; d.classList.add('closing'); }   /* the + turns back straight away */
       d.style.overflow = 'hidden'; d.style.boxSizing = 'border-box';
       var fade = body.animate(opening ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 0 }], { duration: opening ? 320 : 140, easing: 'ease', fill: 'forwards' });
       var a = d.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: opening ? 320 : 220, easing: opening ? 'cubic-bezier(.2,.8,.2,1)' : 'cubic-bezier(.4,0,.6,1)' });
-      a.onfinish = a.oncancel = function () { if (!opening) d.open = false; fade.cancel(); d.style.overflow = ''; d.style.boxSizing = ''; busy = false; };
+      a.onfinish = a.oncancel = function () { if (!opening) d.open = false; d.classList.remove('closing'); fade.cancel(); d.style.overflow = ''; d.style.boxSizing = ''; busy = false; };
     });
   });
 
