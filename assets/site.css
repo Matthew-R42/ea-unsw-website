@@ -993,8 +993,8 @@ button[disabled] { opacity: .6; cursor: progress; }
 .join.band { padding-block: 64px 30px; }
 .join-inner { display: flex; flex-direction: column; align-items: center; }
 .join-title { position: relative; display: inline-block; }
-.join .join-title .badge { left: auto; right: -150px; top: -46px; width: 124px; height: 124px; }
-.join .join-title .badge svg { transform: rotate(12deg); }
+.join .join-title .badge { left: auto; right: -150px; top: calc(50% - 62px); width: 124px; height: 124px; animation-name: bob; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 .join p { margin-top: 14px; }
 .say-hi { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; list-style: none; margin: 30px 0 0; padding: 0; }
 .say-hi a { display: inline-flex; align-items: center; gap: 8px; padding: 10px 17px 10px 13px; border: 2px solid var(--ink); border-radius: 999px; background: #fff; color: var(--ink); font: 600 16px/1 var(--body); text-decoration: none; box-shadow: 3px 3px 0 var(--ink); transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease, color .16s ease; }
