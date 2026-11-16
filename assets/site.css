@@ -1060,12 +1060,10 @@ button[disabled] { opacity: .6; cursor: progress; }
 .path li.flex span.n { color: var(--ink-soft); opacity: .6; }
 .path li.flex span.w { opacity: .7; }
 
-/* "kindness" in the home hero: hover wave, click ripple and hearts */
+/* "kindness" in the home hero: glows brighter on hover; a click sends a ripple and hearts */
 .kind { position: relative; cursor: pointer; border-radius: 6px; outline-offset: 4px; transition: text-shadow .25s ease; }
 .kind .kl { display: inline-block; }
 .kind:hover, .kind:focus-visible { text-shadow: 0 0 8px rgba(255, 218, 31, 1), 0 0 22px rgba(255, 218, 31, .95), 0 0 48px rgba(255, 218, 31, .75); }
-.kind:hover .kl, .kind:focus-visible .kl { animation: kind-wave .9s ease-in-out infinite; animation-delay: calc(var(--i) * 70ms); }
-@keyframes kind-wave { 0%, 60%, 100% { transform: translateY(0); } 25% { transform: translateY(-0.2em) rotate(-4deg); } }
 .kind.hug .kl { animation: kind-hug .45s cubic-bezier(.3, 1.6, .5, 1); }
 @keyframes kind-hug { 0% { transform: scale(1); } 35% { transform: scale(1.25, .8); } 100% { transform: scale(1); } }
 .kind-ring { position: absolute; left: 50%; top: 50%; width: 1.4em; height: 1.4em; margin: -0.7em 0 0 -0.7em; border: 2px solid var(--sun); border-radius: 50%; box-shadow: 0 0 14px rgba(255, 218, 31, .8); pointer-events: none; animation: kind-ring .8s ease-out forwards; }
@@ -1078,6 +1076,15 @@ button[disabled] { opacity: .6; cursor: progress; }
   60% { opacity: 1; transform: translate(calc(var(--tx) * .85), calc(var(--ty) * .85)) scale(1) rotate(var(--r)); }
   100% { opacity: 0; transform: translate(var(--tx), calc(var(--ty) + 14px)) scale(.8) rotate(var(--r)); }
 }
-@media (prefers-reduced-motion: reduce) { .kind:hover .kl, .kind.hug .kl { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .kind.hug .kl { animation: none; } }
 /* "Effective" card: pale blue, to pair with Altruism's pale yellow */
 .word-blue { background: var(--wash); }
+/* Event cards on wide screens: tags and title on the left, details and "I'm keen" on the right */
+@media (min-width: 760px) {
+  .wk-card .wk-body { grid-template-columns: minmax(0, 1fr) auto; column-gap: 28px; row-gap: 10px; align-items: center; }
+  .wk-card .wk-meta { grid-column: 1; grid-row: 1; }
+  .wk-card .wk-body h3 { grid-column: 1; grid-row: 2; }
+  .wk-card .wk-facts { grid-column: 2; grid-row: 1; justify-self: end; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; margin-right: 30px; }
+  .wk-card .star { grid-column: 2; grid-row: 2; justify-self: end; margin-right: 30px; }
+  .wk-card .wk-body > :only-child { grid-column: 1 / -1; }
+}

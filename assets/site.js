@@ -326,7 +326,7 @@
     });
   });
 
-  /* "kindness": letters wave on hover; a click sends a ripple and a ring of hearts outward */
+  /* "kindness": a click sends a ripple and a ring of hearts outward */
   $$('.kind').forEach(function (k) {
     var word = k.textContent;
     k.textContent = '';
