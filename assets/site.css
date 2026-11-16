@@ -781,7 +781,6 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 /* Events: one clearly separate block per week */
 .timeline { gap: 40px; }
 .wk-panel { display: grid; gap: 12px; padding: 20px 22px 22px; border-radius: 24px; background: var(--wash); border: 2px solid var(--ink); }
-.wk:nth-of-type(even) .wk-panel { background: #fff7d6; }
 .wk-rest .wk-panel { background: transparent; border-style: dashed; border-color: var(--ink-soft); padding-block: 16px; }
 .wk-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
 .wk-head h2 { font-size: clamp(28px, 3.4vw, 38px); }
@@ -1173,3 +1172,118 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .res-pics .res-i svg { display: block; width: 100%; height: 100%; overflow: visible; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); }
 .res-pics a:hover .res-i svg { transform: rotate(-8deg) scale(1.12); }
 @media (max-width: 760px) { .res-pics { height: auto; grid-auto-rows: auto; } .res-pics .res-i { width: 40px; height: 40px; } .res-pics a { grid-template-columns: minmax(0, 1fr) 40px; } }
+
+/* ---------- Dark mode ----------
+   Switched by the moon/sun button in the header (stored per browser), or by the
+   device setting until someone presses it. The page, cards and text go dark.
+   Yellow and white "stickers" (buttons, chips, the yellow cards) keep their light
+   colours, so they reset the ink back to dark inside them. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e4f1f0;
+  --ink-soft: #a7c3c6;
+  --paper: #0a1e22;
+  --card: #10303a;
+  --line: #24474f;
+  --teal: #2aa9bd;
+  --teal-strong: #74d2e0;
+  --wash: #0f2c33;
+  --soft: #1d2a1f;
+  --night: #04282f;
+  --night-shadow: #000f12;
+}
+:root[data-theme="dark"] a:hover { color: var(--mist); }
+/* light stickers keep dark ink */
+:root[data-theme="dark"] #tip,
+:root[data-theme="dark"] .avatar,
+:root[data-theme="dark"] .band-sun,
+:root[data-theme="dark"] .btn-sun,
+:root[data-theme="dark"] .bubble,
+:root[data-theme="dark"] .checks label:has(input:checked),
+:root[data-theme="dark"] .chip .pulse,
+:root[data-theme="dark"] .chipbtn:hover,
+:root[data-theme="dark"] .dist-tip,
+:root[data-theme="dark"] .extras a:hover,
+:root[data-theme="dark"] .face.back,
+:root[data-theme="dark"] .foot.foot-sun,
+:root[data-theme="dark"] .hours i:hover,
+:root[data-theme="dark"] .icard .fill,
+:root[data-theme="dark"] .icard.win,
+:root[data-theme="dark"] .ideas span[data-tip]:focus-visible,
+:root[data-theme="dark"] .ideas span[data-tip]:hover,
+:root[data-theme="dark"] .jar-token,
+:root[data-theme="dark"] .link-tile:hover,
+:root[data-theme="dark"] .marquee,
+:root[data-theme="dark"] .mbar .fill,
+:root[data-theme="dark"] .mbar .track,
+:root[data-theme="dark"] .on-dark .btn-ghost:hover,
+:root[data-theme="dark"] .path .last a,
+:root[data-theme="dark"] .path a,
+:root[data-theme="dark"] .path li a,
+:root[data-theme="dark"] .people i.you,
+:root[data-theme="dark"] .prog i,
+:root[data-theme="dark"] .read:hover,
+:root[data-theme="dark"] .res a:hover,
+:root[data-theme="dark"] .reward,
+:root[data-theme="dark"] .rich-warm,
+:root[data-theme="dark"] .rolecard.pick[aria-pressed="true"],
+:root[data-theme="dark"] .say-hi a,
+:root[data-theme="dark"] .sched-head .chip,
+:root[data-theme="dark"] .social a:hover,
+:root[data-theme="dark"] .star[aria-pressed="true"],
+:root[data-theme="dark"] .strip .dot,
+:root[data-theme="dark"] .strip li.on:hover,
+:root[data-theme="dark"] .strip-key i,
+:root[data-theme="dark"] .tag-sun,
+:root[data-theme="dark"] .tick,
+:root[data-theme="dark"] .tile.sunny,
+:root[data-theme="dark"] .toggle[aria-pressed="true"],
+:root[data-theme="dark"] .tray .tok,
+:root[data-theme="dark"] .upnext,
+:root[data-theme="dark"] .value:nth-child(2),
+:root[data-theme="dark"] .vs,
+:root[data-theme="dark"] .wk-fellow .emo-dot,
+:root[data-theme="dark"] .wk-fellow .words i[data-tip]:hover,
+:root[data-theme="dark"] .wk.is-now .wk-node,
+:root[data-theme="dark"] .yt .play,
+:root[data-theme="dark"] a.chip:hover,
+:root[data-theme="dark"] button.cause[aria-selected="true"] {
+  --ink: #0a2a30; --ink-soft: #3f5b61; --teal-strong: #0a6c7e; --card: #ffffff; --paper: #f4f9f8; --wash: #e0f0f1; --teal: #0c869b;
+}
+:root[data-theme="dark"] .faq summary::after,
+:root[data-theme="dark"] .nav-links a:not(.btn)::before,
+:root[data-theme="dark"] .rolecard.pick::after,
+:root[data-theme="dark"] .sess summary::after,
+:root[data-theme="dark"] .steps li::before,
+:root[data-theme="dark"] .story li::before {
+  --ink: #0a2a30; color: #0a2a30;
+}
+/* their own text colour too (zero specificity, so any colour a rule sets still wins) */
+:where(:root[data-theme="dark"]) :where(#tip, .avatar, .band-sun, .btn-sun, .bubble, .checks label:has(input:checked), .chip .pulse, .chipbtn:hover, .dist-tip, .extras a:hover, .face.back, .foot.foot-sun, .hours i:hover, .icard .fill, .icard.win, .ideas span[data-tip]:focus-visible, .ideas span[data-tip]:hover, .jar-token, .link-tile:hover, .marquee, .mbar .fill, .mbar .track, .on-dark .btn-ghost:hover, .path .last a, .path a, .path li a, .people i.you, .prog i, .read:hover, .res a:hover, .reward, .rich-warm, .rolecard.pick[aria-pressed="true"], .say-hi a, .sched-head .chip, .social a:hover, .star[aria-pressed="true"], .strip .dot, .strip li.on:hover, .strip-key i, .tag-sun, .tick, .tile.sunny, .toggle[aria-pressed="true"], .tray .tok, .upnext, .value:nth-child(2), .vs, .wk-fellow .emo-dot, .wk-fellow .words i[data-tip]:hover, .wk.is-now .wk-node, .yt .play, a.chip:hover, button.cause[aria-selected="true"]) { color: var(--ink); }
+:root[data-theme="dark"] .grid-paper:not(.band-night):not(.band-sun) { background-image: linear-gradient(rgba(169, 223, 230, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(169, 223, 230, 0.05) 1px, transparent 1px); }
+:root[data-theme="dark"] .site-head.light { background: rgba(10, 30, 34, .94); }
+:root[data-theme="dark"] .dm-in { background: var(--night-shadow); color: #fff; box-shadow: inset 0 0 0 2px var(--line); }
+/* line drawings: a thin light edge so their dark lines still show on dark cards */
+:root[data-theme="dark"] :is(.art, .res-i, .word-art) svg { filter: drop-shadow(1px 0 0 rgba(228, 241, 240, .85)) drop-shadow(-1px 0 0 rgba(228, 241, 240, .85)) drop-shadow(0 1px 0 rgba(228, 241, 240, .85)) drop-shadow(0 -1px 0 rgba(228, 241, 240, .85)); }
+
+/* Theme button in the header */
+.theme-toggle { flex: none; display: grid; place-content: center; width: 40px; height: 40px; padding: 0; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .7); background: transparent; color: #fff; cursor: pointer; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), background-color .2s ease; }
+.theme-toggle:hover { transform: rotate(-15deg) scale(1.08); background: rgba(255, 255, 255, .12); }
+.theme-toggle svg { width: 20px; height: 20px; display: block; }
+.theme-toggle .i-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+.site-head.light .theme-toggle { color: var(--ink); border-color: var(--ink); }
+.site-head.light .theme-toggle:hover { background: var(--wash); }
+@media (max-width: 980px) { .theme-toggle { order: 1; } .menu-toggle { order: 2; } }
+
+/* What is EA: the example heading sits in the slider's column */
+.impact-head { margin-bottom: 30px; }
+
+/* Dark mode fixes found by the contrast check */
+:root[data-theme="dark"] .skip { color: #0a2a30; }
+:root[data-theme="dark"] .strip li.is-now, :root[data-theme="dark"] .strip li.is-now:hover { background: var(--sun); border-color: var(--sun); }
+:root[data-theme="dark"] .strip li.is-now a { color: #0a2a30; }
+:root[data-theme="dark"] .strip li.is-now .dot { border-color: #0a2a30; }
+:root[data-theme="dark"] .tag:not(.tag-sun):not(.tag-line), :root[data-theme="dark"] .ideas span:not(:hover):not(:focus-visible) { color: var(--mist); }
+:root[data-theme="dark"] .strip-bar { background: rgba(10, 30, 34, .94); }

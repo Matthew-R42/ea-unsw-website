@@ -18,6 +18,22 @@
       toggle.textContent = open ? 'Close' : 'Menu';
     });
   }
+  /* Light / dark switch in the header. The choice is remembered in this browser only. */
+  var themeBtn = $('.theme-toggle'), themeMeta = $('meta[name="theme-color"]');
+  function showTheme() {
+    var dark = doc.documentElement.getAttribute('data-theme') === 'dark';
+    if (themeBtn) { themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false'); }
+    if (themeMeta) themeMeta.setAttribute('content', dark ? '#04282f' : '#ffda1f');
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var next = doc.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      doc.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      showTheme();
+    });
+  }
+  showTheme();
   var topHero = $('.hero, .page-hero');
   function onScrollHead() {
     if (!head) return;

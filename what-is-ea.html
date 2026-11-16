@@ -19,6 +19,9 @@
 <meta name="twitter:description" content="One question, taken seriously: with limited time and money, how can we help others the most?">
 <meta name="twitter:image" content="https://eaunsw.com/assets/og.png">
 <meta name="theme-color" content="#ffda1f">
+<meta name="darkreader-lock">
+<script>/* pick the colour theme before the page paints, so it never flashes */
+(function () { var t; try { t = localStorage.getItem('theme'); } catch (e) {} var q = /[?&]theme=(dark|light)\b/.exec(location.search); if (q) t = q[1]; if (t !== 'dark' && t !== 'light') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); })();</script>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,9 +41,10 @@
     <nav aria-label="Main">
       <ul class="nav-links" id="nav-links">
         <li><a href="what-is-ea.html" aria-current="page">What is EA?</a></li><li><a href="events.html">Events</a></li><li><a href="fellowship.html">Fellowship</a></li><li><a href="team.html">About us</a></li>
-        <li><a class="btn btn-sun btn-sm" href="https://campus.hellorubric.com/?s=15954&amp;mid=23499" data-tip="100% of the money we get from sign-ups goes to effective charities.">Join us!</a></li>
+        <li><a class="btn btn-sun btn-sm" href="https://campus.hellorubric.com/?s=15954&amp;mid=23499" data-tip="100% of the money we get from sign-ups goes to effective charities :)">Join us!</a></li>
       </ul>
     </nav>
+    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Dark mode" title="Dark mode"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
   </div>
 </header>
 
@@ -59,12 +63,12 @@
 
 <section class="band" id="impact">
   <div class="wrap">
-    <div class="sec-head" data-reveal>
-      <h2>Let's take an example</h2>
-      <p>How would you go about helping blind people?</p>
-    </div>
     <div class="impact">
       <div data-reveal>
+        <div class="sec-head impact-head">
+          <h2>Let's take an example</h2>
+          <p>How would you go about helping blind people?</p>
+        </div>
         <div class="rich-form" style="margin-top:0">
           <label for="give">If you gave</label>
           <div class="money"><span aria-hidden="true">$</span><input id="give" type="text" inputmode="numeric" autocomplete="off" value="1000"></div>
