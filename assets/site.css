@@ -859,12 +859,12 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .band { position: relative; }
 .band-soft { background: var(--soft); }
 .band-soft.grid-paper { background-image: linear-gradient(rgba(10, 42, 48, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 42, 48, .05) 1px, transparent 1px); }
-/* A soft light follows the cursor across any graph-paper band */
-.grid-paper::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(280px circle at var(--mx, -999px) var(--my, -999px), var(--spot, rgba(255, 218, 31, .3)), transparent 70%); }
+/* A faint light follows the cursor in the dark top section of each page only.
+   Its size matches how far the hero dots react to the cursor (170px on inner
+   pages, about 64px on the home page; see the two canvas blocks in site.js). */
+.hero.grid-paper::after, .page-hero.grid-paper::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(var(--spot-r, 170px) circle at var(--mx, -999px) var(--my, -999px), rgba(169, 223, 230, .07), transparent 100%); }
+.hero.grid-paper { --spot-r: 64px; }
 .grid-paper > .wrap { position: relative; z-index: 1; }
-.band-night.grid-paper, .hero.grid-paper { --spot: rgba(169, 223, 230, .13); }
-.band-sun.grid-paper { --spot: rgba(255, 255, 255, .45); }
-.band-soft.grid-paper { --spot: rgba(255, 255, 255, .7); }
 
 /* Parts that used to sit on dark bands */
 .lens-c { fill: rgba(12, 134, 155, .10); stroke: var(--teal); cursor: pointer; }
@@ -976,3 +976,13 @@ button[disabled] { opacity: .6; cursor: progress; }
   .wk-card .emo { top: -14px; right: -8px; width: 46px; height: 46px; font-size: 24px; }
   .wk-fellow .emo-dot { width: 38px; height: 38px; font-size: 20px; }
 }
+
+/* Home page only: the footer joins the yellow "Come say hi" band above it.
+   The band's grid is anchored to its bottom edge and the footer's to its top,
+   so the grid lines run on without a seam. */
+.join.band-sun.grid-paper { background-position: left bottom; }
+.foot.foot-sun { background-color: var(--sun); background-image: linear-gradient(rgba(10, 42, 48, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 42, 48, 0.07) 1px, transparent 1px); background-size: 40px 40px; background-position: left top; border-top: 0; color: var(--ink); padding-bottom: 22px; }
+.foot-sun .brand, .foot-sun .brand .bulb { color: var(--ink); }
+.foot-sun .brand-text b { color: var(--deep); }
+.foot-sun .social a { color: var(--ink); }
+.foot-sun .social a:hover { background: var(--ink); color: var(--sun); }

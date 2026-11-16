@@ -594,8 +594,8 @@
     doc.addEventListener('visibilitychange', function () { go(!doc.hidden); });
   });
 
-  /* A soft light follows the cursor over graph-paper bands */
-  if (fine) $$('.grid-paper').forEach(function (b) {
+  /* A faint light follows the cursor in the top section of each page (not the bands below) */
+  if (fine) $$('.hero.grid-paper, .page-hero.grid-paper').forEach(function (b) {
     b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.setProperty('--mx', (e.clientX - r.left) + 'px'); b.style.setProperty('--my', (e.clientY - r.top) + 'px'); });
     b.addEventListener('pointerleave', function () { b.style.setProperty('--mx', '-999px'); });
   });
