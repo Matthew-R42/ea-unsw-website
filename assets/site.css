@@ -1321,3 +1321,12 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 /* Above 1,000 people the dots are scaled; this says by how much */
 .dot-key { margin-top: 8px; font: 700 14px/1.2 var(--hand); color: var(--ink-soft); }
 .icard .n { overflow-wrap: anywhere; }
+
+/* Event cards: one gentle bob when the cursor arrives (no lean) */
+.wk-card:hover { transform: translate(-3px, -3px); animation: bob .7s cubic-bezier(.3, .7, .4, 1) both; }
+@keyframes bob { 0% { transform: translate(0, 0); } 40% { transform: translate(-3px, -9px); } 70% { transform: translate(-3px, -1px); } 100% { transform: translate(-3px, -3px); } }
+@media (prefers-reduced-motion: reduce) { .wk-card:hover { animation: none; } }
+/* Team cards lean towards the cursor (site.js); the old sideways turn on hover is dropped for them */
+.person.flip.tilts { transition: transform .2s ease; }
+.person.flip.tilts:hover .flip-in { transform: none; }
+.person.flip.tilts.flipped:hover .flip-in { transform: rotateY(180deg); }

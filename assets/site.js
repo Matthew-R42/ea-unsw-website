@@ -809,7 +809,8 @@
   });
 
   /* Cards lean towards the cursor */
-  if (fine && !calm) $$('.tcard, .cause, .tile, .link-tile, .icard, .reward, .wk-card, .rolecard, .read').forEach(function (el) {
+  if (fine && !calm) $$('.tcard, .cause, .tile, .link-tile, .icard, .reward, .rolecard, .read, .person.flip').forEach(function (el) {
+    el.classList.add('tilts');
     el.addEventListener('pointermove', function (e) {
       var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
       el.style.transform = 'perspective(800px) rotateX(' + (-y * 7).toFixed(2) + 'deg) rotateY(' + (x * 8).toFixed(2) + 'deg) translateY(-4px)';
