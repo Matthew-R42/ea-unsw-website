@@ -11,11 +11,13 @@ Cloudflare Pages, like `mtw4244.work`. There is no build step.
 | `events.html` | Term events timeline |
 | `fellowship.html` | Intro Fellowship syllabus and readings |
 | `fellowship-signup.html` | Fellowship sign-up form |
-| `team.html` | Exec team, where the money goes, subcommittee |
+| `team.html` | About us: exec team, where the money goes, subcommittee |
 | `subcommittee.html` | Subcommittee application form |
 | `assets/site.css` | All styles and colours (tokens at the top) |
 | `assets/site.js` | Menu, animations, calculator, tooltips, forms |
 | `assets/arc-clubs.png` | Arc Clubs logo used in the footer |
+| `assets/og.png` | Picture shown when the site is shared on Discord, WhatsApp and so on |
+| `assets/video/` | Thumbnails for the three videos on the What is EA page |
 
 The header and footer are repeated in every page, so a change to the menu or
 footer links has to be made in every page.

@@ -233,15 +233,13 @@
     if (!tl) return;
     var fill = $('.timeline-fill', tl), weeks = $$('.wk', tl), cells = {}, ticking = false;
     $$('.strip li[data-wk]').forEach(function (c) { cells[c.getAttribute('data-wk')] = c; });
+    var bar = $('.strip-bar');
     function update() {
       ticking = false;
-      var r = tl.getBoundingClientRect(), mid = window.innerHeight * 0.45;
-      if (fill) fill.style.height = clamp((mid - r.top) / r.height, 0, 1) * (r.height - 16) + 'px';
-      var best = null, bestD = 1e9;
-      weeks.forEach(function (w) {
-        var wr = w.getBoundingClientRect(), d = Math.abs(wr.top + wr.height / 2 - mid);
-        if (d < bestD) { bestD = d; best = w; }
-      });
+      var r = tl.getBoundingClientRect(), line = (bar ? bar.getBoundingClientRect().bottom : 80) + 60;
+      if (fill) fill.style.height = clamp((line - r.top) / r.height, 0, 1) * (r.height - 16) + 'px';
+      var best = weeks[0];
+      weeks.forEach(function (w) { if (w.getBoundingClientRect().top <= line) best = w; });
       weeks.forEach(function (w) {
         var on = w === best && r.top < window.innerHeight && r.bottom > 0;
         w.classList.toggle('is-now', on);
@@ -264,6 +262,7 @@
       tip.textContent = '';
       if (h) { var b = doc.createElement('b'); b.textContent = h; tip.appendChild(b); }
       tip.appendChild(doc.createTextNode(t));
+      tip.classList.toggle('teal', el.getAttribute('data-tip-tone') === 'teal');
       tip.style.left = '0px'; tip.style.top = '0px';
       var r = el.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
       var x = clamp(r.left + r.width / 2 - tw / 2, 8, root.clientWidth - tw - 8);
@@ -286,31 +285,39 @@
 
   /* Effective + Altruism: tap the brain for questions, tap the heart to widen the circle */
   $$('.word-art').forEach(function (btn) {
-    var words = (btn.getAttribute('data-words') || '').split('|'), n = 0, timer;
+    var words = (btn.getAttribute('data-words') || '').split('|'), last = -1, timer;
     var heart = btn.hasAttribute('data-heart');
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (e) {
       var old = $('.bubble', btn); if (old) old.remove();
-      var b = doc.createElement('span'); b.className = 'bubble'; b.textContent = words[n % words.length]; n++;
+      var n; do { n = Math.floor(Math.random() * words.length); } while (n === last && words.length > 1);
+      last = n;
+      var b = doc.createElement('span'); b.className = 'bubble'; b.textContent = words[n];
       btn.appendChild(b);
       btn.classList.remove('beat', 'fire'); void btn.offsetWidth; btn.classList.add(heart ? 'beat' : 'fire');
-      if (heart && !calm) for (var k = 0; k < 4; k++) {
-        var f = doc.createElement('span'); f.className = 'floaty';
-        f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffd23f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
-        f.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px'); f.style.animationDelay = (k * 90) + 'ms';
-        btn.appendChild(f); (function (f) { setTimeout(function () { f.remove(); }, 1500); })(f);
+      if (heart && !calm) {
+        var r = btn.getBoundingClientRect(), keyboard = e.detail === 0;
+        var x = keyboard ? r.width / 2 : e.clientX - r.left, y = keyboard ? r.height / 2 : e.clientY - r.top;
+        for (var k = 0; k < 5; k++) {
+          var f = doc.createElement('span'); f.className = 'floaty';
+          f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffd23f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
+          f.style.left = x + 'px'; f.style.top = y + 'px';
+          f.style.setProperty('--dx', (Math.random() * 140 - 70) + 'px'); f.style.animationDelay = (k * 70) + 'ms';
+          btn.appendChild(f); (function (f) { setTimeout(function () { f.remove(); }, 1600); })(f);
+        }
       }
       clearTimeout(timer); timer = setTimeout(function () { b.remove(); btn.classList.remove('fire'); }, 2600);
     });
   });
 
-  /* How rich am I: World Bank income distribution, 2024, in 2021 international dollars per day.
-     Each pair is [dollars per day, share of the world living on less]. Source: pip.worldbank.org */
+  /* Where a student income sits in the world. World Bank income distribution, 2024,
+     in 2021 international dollars per day: [dollars per day, share of the world living on less].
+     Source: pip.worldbank.org */
   (function () {
     var box = $('#rich');
     if (!box) return;
     var PIP = [[1, .0116], [2, .048], [3, .1012], [4.2, .1821], [6, .3249], [8.3, .4616], [10, .5287], [15, .6516], [20, .7239], [25, .7722], [30, .8067], [40, .855], [50, .8889], [60, .9142], [75, .9409], [100, .9668], [125, .9803], [150, .9876], [200, .9943], [250, .9969], [300, .9982], [400, .9992], [500, .9996]];
     /* AUD today -> 2021 AUD (CPI 124.27 / 148.46) -> 2021 international dollars (PPP 1.5099) -> per day */
-    var K = (124.27 / 148.46) / 1.5099 / 365, MEDIAN_AUD = 9.27 / K;
+    var K = (124.27 / 148.46) / 1.5099 / 365;
     function share(aud) {
       var d = aud * K;
       if (d <= PIP[0][0]) return PIP[0][1] * d / PIP[0][0];
@@ -320,23 +327,39 @@
       }
       return 0.9996;
     }
-    var input = $('#rich-income'), range = $('#rich-range'), grid = $('#people'), dots = [];
-    for (var i = 0; i < 100; i++) { var d = doc.createElement('i'); grid.appendChild(d); dots.push(d); }
+    var NS = 'http://www.w3.org/2000/svg', svg = $('#dist'), input = $('#rich-income'), range = $('#rich-range');
+    var W = 560, H = 250, PADB = 26, PADT = 34, BINS = 44, X0 = Math.log(300), X1 = Math.log(400000), bars = [], heights = [], maxh = 0;
+    function el(name, attrs) { var e = doc.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); return e; }
+    function xOf(aud) { return clamp((Math.log(Math.max(aud, 300)) - X0) / (X1 - X0), 0, 1) * W; }
+    for (var i = 0; i < BINS; i++) {
+      var lo = Math.exp(X0 + (X1 - X0) * i / BINS), hi = Math.exp(X0 + (X1 - X0) * (i + 1) / BINS), h = share(hi) - share(lo);
+      heights.push(h); maxh = Math.max(maxh, h);
+    }
+    var bw = W / BINS;
+    heights.forEach(function (h, i) {
+      var bh = Math.max(2, h / maxh * (H - PADB - PADT));
+      bars.push(el('rect', { x: i * bw + 1, y: H - PADB - bh, width: bw - 2, height: bh, rx: 3 }));
+    });
+    el('line', { x1: 0, y1: H - PADB, x2: W, y2: H - PADB, stroke: '#0a2a30', 'stroke-width': 2 });
+    [[1000, '$1k'], [10000, '$10k'], [100000, '$100k a year']].forEach(function (t) {
+      var x = xOf(t[0]);
+      el('line', { x1: x, y1: H - PADB, x2: x, y2: H - PADB + 5, stroke: '#0a2a30', 'stroke-width': 2 });
+      el('text', { x: x, y: H - 6, 'text-anchor': t[0] === 100000 ? 'end' : 'middle' }).textContent = t[1];
+    });
+    var you = el('g', { 'class': 'you-line' });
+    function add(name, attrs, txt) { var e = doc.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); if (txt) e.textContent = txt; you.appendChild(e); return e; }
+    add('line', { x1: 0, y1: PADT - 6, x2: 0, y2: H - PADB, stroke: '#0a2a30', 'stroke-width': 2.5, 'stroke-dasharray': '5 5' });
+    add('circle', { cx: 0, cy: PADT - 8, r: 7, fill: '#ffd23f', stroke: '#0a2a30', 'stroke-width': 2.5 });
+    var youT = add('text', { x: 13, y: PADT - 2, 'class': 'you-t' }, 'you');
     var LO = Math.log(1000), HI = Math.log(250000);
-    function money(n) { return '$' + Math.round(n).toLocaleString('en-AU'); }
     function render(aud) {
       aud = clamp(aud || 0, 0, 5000000);
-      var s = share(aud), pc = s * 100, below = Math.min(99, Math.floor(pc));
-      $('#rich-pct').textContent = pc >= 99.95 ? '99.9' : (pc >= 99 ? pc.toFixed(1) : String(Math.round(pc)));
-      var times = aud / MEDIAN_AUD;
-      $('#rich-times').textContent = times >= 10 ? Math.round(times) + ' times' : (times >= 1.15 ? times.toFixed(1) + ' times' : (times > 0.85 ? 'about the same as' : 'below'));
-      $('#rich-times-tail').textContent = times > 0.85 && times < 1.15 ? ' the global median.' : (times <= 0.85 ? ' the global median.' : ' the global median.');
-      var one = aud * 0.01;
-      $('#rich-warm').textContent = aud < 1000 ? 'Type a number, drag the slider or tap an amount to see where it lands.' :
-        (pc >= 50 ? 'This is not a guilt trip. It means your spare change goes a long way: 1% of that income is ' + money(one) + ' a year, about ' + money(Math.max(1, one / 52)) + ' a week, and where it goes matters a lot.' :
-          'Money is tight on that income, and that is fine. Time, skills and a future career count for just as much as dollars.');
-      dots.forEach(function (el, i) { el.className = i < below ? 'below' : (i === below ? 'you' : ''); });
-      $('#people-key').textContent = 'If the world were 100 people lined up by income: ' + below + ' have less than you, ' + (99 - below) + ' have more.';
+      var pc = share(aud) * 100, x = xOf(aud), mine = Math.min(BINS - 1, Math.floor(x / bw));
+      $('#rich-pct').textContent = pc >= 99.95 ? '99.9%' : (pc >= 99 ? pc.toFixed(1) + '%' : Math.round(pc) + '%');
+      bars.forEach(function (b, i) { b.setAttribute('fill', i < mine ? '#0c869b' : (i === mine ? '#ffd23f' : '#cfe0e0')); b.setAttribute('stroke', i === mine ? '#0a2a30' : 'none'); b.setAttribute('stroke-width', 2); });
+      you.setAttribute('transform', 'translate(' + x + ' 0)');
+      var flip = x > W * 0.7;
+      youT.setAttribute('x', flip ? -12 : 12); youT.setAttribute('text-anchor', flip ? 'end' : 'start');
     }
     function setAll(aud, from) {
       if (from !== 'input') input.value = Math.round(aud);
@@ -373,28 +396,40 @@
     });
   });
 
-  /* 2,000 dots: what the price of one guide dog buys in sight-restoring surgery */
+  /* What a donation does: sight-restoring operations at a deliberately cautious $100 each,
+     against the $50,000 it costs to train one guide dog */
   (function () {
-    var c = $('#cmp-dots');
-    if (!c || !c.getContext) return;
-    var ctx = c.getContext('2d'), COLS = 50, ROWS = 40, N = 2000, S = 12;
-    c.width = COLS * S; c.height = ROWS * S;
+    var box = $('#impact');
+    if (!box) return;
+    var OP = 100, DOG = 50000, input = $('#give'), range = $('#give-range'), c = $('#give-dots'), ctx = c.getContext('2d');
+    var LO = Math.log(100), HI = Math.log(50000), COLS = 50, S = 14;
     function draw(n) {
-      ctx.clearRect(0, 0, c.width, c.height);
+      var rows = Math.max(1, Math.ceil(n / COLS));
+      c.width = COLS * S; c.height = rows * S;
       for (var i = 0; i < n; i++) {
-        ctx.fillStyle = i % 7 === 0 ? '#ffd23f' : '#0c869b';
-        ctx.beginPath(); ctx.arc((i % COLS) * S + S / 2, Math.floor(i / COLS) * S + S / 2, S * 0.34, 0, 6.2832); ctx.fill();
+        ctx.fillStyle = '#0a2a30';
+        ctx.beginPath(); ctx.arc((i % COLS) * S + S / 2, Math.floor(i / COLS) * S + S / 2, S * 0.36, 0, 6.2832); ctx.fill();
       }
     }
-    if (calm || !('IntersectionObserver' in window)) { draw(N); return; }
-    draw(0);
-    var io = new IntersectionObserver(function (es) {
-      if (!es[0].isIntersecting) return;
-      io.disconnect();
-      var t0 = 0;
-      (function step(now) { if (!t0) t0 = now; var n = Math.min(N, Math.round((now - t0) / 2200 * N)); draw(n); if (n < N) requestAnimationFrame(step); })(performance.now());
-    }, { threshold: 0.3 });
-    io.observe(c);
+    function render(v) {
+      v = clamp(v || 0, 0, 50000);
+      var ops = Math.floor(v / OP), dog = v / DOG * 100;
+      $('#give-ops').textContent = ops.toLocaleString('en-AU');
+      $('#give-ops-what').textContent = ops === 1 ? 'person could see again' : 'people could see again';
+      $('#give-dog').textContent = dog >= 100 ? '1' : (dog >= 10 ? Math.round(dog) + '%' : (Math.round(dog * 10) / 10) + '%');
+      $('#give-dog-what').textContent = dog >= 100 ? 'guide dog, fully trained' : 'of one guide dog';
+      $('#give-fill').style.width = clamp(dog, 0, 100) + '%';
+      draw(ops);
+    }
+    function setAll(v, from) {
+      if (from !== 'input') input.value = Math.round(v);
+      if (from !== 'range') range.value = Math.round(clamp((Math.log(Math.max(v, 100)) - LO) / (HI - LO), 0, 1) * 1000);
+      render(v);
+    }
+    input.addEventListener('input', function () { setAll(parseFloat(input.value.replace(/[^0-9.]/g, '')) || 0, 'input'); });
+    range.addEventListener('input', function () { var v = Math.exp(LO + (HI - LO) * range.value / 1000); setAll(v >= 1000 ? Math.round(v / 100) * 100 : Math.round(v / 10) * 10, 'range'); });
+    $$('[data-give]', box).forEach(function (b) { b.addEventListener('click', function () { setAll(parseFloat(b.getAttribute('data-give'))); }); });
+    setAll(parseFloat(input.value) || 1000);
   })();
 
   /* Money bars fill when they scroll into view */
@@ -403,6 +438,36 @@
     var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { m.classList.add('go'); io.disconnect(); } }, { threshold: 0.5 });
     io.observe(m);
   });
+
+  /* Dropdowns open and close smoothly */
+  $$('details').forEach(function (d) {
+    var sum = $('summary', d), body = sum && sum.nextElementSibling;
+    if (!sum || !body || calm || !body.animate) return;
+    var busy = false;
+    sum.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (busy) return;
+      busy = true;
+      var opening = !d.open;
+      if (opening) d.open = true;
+      var h = body.offsetHeight;
+      body.style.overflow = 'hidden';
+      var a = body.animate(opening ? [{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }] : [{ height: h + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' });
+      a.onfinish = a.oncancel = function () { if (!opening) d.open = false; body.style.overflow = ''; busy = false; };
+    });
+  });
+
+  function confetti(host) {
+    if (calm) return;
+    var cols = ['#ffd23f', '#0c869b', '#a9dfe6', '#0a2a30', '#ff8f6b'];
+    for (var i = 0; i < 36; i++) {
+      var c = doc.createElement('span'); c.className = 'confetti';
+      c.style.background = cols[i % cols.length];
+      c.style.setProperty('--x', (Math.random() * 520 - 260) + 'px'); c.style.setProperty('--y', (Math.random() * 260 - 60) + 'px'); c.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+      c.style.animationDelay = (Math.random() * 120) + 'ms';
+      host.appendChild(c); (function (c) { setTimeout(function () { c.remove(); }, 1700); })(c);
+    }
+  }
 
   /* Syllabus: open the session named in the address, e.g. fellowship.html#s3 */
   function openFromHash() {
@@ -436,7 +501,7 @@
       var done = $('#' + form.getAttribute('data-done'));
       $('textarea', done).value = 'To: ' + to + '\nSubject: ' + subject + '\n\n' + body;
       $('a.btn', done).href = href;
-      form.hidden = true; done.hidden = false; done.scrollIntoView({ block: 'center' });
+      form.hidden = true; done.hidden = false; done.scrollIntoView({ block: 'center' }); confetti(done);
       location.href = href;
     });
   });
