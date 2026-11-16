@@ -240,7 +240,7 @@
       '101': 'It\'s important, don\'t get us wrong, not to mention we know exactly how to fix it. But so many people are working on it already that your extra pair of hands could add much more value somewhere else.',
       '011': 'You know, it\'s nice to fix these small things. But there are much more pressing problems in the world we could be working on instead.',
       '100': 'Look, everyone cares about it, including us. But you\'ve got so many people already working on it, and, like, what are we supposed to do?',
-      '010': 'Nobody is working on it. There is probably a reason nobody is working on it.',
+      '010': 'Nobody is working on it.<br>There is probably a reason nobody is working on it.',
       '001': 'We know how to fix it, and people are already fixing it. If you don\'t help fix it, don\'t worry. There are more important things you could be working on, and someone else will probably take your place.',
       '000': 'It\'s fun, I get it. But thousands of people are already doing it, it\'s virtually impossible to get a <i>perfect</i> speedrun, and, let\'s face it, it\'s not that important in the grand scheme of things.'
     };
