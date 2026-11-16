@@ -837,9 +837,6 @@
     pressable(card, function () { var on = card.classList.toggle('flipped'); card.setAttribute('aria-pressed', on ? 'true' : 'false'); });
   });
 
-  /* Money bars refill when clicked */
-  $$('.mbar').forEach(function (m) { m.addEventListener('click', function () { m.classList.remove('go'); void m.offsetWidth; setTimeout(function () { m.classList.add('go'); }, 60); }); });
-
   /* Lens circles are switches too */
   $$('.toggle[data-lens]').forEach(function (b) { var c = doc.getElementById(b.getAttribute('data-lens')); if (c) c.addEventListener('click', function () { b.click(); }); });
 

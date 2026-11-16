@@ -884,7 +884,6 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .mbar .track { background: #fff; border-color: var(--ink); }
 .mbar .fill { border-right-color: var(--ink); }
 .mbar p { color: var(--ink); }
-.mbar { cursor: pointer; }
 
 /* Team cards flip */
 .person.flip { padding: 0; border: 0; background: none; perspective: 900px; cursor: pointer; display: block; }
