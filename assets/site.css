@@ -795,3 +795,25 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .hero a.chip { color: #fff; }
 .hero a.chip:hover { color: var(--night); }
 @media (max-width: 640px) { .wk-panel { padding: 16px 14px; border-radius: 18px; } }
+
+/* 16 Nov feedback */
+.kind { font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 1.25em; color: var(--sun); text-shadow: 0 0 6px rgba(255, 210, 63, .9), 0 0 16px rgba(255, 210, 63, .8), 0 0 34px rgba(255, 210, 63, .6); padding: 0 .06em; line-height: 0; }
+.btn .mark { margin: 0 -2px 0 2px; }
+#tip { max-width: 290px; }
+.word-side { padding-top: 46px; }
+.word-art .bubble { top: -6px; }
+.inline-heart { width: .85em; height: .85em; vertical-align: -.08em; margin-left: .15em; }
+.word { padding-block: 20px; }
+.word-side { padding-top: 40px; }
+.word-art .bubble { top: -4px; }
+.together .hu { text-decoration: underline; text-decoration-color: var(--teal-strong); text-decoration-thickness: 3px; text-underline-offset: 6px; }
+.sched-head { display: flex; justify-content: space-between; align-items: center; gap: 20px 32px; flex-wrap: wrap; margin-bottom: 44px; }
+.sched-head .sec-head { margin-bottom: 0; }
+.sched-head .upnext { margin: 0; }
+.path li a { background: #fff; }
+.join.band { padding-block: 56px; }
+.join .badge { top: calc(50% - 75px); right: max(7%, 24px); }
+.join.band { padding-block: 40px; }
+.join .badge { right: auto; left: calc(50% + 250px); width: 130px; height: 130px; top: calc(50% - 65px); }
+.join .badge { left: calc(75% + 41px); }
+.join .badge text { font-size: 15.5px; letter-spacing: 0; font-weight: 600; }

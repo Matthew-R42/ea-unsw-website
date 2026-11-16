@@ -369,7 +369,7 @@
     input.addEventListener('input', function () { setAll(parseFloat(input.value.replace(/[^0-9.]/g, '')) || 0, 'input'); });
     range.addEventListener('input', function () { var v = Math.exp(LO + (HI - LO) * range.value / 1000); setAll(v >= 10000 ? Math.round(v / 1000) * 1000 : Math.round(v / 100) * 100, 'range'); });
     $$('[data-income]', box).forEach(function (b) { b.addEventListener('click', function () { setAll(parseFloat(b.getAttribute('data-income'))); }); });
-    setAll(parseFloat(input.value) || 25000);
+    setAll(parseFloat(input.value) || 6000);
   })();
 
   /* Causes: pick one to open its video and links */
@@ -396,12 +396,12 @@
     });
   });
 
-  /* What a donation does: sight-restoring operations at a deliberately cautious $100 each,
+  /* What a donation does: sight-restoring operations at a deliberately cautious $50 each,
      against the $50,000 it costs to train one guide dog */
   (function () {
     var box = $('#impact');
     if (!box) return;
-    var OP = 100, DOG = 50000, input = $('#give'), range = $('#give-range'), c = $('#give-dots'), ctx = c.getContext('2d');
+    var OP = 50, DOG = 50000, input = $('#give'), range = $('#give-range'), c = $('#give-dots'), ctx = c.getContext('2d');
     var LO = Math.log(100), HI = Math.log(50000), COLS = 50, S = 14;
     function draw(n) {
       var rows = Math.max(1, Math.ceil(n / COLS));
