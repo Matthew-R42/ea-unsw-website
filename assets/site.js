@@ -326,6 +326,39 @@
     });
   });
 
+  /* "kindness": letters wave on hover; a click sends a ripple and a ring of hearts outward */
+  $$('.kind').forEach(function (k) {
+    var word = k.textContent;
+    k.textContent = '';
+    k.setAttribute('aria-label', word);
+    word.split('').forEach(function (ch, i) {
+      var s = doc.createElement('span'); s.className = 'kl'; s.textContent = ch; s.style.setProperty('--i', i); s.setAttribute('aria-hidden', 'true'); k.appendChild(s);
+    });
+    k.setAttribute('tabindex', '0'); k.setAttribute('role', 'button');
+    function spread() {
+      if (calm) return;
+      k.classList.remove('hug'); void k.offsetWidth; k.classList.add('hug');
+      var ring = doc.createElement('span'); ring.className = 'kind-ring'; k.appendChild(ring);
+      var n = 10, turn = Math.random() * Math.PI * 2, parts = [ring];
+      for (var i = 0; i < n; i++) {
+        var a = turn + i / n * Math.PI * 2, d = 55 + Math.random() * 35, h = doc.createElement('span');
+        h.className = 'kind-heart';
+        h.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
+        h.style.setProperty('--tx', (Math.cos(a) * d * 1.3).toFixed(1) + 'px');
+        h.style.setProperty('--ty', (Math.sin(a) * d).toFixed(1) + 'px');
+        h.style.setProperty('--r', (Math.random() * 80 - 40).toFixed(0) + 'deg');
+        h.style.animationDelay = (Math.random() * 90).toFixed(0) + 'ms';
+        k.appendChild(h); parts.push(h);
+      }
+      parts.forEach(function (p) {
+        var gone = function () { if (p.parentNode) p.remove(); };
+        p.addEventListener('animationend', function (ev) { if (ev.target === p) gone(); }); setTimeout(gone, 1600);
+      });
+    }
+    k.addEventListener('click', spread);
+    k.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); spread(); } });
+  });
+
   /* Where a student income sits in the world. World Bank income distribution, 2024,
      in 2021 international dollars per day: [dollars per day, share of the world living on less].
      Source: pip.worldbank.org */
