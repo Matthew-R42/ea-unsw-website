@@ -302,7 +302,7 @@
       if (el.classList.contains('out')) return;
       el.classList.add('out');
       var gone = function () { if (el.parentNode) el.remove(); };
-      el.addEventListener('animationend', gone); setTimeout(gone, 450);
+      el.addEventListener('animationend', function (ev) { if (ev.target === el) gone(); }); setTimeout(gone, 450);
     }
     btn.addEventListener('click', function (e) {
       $$('.bubble', btn).forEach(fade);
@@ -319,7 +319,7 @@
           f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
           f.style.left = x + 'px'; f.style.top = y + 'px';
           f.style.setProperty('--dx', (Math.random() * 140 - 70) + 'px'); f.style.animationDelay = (k * 70) + 'ms';
-          btn.appendChild(f); (function (f) { setTimeout(function () { f.remove(); }, 1600); })(f);
+          btn.appendChild(f); (function (f) { var gone = function () { if (f.parentNode) f.remove(); }; f.addEventListener('animationend', function (ev) { if (ev.target === f) gone(); }); setTimeout(gone, 2200); })(f);
         }
       }
       clearTimeout(timer); timer = setTimeout(function () { fade(b); btn.classList.remove('fire'); }, 2600);
