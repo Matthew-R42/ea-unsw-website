@@ -837,7 +837,6 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .site-head.light .brand .bulb { color: var(--teal); }
 .site-head.light .brand-text b { color: var(--teal-strong); }
 .site-head.light .nav-links a:not(.btn) { color: var(--ink); }
-.site-head.light .nav-links a:not(.btn)::before { height: 9px; bottom: 7px; }
 .site-head.light .menu-toggle { background: var(--card); color: var(--ink); border-color: var(--ink); }
 .site-head.light .btn { border-color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
 
