@@ -1106,3 +1106,16 @@ b.sunny { text-shadow: 0 0 6px rgba(255, 218, 31, .5), 0 0 16px rgba(255, 218, 3
 #lens-a.off ~ .t-a { transform: translate(-22px, -16px); opacity: .45; }
 #lens-b.off ~ .t-b { transform: translate(22px, -16px); opacity: .45; }
 #lens-c.off ~ .t-c { transform: translate(0, 24px); opacity: .45; }
+
+/* Three questions: each example is a link to that problem */
+a.lens-ex { grid-template-columns: 84px minmax(0, 1fr) auto; text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease; }
+a.lens-ex:hover, a.lens-ex:focus-visible { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--ink); color: var(--ink); }
+a.lens-ex .arrow { font-size: 22px; transition: transform .18s ease; }
+a.lens-ex:hover .arrow { transform: translateX(4px); }
+a.lens-ex[hidden] { display: none; }
+
+/* The yellow centre follows the circles as they slide in and out */
+.m-a, .m-b, .m-c { transition: transform .5s cubic-bezier(.3, 1.3, .5, 1), opacity .35s ease; }
+.m-a.off { transform: translate(-22px, -16px); }
+.m-b.off { transform: translate(22px, -16px); }
+.m-c.off { transform: translate(0, 24px); }

@@ -210,11 +210,16 @@
       '100': 'A huge problem, but crowded and stuck. Caring about it is easy. Helping is the hard part.',
       '010': 'Nobody is working on it. Sometimes that is a clue, sometimes there is a reason.',
       '001': 'Easy to fix, and plenty of people are already fixing it. You are probably not needed here.',
-      '000': 'Switch a lens back on. With none of them, we are just guessing.'
+      '000': 'Not big, not overlooked, not solvable. Thousands of people are already chasing it, and perfect may be impossible.'
     };
     function update() {
       var key = btns.map(function (b) { return b.getAttribute('aria-pressed') === 'true' ? '1' : '0'; }).join('');
-      btns.forEach(function (b) { $('#' + b.getAttribute('data-lens')).classList.toggle('off', b.getAttribute('aria-pressed') !== 'true'); });
+      btns.forEach(function (b) {
+        var id = b.getAttribute('data-lens'), off = b.getAttribute('aria-pressed') !== 'true';
+        $('#' + id).classList.toggle('off', off);
+        /* the yellow centre is drawn from copies of the circles; move them too so the yellow follows the circle as it slides */
+        $$('.m-' + id.slice(5), fig).forEach(function (m) { m.classList.toggle('off', off); });
+      });
       fig.classList.toggle('all', key === '111');
       say.textContent = LINES[key];
       $$('.lens-ex').forEach(function (ex) { ex.hidden = ex.getAttribute('data-key') !== key; });
