@@ -595,7 +595,7 @@
     input.addEventListener('input', function () { setAll(parseFloat(input.value.replace(/[^0-9.]/g, '')) || 0, 'input'); });
     range.addEventListener('input', function () { var v = Math.exp(LO + (HI - LO) * range.value / 1000); setAll(v >= 1000 ? Math.round(v / 100) * 100 : Math.round(v / 10) * 10, 'range'); });
     $$('[data-give]', box).forEach(function (b) { b.addEventListener('click', function () { setAll(parseFloat(b.getAttribute('data-give'))); }); });
-    setAll(parseFloat(input.value) || 1000);
+    setAll(parseFloat(input.value) || 2500);
   })();
 
   /* Money bars fill when they scroll into view */
