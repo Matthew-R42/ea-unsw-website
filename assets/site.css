@@ -1330,3 +1330,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .person.flip.tilts { transition: transform .2s ease; }
 .person.flip.tilts:hover .flip-in { transform: none; }
 .person.flip.tilts.flipped:hover .flip-in { transform: rotateY(180deg); }
+
+/* Headings that should stay on one line wherever there is room for it */
+.sec-head.one-line { max-width: none; }
+@media (min-width: 760px) { .sec-head.one-line h2 { white-space: nowrap; font-size: clamp(34px, 4.4vw, 56px); } }
