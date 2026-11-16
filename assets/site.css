@@ -1048,3 +1048,5 @@ button[disabled] { opacity: .6; cursor: progress; }
 .upnext { transition: transform .16s ease, box-shadow .16s ease; }
 .upnext:has(a:hover), .upnext:has(a:focus-visible) { box-shadow: 6px 6px 0 var(--ink); transform: rotate(-2deg) translate(-2px, -2px); }
 .upnext a:hover .arrow { transform: translateX(4px); }
+.dist-tip.tone-teal { background: var(--teal); color: #fff; }
+.dist-tip.tone-grey { background: #cfe0e0; color: var(--ink); }

@@ -375,6 +375,7 @@
       $('#rich-pct').textContent = pc >= 99.95 ? '99.9%' : (pc >= 99 ? pc.toFixed(1) + '%' : Math.round(pc) + '%');
       bars.forEach(function (b, i) { b.setAttribute('fill', i < mine ? '#0c869b' : (i === mine ? '#ffda1f' : '#cfe0e0')); b.setAttribute('stroke', i === mine ? '#0a2a30' : 'none'); b.setAttribute('stroke-width', 2); });
       you.setAttribute('transform', 'translate(' + x + ' 0)');
+      toneTip();
       var flip = x > W * 0.7;
       youT.setAttribute('x', flip ? -12 : 12); youT.setAttribute('text-anchor', flip ? 'end' : 'start');
     }
@@ -409,7 +410,13 @@
     var holder = svg.parentNode, hov = -1, tipEl = doc.createElement('div');
     tipEl.className = 'dist-tip'; tipEl.setAttribute('aria-hidden', 'true'); holder.appendChild(tipEl);
     function money(v) { return v < 1000 ? '$' + Math.round(v / 10) * 10 : (v < 10000 ? '$' + (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : '$' + Math.round(v / 1000) + 'k'); }
-    function people(f) { var m = f * 8100; return m >= 1000 ? 'about ' + (m / 1000).toFixed(1).replace(/\.0$/, '') + ' billion people' : (m >= 1 ? 'about ' + Math.round(m) + ' million people' : 'under a million people'); }
+    function people(f) { var m = f * 8100; return m >= 1000 ? 'About ' + (m / 1000).toFixed(1).replace(/\.0$/, '') + ' billion people' : (m >= 1 ? 'About ' + Math.round(m) + ' million people' : 'Under a million people'); }
+    /* The label takes the colour of the bar it describes: teal below you, yellow for you, grey above */
+    function toneTip() {
+      if (hov < 0) return;
+      tipEl.classList.toggle('tone-teal', hov < mineNow);
+      tipEl.classList.toggle('tone-grey', hov > mineNow);
+    }
     function showBar(i) {
       if (i === hov) return;
       if (hov >= 0) bars[hov].classList.remove('hov');
@@ -419,7 +426,8 @@
       var lo = Math.exp(X0 + (X1 - X0) * i / BINS), hi = Math.exp(X0 + (X1 - X0) * (i + 1) / BINS);
       tipEl.innerHTML = '';
       var b = doc.createElement('b'); b.textContent = (i === 0 ? 'Under ' + money(hi) : money(lo) + ' to ' + money(hi)) + ' a year'; tipEl.appendChild(b);
-      tipEl.appendChild(doc.createTextNode((i === mineNow ? "That's you. " : '') + people(heights[i]) + ' (' + (heights[i] * 100 < 0.1 ? 'under 0.1' : (heights[i] * 100).toFixed(1)) + '%)'));
+      toneTip();
+      tipEl.appendChild(doc.createTextNode(people(heights[i]) + ' (' + (heights[i] * 100 < 0.1 ? 'under 0.1' : (heights[i] * 100).toFixed(1)) + '%)'));
       var sr = svg.getBoundingClientRect(), hr = holder.getBoundingClientRect(), br = bars[i].getBoundingClientRect();
       tipEl.classList.add('show');
       var tw = tipEl.offsetWidth, cx = br.left + br.width / 2 - hr.left;
