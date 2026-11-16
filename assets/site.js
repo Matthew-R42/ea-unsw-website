@@ -513,6 +513,7 @@
     if (!box) return;
     var OP = 50, DOG = 50000, input = $('#give'), range = $('#give-range'), c = $('#give-dots'), ctx = c.getContext('2d');
     var LO = Math.log(100), HI = Math.log(50000), COLS = 50, S = 14;
+    var card = $('#dog-card'), moment = $('#dog-moment'), wasFull = false, wave = 0;
     function draw(n) {
       var rows = Math.max(1, Math.ceil(n / COLS));
       c.width = COLS * S; c.height = rows * S;
@@ -527,9 +528,48 @@
       $('#give-ops').textContent = ops.toLocaleString('en-AU');
       $('#give-ops-what').textContent = ops === 1 ? 'person could see again' : 'people could see again';
       $('#give-dog').textContent = dog >= 100 ? '1' : (dog >= 10 ? Math.round(dog) + '%' : (Math.round(dog * 10) / 10) + '%');
-      $('#give-dog-what').textContent = dog >= 100 ? 'guide dog, fully trained' : 'of one guide dog';
+      $('#give-dog-what').textContent = dog >= 100 ? 'guide dog' : 'of one guide dog';
       $('#give-fill').style.width = clamp(dog, 0, 100) + '%';
-      draw(ops);
+      var full = dog >= 100;
+      card.classList.toggle('full', full); moment.classList.toggle('show', full);
+      if (full && !wasFull) cheer(ops);
+      else if (!full) { card.classList.remove('cheer'); cancelAnimationFrame(wave); wave = 0; draw(ops); }
+      else if (!wave) draw(ops);
+      wasFull = full;
+    }
+    /* Reaching one whole guide dog: the dog hops, paw prints run along the bar, a "Fully trained" stamp lands,
+       and the people grid fills in as a wave, so the 1 dog and the 1,000 people arrive together. */
+    function cheer(n) {
+      card.classList.remove('cheer'); void card.offsetWidth; card.classList.add('cheer');
+      if (calm) { draw(n); return; }
+      var track = $('.track', card);
+      $$('.paw', track).forEach(function (pw) { pw.remove(); });
+      for (var i = 0; i < 7; i++) {
+        var pw = doc.createElement('span'); pw.className = 'paw ' + (i % 2 ? 'lo' : 'hi');
+        pw.style.left = (4 + i * 13.5) + '%'; pw.style.animationDelay = (i * 110) + 'ms';
+        track.appendChild(pw); (function (pw) { setTimeout(function () { pw.remove(); }, 2400); })(pw);
+      }
+      wavein(n);
+    }
+    function wavein(n) {
+      cancelAnimationFrame(wave);
+      var rows = Math.max(1, Math.ceil(n / COLS)), span = COLS + rows, t0 = 0;
+      c.width = COLS * S; c.height = rows * S;
+      function back(p) { p -= 1; return 1 + 2.7 * p * p * p + 1.7 * p * p; }
+      function step(now) {
+        if (!t0) t0 = now;
+        var t = now - t0, more = false;
+        ctx.clearRect(0, 0, c.width, c.height);
+        for (var i = 0; i < n; i++) {
+          var col = i % COLS, row = Math.floor(i / COLS), k = clamp((t - (col + row) / span * 750) / 280, 0, 1);
+          if (k < 1) more = true;
+          if (k <= 0) continue;
+          ctx.fillStyle = k < 1 ? '#0c869b' : '#0a2a30';
+          ctx.beginPath(); ctx.arc(col * S + S / 2, row * S + S / 2, S * 0.36 * Math.max(0, back(k)), 0, 6.2832); ctx.fill();
+        }
+        wave = more ? requestAnimationFrame(step) : 0;
+      }
+      wave = requestAnimationFrame(step);
     }
     function setAll(v, from) {
       if (from !== 'input') input.value = Math.round(v);

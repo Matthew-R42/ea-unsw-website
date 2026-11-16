@@ -1119,3 +1119,32 @@ a.lens-ex[hidden] { display: none; }
 .m-a.off { transform: translate(-22px, -16px); }
 .m-b.off { transform: translate(22px, -16px); }
 .m-c.off { transform: translate(0, 24px); }
+
+/* One whole guide dog: stamp, hop, paw prints along the bar, and the comparison line */
+#dog-card { position: relative; }
+#dog-card .art { position: relative; }
+.dog-stamp { position: absolute; top: 16px; right: 18px; z-index: 2; font: 700 15px/1 var(--hand); text-transform: uppercase; letter-spacing: .04em; color: var(--teal-strong); background: var(--card); border: 2.5px solid currentColor; border-radius: 8px; padding: 6px 9px 5px; opacity: 0; transform: rotate(-9deg) scale(1.8); pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+#dog-card.full .dog-stamp { opacity: 1; transform: rotate(-9deg) scale(1); }
+#dog-card.cheer .dog-stamp { animation: stampin .45s cubic-bezier(.2, 1.4, .4, 1) .75s both; }
+@keyframes stampin { from { opacity: 0; transform: rotate(-22deg) scale(2.4); } to { opacity: 1; transform: rotate(-9deg) scale(1); } }
+.icard .track { position: relative; }
+.icard .fill { position: relative; overflow: hidden; }
+#dog-card.cheer .fill::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .9) 50%, transparent 70%); transform: translateX(-100%); animation: sheen 1s ease .15s; }
+@keyframes sheen { to { transform: translateX(100%); } }
+#dog-card.cheer .art svg { transform-origin: 50% 100%; animation: dogjoy .9s cubic-bezier(.3, 1.4, .5, 1) .1s; }
+@keyframes dogjoy { 0% { transform: none; } 28% { transform: translateY(-16px) rotate(-7deg); } 52% { transform: scale(1.08, .92); } 72% { transform: translateY(-7px) rotate(5deg); } 100% { transform: none; } }
+#dog-card.cheer .art::after { content: ''; position: absolute; inset: -8px; border-radius: 50%; border: 3px solid var(--sun); pointer-events: none; animation: dogring 1s ease-out .1s both; }
+@keyframes dogring { from { opacity: 1; transform: scale(.6); } to { opacity: 0; transform: scale(1.55); } }
+#give-dog { transform-origin: left center; }
+#dog-card.cheer #give-dog { animation: numpop .6s cubic-bezier(.3, 1.7, .5, 1); }
+@keyframes numpop { 0% { transform: scale(.4); } 100% { transform: none; } }
+.paw { position: absolute; width: 11px; height: 11px; opacity: 0; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230a2a30'%3E%3Cellipse cx='12' cy='16.5' rx='5.6' ry='4.6'/%3E%3Ccircle cx='4.6' cy='10' r='2.4'/%3E%3Ccircle cx='9.2' cy='5.6' r='2.4'/%3E%3Ccircle cx='14.8' cy='5.6' r='2.4'/%3E%3Ccircle cx='19.4' cy='10' r='2.4'/%3E%3C/svg%3E") center / contain no-repeat; transform: rotate(90deg); animation: pawstep 1.6s ease both; }
+.paw.hi { top: 1px; } .paw.lo { top: 7px; }
+@keyframes pawstep { 0% { opacity: 0; transform: rotate(90deg) scale(.3); } 14% { opacity: .9; transform: rotate(90deg) scale(1); } 65% { opacity: .9; } 100% { opacity: 0; transform: rotate(90deg); } }
+.dog-moment { max-height: 0; overflow: hidden; margin: -16px 0 0; transition: max-height .45s ease, margin .45s ease; }
+.dog-moment > span { display: block; }
+.dog-moment.show { max-height: 180px; margin-top: 0; }
+.dm-in { display: block; padding: 14px 18px; border-radius: var(--radius); background: var(--ink); color: #fff; font: 700 19px/1.3 var(--display); letter-spacing: -0.01em; text-align: center; text-wrap: balance; opacity: 0; transform: translateY(-8px); transition: opacity .35s ease .2s, transform .35s ease .2s; }
+.dog-moment.show .dm-in { opacity: 1; transform: none; }
+.dm-in b { color: var(--sun); }
+@media (max-width: 760px) { .dog-stamp { top: 12px; right: 12px; font-size: 12px; padding: 5px 7px 4px; } #dog-card.full .dog-stamp { transform: rotate(-6deg); } .dm-in { font-size: 17px; } }
