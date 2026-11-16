@@ -1333,3 +1333,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 /* Headings that should stay on one line wherever there is room for it */
 .sec-head.one-line { max-width: none; }
 @media (min-width: 760px) { .sec-head.one-line h2 { white-space: nowrap; font-size: clamp(34px, 4.4vw, 56px); } }
+
+/* Fellowship: a light break between Session 5 (Week 5) and Session 6 (Week 7) */
+.sess-break { display: flex; align-items: center; gap: 14px; margin: 10px 0; color: var(--ink-soft); font: 700 15px/1 var(--hand); }
+.sess-break::before, .sess-break::after { content: ""; flex: 1; border-top: 2px dashed currentColor; opacity: .45; }
