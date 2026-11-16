@@ -567,7 +567,7 @@
       $('#give-dog-what').textContent = dog >= 100 ? 'guide dog' : 'of a guide dog';
       $('#give-fill').style.width = clamp(dog, 0, 100) + '%';
       var full = dog >= 100;
-      card.classList.toggle('full', full); moment.classList.toggle('show', full);
+      card.classList.toggle('full', full); moment.classList.toggle('show', full); box.classList.toggle('is-full', full);
       if (full && !wasFull) cheer(ops);
       else if (!full) { card.classList.remove('cheer'); cancelAnimationFrame(wave); wave = 0; draw(ops); }
       else if (!wave) draw(ops);
