@@ -50,6 +50,7 @@
 
 <main id="main">
 <section class="page-hero band-night grid-paper on-dark evp-hero">
+  <canvas class="dots" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
       <a class="evp-back rise" href="events.html#w2"><span aria-hidden="true">&larr;</span> All events</a>
@@ -64,14 +65,14 @@
   <div class="wrap evp-grid">
     <figure class="evp-poster" data-reveal><img src="assets/events/a4/e3-extinction-level-event.webp" width="840" height="1188" alt="Poster: Extinction Level Event, Week 2. A discussion night on how the world might end, and how to stop it."></figure>
     <div class="evp-main">
-      <dl class="evp-when"><div><dt>When</dt><dd>Week 2, 22 to 28 Feb</dd></div><div><dt>Date</dt><dd>TBA</dd></div><div><dt>Time</dt><dd>TBA</dd></div><div><dt>Where</dt><dd>TBA</dd></div></dl>
-      <h2>What it'll be like</h2>
-      <ol class="evp-steps"><li><span class="evp-n" aria-hidden="true">1</span><div><h3>Grab a snack and a seat</h3><p>You'll join a small group, so it's a conversation, not a lecture.</p></div></li><li><span class="evp-n" aria-hidden="true">2</span><div><h3>Take on a catastrophe</h3><p>Each group gets a different way things could go badly wrong. How likely is it? What would it look like?</p></div></li><li><span class="evp-n" aria-hidden="true">3</span><div><h3>Find the off switch</h3><p>Then the better question: who's working on stopping it, and what would help most?</p></div></li><li><span class="evp-n" aria-hidden="true">4</span><div><h3>Report back</h3><p>Every group shares its scariest thought and its most hopeful one.</p></div></li></ol>
-      <h2>Good to know</h2>
-      <ul class="evp-good"><li>Snacks provided.</li><li>No reading needed beforehand.</li><li>You don't need to be an expert, or an optimist.</li></ul>
+      <div data-reveal style="--i:1"><dl class="evp-when"><div><dt>When</dt><dd>Week 2, 22 to 28 Feb</dd></div><div><dt>Date</dt><dd>TBA</dd></div><div><dt>Time</dt><dd>TBA</dd></div><div><dt>Where</dt><dd>TBA</dd></div></dl></div>
+      <h2 data-reveal style="--i:2">What it'll be like</h2>
+      <ol class="evp-steps"><li data-reveal style="--i:0"><span class="evp-n" aria-hidden="true">1</span><div><h3>Grab a snack and a seat</h3><p>You'll join a small group, so it's a conversation, not a lecture.</p></div></li><li data-reveal style="--i:1"><span class="evp-n" aria-hidden="true">2</span><div><h3>Take on a catastrophe</h3><p>Each group gets a different way things could go badly wrong. How likely is it? What would it look like?</p></div></li><li data-reveal style="--i:2"><span class="evp-n" aria-hidden="true">3</span><div><h3>Find the off switch</h3><p>Then the better question: who's working on stopping it, and what would help most?</p></div></li><li data-reveal style="--i:3"><span class="evp-n" aria-hidden="true">4</span><div><h3>Report back</h3><p>Every group shares its scariest thought and its most hopeful one.</p></div></li></ol>
+      <h2 data-reveal>Good to know</h2>
+      <ul class="evp-good" data-reveal><li>Snacks provided.</li><li>No reading needed beforehand.</li><li>You don't need to be an expert, or an optimist.</li></ul>
       <!-- AFTER THE EVENT: add photos and a short write-up of how it went here
            (vault note "Event pages on the website"). Faces need a photo release. -->
-      <nav class="evp-pn" aria-label="Other events"><a class="evp-step-link prev" href="event-moral-dilemmas-in-real-life.html"><span class="hand">Before this</span><b><span aria-hidden="true">&larr;</span> Moral Dilemmas in Real Life</b></a><a class="evp-step-link next" href="event-creative-writing-contest.html"><span class="hand">Next up</span><b>Creative Writing Contest <span aria-hidden="true">&rarr;</span></b></a></nav>
+      <nav class="evp-pn" aria-label="Other events" data-reveal><a class="evp-step-link prev" href="event-moral-dilemmas-in-real-life.html"><span class="hand">Before this</span><b><span aria-hidden="true">&larr;</span> Moral Dilemmas in Real Life</b></a><a class="evp-step-link next" href="event-creative-writing-contest.html"><span class="hand">Next up</span><b>Creative Writing Contest <span aria-hidden="true">&rarr;</span></b></a></nav>
     </div>
   </div>
 </section>

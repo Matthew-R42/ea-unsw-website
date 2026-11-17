@@ -50,6 +50,7 @@
 
 <main id="main">
 <section class="page-hero band-night grid-paper on-dark evp-hero">
+  <canvas class="dots" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
       <a class="evp-back rise" href="events.html#w10"><span aria-hidden="true">&larr;</span> All events</a>
@@ -64,14 +65,14 @@
   <div class="wrap evp-grid">
     <figure class="evp-poster" data-reveal><img src="assets/events/a4/e7-end-of-term-send-off.webp" width="840" height="1188" alt="Poster: End of Term Send-off, Week 10. One last hurrah before exams."></figure>
     <div class="evp-main">
-      <dl class="evp-when"><div><dt>When</dt><dd>Week 10, 19 to 25 Apr</dd></div><div><dt>Date</dt><dd>TBA</dd></div><div><dt>Time</dt><dd>TBA</dd></div><div><dt>Where</dt><dd>TBA</dd></div></dl>
-      <h2>What it'll be like</h2>
-      <ol class="evp-steps"><li><span class="evp-n" aria-hidden="true">1</span><div><h3>Celebrate</h3><p>Food, music and everyone you've met this term.</p></div></li><li><span class="evp-n" aria-hidden="true">2</span><div><h3>Look back</h3><p>What we did, who came, and what we learned along the way.</p></div></li><li><span class="evp-n" aria-hidden="true">3</span><div><h3>Look ahead</h3><p>What's coming next term, and how to get more involved if you want to.</p></div></li></ol>
-      <h2>Good to know</h2>
-      <ul class="evp-good"><li>Everyone welcome, even if this is your first event.</li><li>Food provided.</li><li>Then go and smash your exams.</li></ul>
+      <div data-reveal style="--i:1"><dl class="evp-when"><div><dt>When</dt><dd>Week 10, 19 to 25 Apr</dd></div><div><dt>Date</dt><dd>TBA</dd></div><div><dt>Time</dt><dd>TBA</dd></div><div><dt>Where</dt><dd>TBA</dd></div></dl></div>
+      <h2 data-reveal style="--i:2">What it'll be like</h2>
+      <ol class="evp-steps"><li data-reveal style="--i:0"><span class="evp-n" aria-hidden="true">1</span><div><h3>Celebrate</h3><p>Food, music and everyone you've met this term.</p></div></li><li data-reveal style="--i:1"><span class="evp-n" aria-hidden="true">2</span><div><h3>Look back</h3><p>What we did, who came, and what we learned along the way.</p></div></li><li data-reveal style="--i:2"><span class="evp-n" aria-hidden="true">3</span><div><h3>Look ahead</h3><p>What's coming next term, and how to get more involved if you want to.</p></div></li></ol>
+      <h2 data-reveal>Good to know</h2>
+      <ul class="evp-good" data-reveal><li>Everyone welcome, even if this is your first event.</li><li>Food provided.</li><li>Then go and smash your exams.</li></ul>
       <!-- AFTER THE EVENT: add photos and a short write-up of how it went here
            (vault note "Event pages on the website"). Faces need a photo release. -->
-      <nav class="evp-pn" aria-label="Other events"><a class="evp-step-link prev" href="event-what-5-dollars-buys.html"><span class="hand">Before this</span><b><span aria-hidden="true">&larr;</span> What $5 Buys</b></a><a class="evp-step-link next" href="event-how-will-we-die.html"><span class="hand">Next up</span><b>How Will We Die? <span aria-hidden="true">&rarr;</span></b></a></nav>
+      <nav class="evp-pn" aria-label="Other events" data-reveal><a class="evp-step-link prev" href="event-what-5-dollars-buys.html"><span class="hand">Before this</span><b><span aria-hidden="true">&larr;</span> What $5 Buys</b></a><a class="evp-step-link next" href="event-how-will-we-die.html"><span class="hand">Next up</span><b>How Will We Die? <span aria-hidden="true">&rarr;</span></b></a></nav>
     </div>
   </div>
 </section>

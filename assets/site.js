@@ -188,7 +188,7 @@
       for (var i = 0; i < parts.length; i++) {
         var p = parts[i];
         var dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
-        if (d2 < 4000 && d2 > 0.01) { var f = (1 - d2 / 4000) * 1.6, d = Math.sqrt(d2); p.vx += dx / d * f; p.vy += dy / d * f; }
+        if (d2 < 9000 && d2 > 0.01) { var f = (1 - d2 / 9000) * 1.6, d = Math.sqrt(d2); p.vx += dx / d * f; p.vy += dy / d * f; }
         if (p.free || el < p.delay) {
           p.vx += Math.cos(now / 2300 + p.seed) * 0.004; p.vy += Math.sin(now / 2700 + p.seed) * 0.004;
           p.vx *= 0.985; p.vy *= 0.985;
@@ -743,6 +743,52 @@
   var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   function store(key, val) { try { if (val === undefined) return JSON.parse(localStorage.getItem(key) || '[]'); localStorage.setItem(key, JSON.stringify(val)); } catch (e) { return []; } }
   function toggleIn(list, v) { var i = list.indexOf(v); if (i < 0) list.push(v); else list.splice(i, 1); return i < 0; }
+
+  /* Inner-page heroes: drifting dots that link up with the cursor */
+  $$('.page-hero canvas.dots').forEach(function (c) {
+    if (!c.getContext) return;
+    var hero = c.parentNode, ctx = c.getContext('2d'), W = 0, H = 0, pts = [], m = { x: -999, y: -999 }, raf = 0, on = false;
+    function size() {
+      var r = hero.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height; c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = clamp(Math.round(W * H / 13000), 22, 90); pts = [];
+      for (var i = 0; i < n; i++) pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, r: .9 + Math.random() * 1.9, a: .25 + Math.random() * .45, sun: Math.random() < .22 });
+      draw();
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i], dx = p.x - m.x, dy = p.y - m.y, d = Math.sqrt(dx * dx + dy * dy), near = d < 255;
+        if (near) { ctx.globalAlpha = (1 - d / 255) * .55; ctx.strokeStyle = '#ffda1f'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+        ctx.globalAlpha = near ? 1 : p.a; ctx.fillStyle = near || p.sun ? '#ffda1f' : '#a9dfe6';
+        ctx.beginPath(); ctx.arc(p.x, p.y, near ? p.r + 1 : p.r, 0, 6.2832); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    function tick() {
+      if (!on) return;
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i]; p.x += p.vx; p.y += p.vy;
+        if (p.x < -8) p.x = W + 8; else if (p.x > W + 8) p.x = -8;
+        if (p.y < -8) p.y = H + 8; else if (p.y > H + 8) p.y = -8;
+      }
+      draw(); raf = requestAnimationFrame(tick);
+    }
+    size();
+    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(size, 150); });
+    hero.addEventListener('pointermove', function (e) { var r = hero.getBoundingClientRect(); m.x = e.clientX - r.left; m.y = e.clientY - r.top; if (calm) draw(); });
+    hero.addEventListener('pointerleave', function () { m.x = m.y = -999; if (calm) draw(); });
+    if (calm) return;
+    function go(v) { if (v && !on) { on = true; raf = requestAnimationFrame(tick); } else if (!v) { on = false; cancelAnimationFrame(raf); } }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { go(es[0].isIntersecting && !doc.hidden); }).observe(hero); else go(true);
+    doc.addEventListener('visibilitychange', function () { go(!doc.hidden); });
+  });
+
+  /* A faint light follows the cursor in the top section of each page (not the bands below) */
+  if (fine) $$('.hero.grid-paper, .page-hero.grid-paper').forEach(function (b) {
+    b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.setProperty('--mx', (e.clientX - r.left) + 'px'); b.style.setProperty('--my', (e.clientY - r.top) + 'px'); });
+    b.addEventListener('pointerleave', function () { b.style.setProperty('--mx', '-999px'); });
+  });
 
   /* About us people cards lean towards the cursor (every other card just lifts, in CSS) */
   if (fine && !calm) $$('.person.flip').forEach(function (el) {

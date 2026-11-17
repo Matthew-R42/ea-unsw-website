@@ -50,6 +50,7 @@
 
 <main id="main">
 <section class="page-hero band-night grid-paper on-dark evp-hero">
+  <canvas class="dots" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
       <a class="evp-back rise" href="events.html#w1"><span aria-hidden="true">&larr;</span> All events</a>
@@ -64,14 +65,14 @@
   <div class="wrap evp-grid">
     <figure class="evp-poster" data-reveal><img src="assets/events/a4/e2-welcome-night.webp" width="840" height="1188" alt="Poster: Welcome Night, Week 1. Pizza, new faces, icebreakers with stakes. Free for members."></figure>
     <div class="evp-main">
-      <dl class="evp-when"><div><dt>When</dt><dd>Week 1, 15 to 21 Feb</dd></div><div><dt>Date</dt><dd>TBA</dd></div><div><dt>Time</dt><dd>TBA</dd></div><div><dt>Where</dt><dd>TBA</dd></div></dl>
-      <h2>What it'll be like</h2>
-      <ol class="evp-steps"><li><span class="evp-n" aria-hidden="true">1</span><div><h3>Grab a slice</h3><p>Pizza and drinks are on us. Come by yourself: everyone else is new too.</p></div></li><li><span class="evp-n" aria-hidden="true">2</span><div><h3>Icebreakers with stakes</h3><p>Quick questions with no right answer and strong opinions on both sides. Pick a side and defend it.</p></div></li><li><span class="evp-n" aria-hidden="true">3</span><div><h3>Meet the club</h3><p>Hear what's on this term, and what the Intro Fellowship actually is.</p></div></li><li><span class="evp-n" aria-hidden="true">4</span><div><h3>Hang around</h3><p>Stay as long as you like. Nobody gets quizzed.</p></div></li></ol>
-      <h2>Good to know</h2>
-      <ul class="evp-good"><li>Free for members. <a href="https://campus.hellorubric.com/?s=15954&amp;mid=23499">Joining</a> takes a minute.</li><li>No EA knowledge needed.</li><li>Bring a friend, or come and make one.</li></ul>
+      <div data-reveal style="--i:1"><dl class="evp-when"><div><dt>When</dt><dd>Week 1, 15 to 21 Feb</dd></div><div><dt>Date</dt><dd>TBA</dd></div><div><dt>Time</dt><dd>TBA</dd></div><div><dt>Where</dt><dd>TBA</dd></div></dl></div>
+      <h2 data-reveal style="--i:2">What it'll be like</h2>
+      <ol class="evp-steps"><li data-reveal style="--i:0"><span class="evp-n" aria-hidden="true">1</span><div><h3>Grab a slice</h3><p>Pizza and drinks are on us. Come by yourself: everyone else is new too.</p></div></li><li data-reveal style="--i:1"><span class="evp-n" aria-hidden="true">2</span><div><h3>Icebreakers with stakes</h3><p>Quick questions with no right answer and strong opinions on both sides. Pick a side and defend it.</p></div></li><li data-reveal style="--i:2"><span class="evp-n" aria-hidden="true">3</span><div><h3>Meet the club</h3><p>Hear what's on this term, and what the Intro Fellowship actually is.</p></div></li><li data-reveal style="--i:3"><span class="evp-n" aria-hidden="true">4</span><div><h3>Hang around</h3><p>Stay as long as you like. Nobody gets quizzed.</p></div></li></ol>
+      <h2 data-reveal>Good to know</h2>
+      <ul class="evp-good" data-reveal><li>Free for members. <a href="https://campus.hellorubric.com/?s=15954&amp;mid=23499">Joining</a> takes a minute.</li><li>No EA knowledge needed.</li><li>Bring a friend, or come and make one.</li></ul>
       <!-- AFTER THE EVENT: add photos and a short write-up of how it went here
            (vault note "Event pages on the website"). Faces need a photo release. -->
-      <nav class="evp-pn" aria-label="Other events"><a class="evp-step-link prev" href="event-o-week.html"><span class="hand">Before this</span><b><span aria-hidden="true">&larr;</span> Find us at O-Week</b></a><a class="evp-step-link next" href="event-moral-dilemmas-in-real-life.html"><span class="hand">Next up</span><b>Moral Dilemmas in Real Life <span aria-hidden="true">&rarr;</span></b></a></nav>
+      <nav class="evp-pn" aria-label="Other events" data-reveal><a class="evp-step-link prev" href="event-o-week.html"><span class="hand">Before this</span><b><span aria-hidden="true">&larr;</span> Find us at O-Week</b></a><a class="evp-step-link next" href="event-moral-dilemmas-in-real-life.html"><span class="hand">Next up</span><b>Moral Dilemmas in Real Life <span aria-hidden="true">&rarr;</span></b></a></nav>
     </div>
   </div>
 </section>

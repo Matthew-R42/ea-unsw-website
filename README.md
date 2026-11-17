@@ -151,3 +151,12 @@ domain step. The current repository does not assume that connection exists.
 - Membership: <https://campus.hellorubric.com/?s=15954&mid=23499>
 - Club links: <https://linktr.ee/effectivealtruism_unsw>
 - Instagram: <https://www.instagram.com/effectivealtruism_unsw>
+
+## Event pages (18 Nov 2026)
+
+Every event box on `events.html` (and the Week 1 boxes on the home page) opens its own page:
+`event-<name>.html` for events (A4 poster, When/Date/Time/Where, "What it'll be like" steps, "Good to know",
+previous/next links) and `fellowship-session-N.html` for the six fellowship sessions (blank on purpose, to be filled in).
+They are generated: edit the copy in `../event_pages.py` (week data in `../build_events.py`), then run
+`python3 ../build_events.py` here. Portrait posters live in `assets/events/a4/` (840 px wide WebP).
+**After each event:** add photos and a short write-up where the page says `AFTER THE EVENT` (photo releases for faces).

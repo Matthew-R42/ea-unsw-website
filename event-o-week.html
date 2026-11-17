@@ -50,6 +50,7 @@
 
 <main id="main">
 <section class="page-hero band-night grid-paper on-dark evp-hero">
+  <canvas class="dots" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
       <a class="evp-back rise" href="events.html#ow"><span aria-hidden="true">&larr;</span> All events</a>
@@ -64,14 +65,14 @@
   <div class="wrap evp-grid">
     <figure class="evp-poster" data-reveal><img src="assets/events/a4/e1-o-week.webp" width="840" height="1188" alt="Poster: Find us at O-Week. Free food. Come say hi, tell us what you would fix first. Look for the lightbulb."></figure>
     <div class="evp-main">
-      <dl class="evp-when"><div><dt>When</dt><dd>O-Week, Mon 8 to Fri 12 Feb</dd></div><div><dt>Date</dt><dd>TBA</dd></div><div><dt>Time</dt><dd>TBA</dd></div><div><dt>Where</dt><dd>TBA</dd></div></dl>
-      <h2>What it'll be like</h2>
-      <ol class="evp-steps"><li><span class="evp-n" aria-hidden="true">1</span><div><h3>Grab some food</h3><p>It's free. You don't have to sign up to eat it.</p></div></li><li><span class="evp-n" aria-hidden="true">2</span><div><h3>Cast your vote</h3><p>Drop a token in the cup for the problem you'd fix first: global health, animals, AI or something else. We count them every evening.</p></div></li><li><span class="evp-n" aria-hidden="true">3</span><div><h3>Find out how rich you are</h3><p>Guess where you sit on the world's income ladder, then check. Most people guess low. <a href="fellowship.html#rich">Try it now</a>.</p></div></li><li><span class="evp-n" aria-hidden="true">4</span><div><h3>Stay for a chat</h3><p>Tell us what you're studying and what you care about. Good chats might end with a free book.</p></div></li></ol>
-      <h2>Good to know</h2>
-      <ul class="evp-good"><li>Sign up at the stall: 100% of the money we get from sign-ups goes to effective charities.</li><li>Drop by for a minute or stay for half an hour.</li><li>No EA knowledge needed. Most people haven't heard of it.</li></ul>
+      <div data-reveal style="--i:1"><dl class="evp-when"><div><dt>When</dt><dd>O-Week, Mon 8 to Fri 12 Feb</dd></div><div><dt>Date</dt><dd>TBA</dd></div><div><dt>Time</dt><dd>TBA</dd></div><div><dt>Where</dt><dd>TBA</dd></div></dl></div>
+      <h2 data-reveal style="--i:2">What it'll be like</h2>
+      <ol class="evp-steps"><li data-reveal style="--i:0"><span class="evp-n" aria-hidden="true">1</span><div><h3>Grab some food</h3><p>It's free. You don't have to sign up to eat it.</p></div></li><li data-reveal style="--i:1"><span class="evp-n" aria-hidden="true">2</span><div><h3>Cast your vote</h3><p>Drop a token in the cup for the problem you'd fix first: global health, animals, AI or something else. We count them every evening.</p></div></li><li data-reveal style="--i:2"><span class="evp-n" aria-hidden="true">3</span><div><h3>Find out how rich you are</h3><p>Guess where you sit on the world's income ladder, then check. Most people guess low. <a href="fellowship.html#rich">Try it now</a>.</p></div></li><li data-reveal style="--i:3"><span class="evp-n" aria-hidden="true">4</span><div><h3>Stay for a chat</h3><p>Tell us what you're studying and what you care about. Good chats might end with a free book.</p></div></li></ol>
+      <h2 data-reveal>Good to know</h2>
+      <ul class="evp-good" data-reveal><li>Sign up at the stall: 100% of the money we get from sign-ups goes to effective charities.</li><li>Drop by for a minute or stay for half an hour.</li><li>No EA knowledge needed. Most people haven't heard of it.</li></ul>
       <!-- AFTER THE EVENT: add photos and a short write-up of how it went here
            (vault note "Event pages on the website"). Faces need a photo release. -->
-      <nav class="evp-pn" aria-label="Other events"><a class="evp-step-link next" href="event-welcome-night.html"><span class="hand">Next up</span><b>Welcome night <span aria-hidden="true">&rarr;</span></b></a></nav>
+      <nav class="evp-pn" aria-label="Other events" data-reveal><a class="evp-step-link next" href="event-welcome-night.html"><span class="hand">Next up</span><b>Welcome night <span aria-hidden="true">&rarr;</span></b></a></nav>
     </div>
   </div>
 </section>

@@ -860,8 +860,8 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 /* A faint light follows the cursor in the dark top section of each page only.
    Its size matches how far the hero dots react to the cursor (170px on inner
    pages, about 64px on the home page; see the two canvas blocks in site.js). */
-.hero.grid-paper::after, .page-hero.grid-paper::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(var(--spot-r, 170px) circle at var(--mx, -999px) var(--my, -999px), rgba(169, 223, 230, .07), transparent 100%); }
-.hero.grid-paper { --spot-r: 64px; }
+.hero.grid-paper::after, .page-hero.grid-paper::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(var(--spot-r, 255px) circle at var(--mx, -999px) var(--my, -999px), rgba(169, 223, 230, .07), transparent 100%); }
+.hero.grid-paper { --spot-r: 96px; }
 .grid-paper > .wrap { position: relative; z-index: 1; }
 
 /* Parts that used to sit on dark bands */
@@ -1585,21 +1585,6 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .foot-sun .foot-legal a { color: #111111; }
 .foot-sun .foot-legal a:hover { color: #1f1f1f; }
 
-/* Less "template" (17 Nov). Hard offset shadows stay only on things you click (buttons, links, cards on hover, chosen options);
-   boxes that just hold content are flat. */
-.word, .money, .rich-out, .reward, .form-done, .try-card, .sess[open]:not(.closing), .wk.is-now .wk-panel,
-.icard.win, .try .icard.win, .cmp-win, .wk-card .emo, .sticker { box-shadow: none; }
-@media (max-width: 760px) { .word, .rich-out { box-shadow: none; } }
-/* Nothing floats or spins on its own any more */
-.float, .float-slow, .spin-slow { animation: none; }
-.hero.grid-paper::after, .page-hero.grid-paper::after { display: none; }
-/* The pulse stays, just softer and slower */
-.btn-sun::after { border-width: 2px; animation-duration: 3.4s; }
-@keyframes ring { 0% { opacity: .45; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.06, 1.28); } }
-.chip .pulse { animation-duration: 2.8s; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 218, 31, .45); } 70% { box-shadow: 0 0 0 6px rgba(255, 218, 31, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 218, 31, 0); } }
-/* "Last term we met in Mathews 309..." under the Term 1 schedule */
-.last-term { margin-top: 18px; max-width: 40em; font-size: 15.5px; color: var(--ink-soft); }
 /* Footer legal lines: one line under the logo row; on the home page they sit inside the row, between the name and the Arc logo */
 .foot-legal p { display: inline; }
 .foot-legal p + p { margin-left: .35em; }
@@ -1751,3 +1736,12 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
   .evp-step-link.next { grid-column: 1; }
   .evp { padding-block: 44px 64px; }
 }
+
+/* 18 Nov: everything on the first screen rises in on load, not just the title.
+   Below-the-fold blocks still rise as you scroll to them (site.js adds .reveal, which cancels this).
+   Fill mode is backwards only, so hover transforms work once it has finished. */
+[data-reveal] { animation: rise .7s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(260ms + var(--i, 0) * 90ms); }
+[data-reveal].reveal { animation: none; }
+.hero-art, .page-hero-art, .strip-bar { animation: rise .8s cubic-bezier(.2, .8, .2, 1) .2s backwards; }
+.page-hero-art.float { animation: rise .8s cubic-bezier(.2, .8, .2, 1) .2s backwards, float 6s ease-in-out 1s infinite; }
+@media (prefers-reduced-motion: reduce) { [data-reveal], .hero-art, .page-hero-art, .strip-bar, .page-hero-art.float { animation: none; } }
