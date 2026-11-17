@@ -1059,14 +1059,14 @@
     show();
   })();
 
-  /* Session 7: stamp six sessions and the certificate appears */
+  /* Session 6: stamp five of the six sessions and the certificate appears */
   (function () {
     var box = $('#stamps');
     if (!box) return;
     var btns = $$('.stamp-b', box), cert = $('#cert'), say = $('#cert-say'), name = $('#cert-name'), input = $('#cert-input'), had = false;
     function show() {
-      var n = btns.filter(function (b) { return b.getAttribute('aria-pressed') === 'true'; }).length, got = n >= 6;
-      say.textContent = n === 0 ? 'Six stamps gets you the certificate and the book.' : got ? (n === 7 ? 'All seven. Certificate, book, and our respect.' : 'Six of seven. That is the certificate and the book.') : (6 - n) + ' more to go.';
+      var n = btns.filter(function (b) { return b.getAttribute('aria-pressed') === 'true'; }).length, got = n >= 5;
+      say.textContent = n === 0 ? 'Five stamps gets you the certificate and the book.' : got ? (n === 6 ? 'All six. Certificate, book, and our respect.' : 'Five of six. That is the certificate and the book.') : (5 - n) + ' more to go.';
       cert.hidden = !got;
       if (got && !had) confetti(cert);
       had = got;

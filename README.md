@@ -63,8 +63,7 @@ styles are at the end of `assets/site.css`.
 | 3 | `try-circle` (moral circle) |
 | 4 | `try-future` (people not born yet), `try-risk` (risk per century) |
 | 5 | `try-views` (splitting between views) |
-| 6 | `try-hours` (80,000 hours), `try-lens` (three questions), `try-pledge` (10% of your pay) |
-| 7 | `try-cert` (stamp card and certificate preview) |
+| 6 | `try-hours` (80,000 hours), `try-lens` (three questions), `try-pledge` (10% of your pay), `try-cert` (stamp card and certificate preview: 5 of 6 sessions) |
 
 Each block states its sources in the small print underneath it. If you change
 a number in `site.js`, change that small print too. A link such as
