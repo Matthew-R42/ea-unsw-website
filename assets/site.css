@@ -860,8 +860,8 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 /* A faint light follows the cursor in the dark top section of each page only.
    Its size matches how far the hero dots react to the cursor (170px on inner
    pages, about 64px on the home page; see the two canvas blocks in site.js). */
-.hero.grid-paper::after, .page-hero.grid-paper::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(var(--spot-r, 255px) circle at var(--mx, -999px) var(--my, -999px), rgba(169, 223, 230, .07), transparent 100%); }
-.hero.grid-paper { --spot-r: 96px; }
+.hero.grid-paper::after, .page-hero.grid-paper::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(var(--spot-r, 170px) circle at var(--mx, -999px) var(--my, -999px), rgba(169, 223, 230, .07), transparent 100%); }
+.hero.grid-paper { --spot-r: 64px; }
 .grid-paper > .wrap { position: relative; z-index: 1; }
 
 /* Parts that used to sit on dark bands */

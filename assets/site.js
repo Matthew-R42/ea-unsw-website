@@ -188,7 +188,7 @@
       for (var i = 0; i < parts.length; i++) {
         var p = parts[i];
         var dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
-        if (d2 < 9000 && d2 > 0.01) { var f = (1 - d2 / 9000) * 1.6, d = Math.sqrt(d2); p.vx += dx / d * f; p.vy += dy / d * f; }
+        if (d2 < 4000 && d2 > 0.01) { var f = (1 - d2 / 4000) * 1.6, d = Math.sqrt(d2); p.vx += dx / d * f; p.vy += dy / d * f; }
         if (p.free || el < p.delay) {
           p.vx += Math.cos(now / 2300 + p.seed) * 0.004; p.vy += Math.sin(now / 2700 + p.seed) * 0.004;
           p.vx *= 0.985; p.vy *= 0.985;
