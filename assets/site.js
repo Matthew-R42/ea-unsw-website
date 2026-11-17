@@ -758,8 +758,8 @@
     function draw() {
       ctx.clearRect(0, 0, W, H);
       for (var i = 0; i < pts.length; i++) {
-        var p = pts[i], dx = p.x - m.x, dy = p.y - m.y, d = Math.sqrt(dx * dx + dy * dy), near = d < 255;
-        if (near) { ctx.globalAlpha = (1 - d / 255) * .55; ctx.strokeStyle = '#ffda1f'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+        var p = pts[i], dx = p.x - m.x, dy = p.y - m.y, d = Math.sqrt(dx * dx + dy * dy), near = d < 200;
+        if (near) { ctx.globalAlpha = (1 - d / 200) * .55; ctx.strokeStyle = '#ffda1f'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
         ctx.globalAlpha = near ? 1 : p.a; ctx.fillStyle = near || p.sun ? '#ffda1f' : '#a9dfe6';
         ctx.beginPath(); ctx.arc(p.x, p.y, near ? p.r + 1 : p.r, 0, 6.2832); ctx.fill();
       }
