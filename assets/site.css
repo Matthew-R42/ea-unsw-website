@@ -1563,3 +1563,12 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .site-head:not(.light) .join-late { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .75); box-shadow: none; }
 .site-head:not(.light) .join-late::after { animation: none; opacity: 0; }
 .site-head:not(.light) .join-late:hover { background: #fff; color: var(--night); box-shadow: none; transform: none; }
+/* "Tap the heart" is yellow, like "Tap the brain" is blue. True yellow is unreadable on the pale
+   yellow card in light mode, so light mode uses a deep gold; dark mode uses the real yellow. */
+.word-teal .tap-hint { color: #946c00; }
+:root[data-theme="dark"] .word-teal .tap-hint { color: var(--sun); }
+/* Dark mode: the "Come say hi" band and the footer under it use a muted yellow, and their white pills and badge an off-white */
+:root[data-theme="dark"] .join.band-sun, :root[data-theme="dark"] .foot.foot-sun { background-color: #c9a619; }
+:root[data-theme="dark"] .say-hi a { background: #f1ecd8; }
+:root[data-theme="dark"] .say-hi a:hover, :root[data-theme="dark"] .say-hi a:focus-visible { background: var(--ink); }
+:root[data-theme="dark"] .join .badge > svg > circle:first-child { fill: #f1ecd8; }
