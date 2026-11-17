@@ -33,15 +33,18 @@ tokens, API keys, account credentials, or private member information here.
 
 ## Updating the site
 
-To change an event, edit its `<section class="wk">` block in `events.html`.
-Each event card has an emoji sticker (`<span class="emo">`), and each week's
-emoji also appears in the week strip tooltips (`data-tip-title`). Each
-fellowship row lists "Words you'll learn today"; hovering a word shows its
-meaning (`data-tip`). The same words appear in each session on
-`fellowship.html`, so change them in both places.
-The black bars are `<span class="redact">` elements: replace one with plain
-text when a detail is ready to announce. The three teaser cards on the home
-page are separate and live in `index.html`.
+Each week on `events.html` is one `<section class="wk">` block with a row
+(`<div class="ev-row">`) of up to three boxes: the week's event, the fellowship
+session and the weekly stall. Each box is a landscape poster from
+`assets/events/` (800 x 400 WebP, made from the 2000 x 1000 posters) with the
+event's name and its Date, Time and Where below. To announce a detail, replace
+`TBA` in that box's `<dd>`. The coloured dots in the week strip at the top
+must match the boxes: yellow `dot ev` for events, grey `dot fe` for fellowship
+sessions, white `dot tb` for stalls; each dot's tooltip is its `data-tip-title`.
+The three teaser cards on the home page are separate and live in `index.html`.
+
+The "Come say hi" band and yellow footer are copied onto every page, so change
+them in all seven files.
 
 ### Things to try on the fellowship page
 

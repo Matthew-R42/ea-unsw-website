@@ -1625,3 +1625,46 @@ html { background: #04343d; }
 .person:nth-child(3) .avatar { background: #d6d6d3; color: #111111; }
 .person:nth-child(4) .avatar { background: #f0b51f; }
 .person:nth-child(5) .avatar { background: #efefec; color: #111111; }
+
+/* 17 Nov evening */
+/* Nicole's hand-drawn brain and heart. Two frames, like a hand-drawn cartoon: straight, then a little turned.
+   The frames use `rotate`, so the hover/press scale (transform) and the heart's beat still work on top. */
+.word-art .draw { width: 100%; height: 100%; object-fit: contain; display: block; -webkit-user-drag: none; user-select: none; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); animation: two-frame 1.3s steps(1, end) infinite; }
+.word-art[data-heart] .draw { --tilt: 5deg; animation-delay: -.65s; }
+@keyframes two-frame { 0% { rotate: 0deg; } 50% { rotate: var(--tilt, -5deg); } 100% { rotate: var(--tilt, -5deg); } }
+.word-art:hover .draw { transform: scale(1.06); }
+.word-art:active .draw { transform: scale(.94); }
+.word-art.beat .draw { animation: two-frame 1.3s steps(1, end) infinite, beat .6s ease; }
+.word-art[data-heart]:hover .draw { animation: two-frame 1.3s steps(1, end) -.65s infinite, beat 1s ease infinite; }
+/* the heart's black outline needs a light edge on dark cards; the brain's yellow outline already shows */
+:root[data-theme="dark"] .word-art[data-heart] .draw { filter: drop-shadow(1px 0 0 rgba(240, 240, 238, .85)) drop-shadow(-1px 0 0 rgba(240, 240, 238, .85)) drop-shadow(0 1px 0 rgba(240, 240, 238, .85)) drop-shadow(0 -1px 0 rgba(240, 240, 238, .85)); }
+@media (prefers-reduced-motion: reduce) { .word-art .draw, .word-art.beat .draw, .word-art[data-heart]:hover .draw { animation: none; } }
+
+/* "UNSW" under the lightbulb in the spinning badge */
+.join .badge text.badge-unsw { font: 800 23px/1 var(--display); letter-spacing: .02em; text-transform: none; fill: #111111; }
+
+/* Events: one row per week, up to three boxes, each a landscape poster with its details below */
+.ev-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.ev-box { display: flex; flex-direction: column; min-width: 0; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; background: var(--card); color: var(--ink); text-decoration: none; }
+.ev-poster { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; border-bottom: 2px solid var(--ink); background: var(--wash); }
+.ev-info { display: grid; gap: 6px; padding: 12px 14px 14px; }
+.ev-info h3 { font-size: 19px; line-height: 1.2; letter-spacing: -0.01em; text-wrap: balance; }
+.ev-sub { display: block; font: 600 13.5px/1.3 var(--body); color: var(--ink-soft); letter-spacing: 0; margin-bottom: 2px; }
+.ev-kind { display: inline-flex; align-items: center; gap: 6px; font: 600 14px/1.2 var(--hand); color: var(--ink-soft); }
+.ev-kind::before { content: ""; width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--ink); background: var(--sun); }
+.ev-kind.fe::before { background: #333333; }
+.ev-kind.tb::before { background: #ffffff; }
+.ev-when { display: flex; flex-wrap: wrap; gap: 2px 16px; margin: 2px 0 0; font-size: 14px; line-height: 1.4; }
+.ev-when div { display: flex; gap: 5px; }
+.ev-when dt { color: var(--ink-soft); }
+.ev-when dd { margin: 0; font-weight: 600; }
+a.ev-box { transition: transform .2s ease, box-shadow .2s ease; }
+a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--ink); color: var(--ink); }
+.wk-head .star { margin-left: auto; align-self: center; }
+@media (max-width: 900px) { .ev-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .ev-row { grid-template-columns: minmax(0, 1fr); gap: 14px; } .wk-head .star { margin-left: 0; } }
+
+/* Stall dots in the week strip are white, next to yellow events and grey fellowship sessions */
+.strip .dot.tb { background: #ffffff; }
+#tip.white { background: #ffffff; color: #111111; }
+:root[data-theme="dark"] .strip .dot.fe, :root[data-theme="dark"] .strip .dot.tb { border-color: #b3b3ae; }

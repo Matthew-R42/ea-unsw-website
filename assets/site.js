@@ -306,6 +306,7 @@
       if (h) { var b = doc.createElement('b'); b.textContent = h; tip.appendChild(b); }
       tip.appendChild(doc.createTextNode(t));
       tip.classList.toggle('teal', el.getAttribute('data-tip-tone') === 'teal');
+      tip.classList.toggle('white', el.getAttribute('data-tip-tone') === 'white');
       tip.style.left = '0px'; tip.style.top = '0px';
       var r = el.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
       var x = clamp(r.left + r.width / 2 - tw / 2, 8, root.clientWidth - tw - 8);
@@ -809,8 +810,9 @@
     var KEY = 'eaunsw-stars', stars = store(KEY);
     function paint() { $$('.strip li[data-wk]').forEach(function (li) { li.classList.toggle('starred', stars.indexOf(li.getAttribute('data-wk')) >= 0); }); }
     $$('.wk').forEach(function (wk) {
-      var body = $('.wk-card .wk-body', wk), h = body && $('h3', body);
-      if (!body || !h) return;
+      /* one star per week, in the week's header (weeks with no events get none) */
+      var body = $('.wk-head', wk), h = body && $('h2', body);
+      if (!body || !h || wk.classList.contains('wk-rest')) return;
       var b = doc.createElement('button');
       b.type = 'button'; b.className = 'star'; b.id = 'star-' + wk.id;
       b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 L14.9 8.6 L21.5 9.5 L16.7 14.1 L17.9 20.7 L12 17.5 L6.1 20.7 L7.3 14.1 L2.5 9.5 L9.1 8.6 Z"/></svg><span></span>';
