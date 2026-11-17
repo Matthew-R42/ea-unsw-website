@@ -1576,3 +1576,11 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 :root[data-theme="dark"] .say-hi a { background: #f1ecd8; }
 :root[data-theme="dark"] .say-hi a:hover, :root[data-theme="dark"] .say-hi a:focus-visible { background: var(--ink); }
 :root[data-theme="dark"] .join .badge > svg > circle:first-child { fill: #f1ecd8; }
+/* Footer: copyright and "part of the global movement" lines, small, under the logo row */
+.foot-legal { margin-top: 12px; text-align: center; font-size: 13px; line-height: 1.5; color: #a7c3c6; }
+.foot-legal p { margin: 0; }
+.foot-legal a { color: var(--mist); font-weight: 600; }
+.foot-legal a:hover { color: #fff; }
+.foot-sun .foot-legal { color: #3f5b61; padding-bottom: 6px; }
+.foot-sun .foot-legal a { color: #0a2a30; }
+.foot-sun .foot-legal a:hover { color: #054d5a; }
