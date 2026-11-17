@@ -1625,6 +1625,8 @@ html { background: #04343d; }
   .word-art:hover .draw { animation: none; rotate: 0deg; }
   .word-art.beat:hover .draw { animation: beat .6s ease; }
   .word-art[data-heart]:hover .draw { animation: beat-hold 1.1s ease-in-out infinite; }
+  /* pressing the heart pauses its beat so it squishes like the brain does, then the beat starts again on release */
+  .word-art[data-heart]:active .draw { animation: none; transform: scale(.94); }
 }
 /* The hover heartbeat swells quickly, stays big for a while, then settles */
 @keyframes beat-hold { 0%, 100% { transform: scale(1); } 18% { transform: scale(1.14); } 46% { transform: scale(1.13); } 67% { transform: scale(.98); } }
@@ -1860,3 +1862,6 @@ main > section:has(+ section.join) { background-color: color-mix(in srgb, var(--
 /* O-Week's strip box is as narrow as the others now, so phones show "OW" (like W1, W2) */
 .strip .wk-s { display: none; }
 @media (max-width: 640px) { .strip .wk-l { display: none; } .strip .wk-s { display: inline; } }
+
+/* 18 Nov: strip dots keep fixed slots (indoor, outdoor, fellowship); a missing event leaves the slot blank */
+.strip .dot.gap { visibility: hidden; cursor: default; }

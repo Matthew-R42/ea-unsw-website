@@ -308,6 +308,10 @@
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     window.addEventListener('resize', function () { pad(); update(); });
     pad(); update();
+    /* Clicking a dot in the strip also goes to its week (the tooltip still shows) */
+    $$('.strip .dot:not(.gap)').forEach(function (d) {
+      d.addEventListener('click', function () { var a = d.closest('li').querySelector('a'); if (a) a.click(); });
+    });
     if (location.hash && /^#(ow|w\d+)$/.test(location.hash)) { var t0 = doc.getElementById(location.hash.slice(1)); if (t0) t0.scrollIntoView(); }
   })();
   /* One shared tooltip for anything with data-tip (week dots, black bars, join button) */
@@ -778,8 +782,8 @@
       for (var i = 0; i < pts.length; i++) {
         var p = pts[i], dx = p.x - m.x, dy = p.y - m.y, d = Math.sqrt(dx * dx + dy * dy), near = d < 200;
         if (near) { ctx.globalAlpha = (1 - d / 200) * .55; ctx.strokeStyle = '#ffda1f'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
-        /* the closer to the cursor, the yellower (and brighter): t runs from 0 at 200px to 1 at the cursor */
-        var t = near ? 1 - d / 200 : 0;
+        /* the closer to the cursor, the yellower (and brighter): fades in from 200px to 170px, full yellow inside 170px */
+        var t = near ? Math.min(1, (200 - d) / 30) : 0;
         ctx.globalAlpha = p.a + (1 - p.a) * t;
         ctx.fillStyle = p.sun ? '#ffda1f' : 'rgb(' + Math.round(169 + 86 * t) + ',' + Math.round(223 - 5 * t) + ',' + Math.round(230 - 199 * t) + ')';
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r + t, 0, 6.2832); ctx.fill();
