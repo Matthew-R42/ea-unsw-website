@@ -349,7 +349,7 @@
         var x = keyboard ? r.width / 2 : e.clientX - r.left, y = keyboard ? r.height / 2 : e.clientY - r.top;
         for (var k = 0; k < 5; k++) {
           var f = doc.createElement('span'); f.className = 'floaty';
-          f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
+          f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffda1f" stroke="#111111" stroke-width="1.5"/></svg>';
           f.style.left = x + 'px'; f.style.top = y + 'px';
           f.style.setProperty('--dx', (Math.random() * 140 - 70) + 'px'); f.style.animationDelay = (k * 70) + 'ms';
           btn.appendChild(f); (function (f) { var gone = function () { if (f.parentNode) f.remove(); }; f.addEventListener('animationend', function (ev) { if (ev.target === f) gone(); }); setTimeout(gone, 2200); })(f);
@@ -426,23 +426,23 @@
       var bh = Math.max(2, h / maxh * (H - PADB - PADT));
       bars.push(el('rect', { x: i * bw + 1, y: H - PADB - bh, width: bw - 2, height: bh, rx: 3 }));
     });
-    el('line', { x1: 0, y1: H - PADB, x2: W, y2: H - PADB, stroke: '#0a2a30', 'stroke-width': 2 });
+    el('line', { x1: 0, y1: H - PADB, x2: W, y2: H - PADB, stroke: '#111111', 'stroke-width': 2 });
     [[1000, '$1k'], [10000, '$10k'], [100000, '$100k a year']].forEach(function (t) {
       var x = xOf(t[0]);
-      el('line', { x1: x, y1: H - PADB, x2: x, y2: H - PADB + 5, stroke: '#0a2a30', 'stroke-width': 2 });
+      el('line', { x1: x, y1: H - PADB, x2: x, y2: H - PADB + 5, stroke: '#111111', 'stroke-width': 2 });
       el('text', { x: x, y: H - 6, 'text-anchor': t[0] === 100000 ? 'end' : 'middle' }).textContent = t[1];
     });
     var you = el('g', { 'class': 'you-line' });
     function add(name, attrs, txt) { var e = doc.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); if (txt) e.textContent = txt; you.appendChild(e); return e; }
-    add('line', { x1: 0, y1: PADT - 6, x2: 0, y2: H - PADB, stroke: '#0a2a30', 'stroke-width': 2.5, 'stroke-dasharray': '5 5' });
-    add('circle', { cx: 0, cy: PADT - 8, r: 7, fill: '#ffda1f', stroke: '#0a2a30', 'stroke-width': 2.5 });
+    add('line', { x1: 0, y1: PADT - 6, x2: 0, y2: H - PADB, stroke: '#111111', 'stroke-width': 2.5, 'stroke-dasharray': '5 5' });
+    add('circle', { cx: 0, cy: PADT - 8, r: 7, fill: '#ffda1f', stroke: '#111111', 'stroke-width': 2.5 });
     var youT = add('text', { x: 13, y: PADT - 2, 'class': 'you-t' }, 'you');
     var LO = Math.log(1000), HI = Math.log(250000), mineNow = -1;
     function render(aud) {
       aud = clamp(aud || 0, 0, 5000000);
       var pc = share(aud) * 100, x = xOf(aud), mine = Math.min(BINS - 1, Math.floor(x / bw)); mineNow = mine;
       $('#rich-pct').textContent = pc >= 99.95 ? '99.9%' : (pc >= 99 ? pc.toFixed(1) + '%' : Math.round(pc) + '%');
-      bars.forEach(function (b, i) { b.setAttribute('fill', i < mine ? '#0c869b' : (i === mine ? '#ffda1f' : '#cfe0e0')); b.setAttribute('stroke', i === mine ? '#0a2a30' : 'none'); b.setAttribute('stroke-width', 2); });
+      bars.forEach(function (b, i) { b.setAttribute('fill', i < mine ? '#555555' : (i === mine ? '#ffda1f' : '#d9d9d6')); b.setAttribute('stroke', i === mine ? '#111111' : 'none'); b.setAttribute('stroke-width', 2); });
       you.setAttribute('transform', 'translate(' + x + ' 0)');
       toneTip();
       var flip = x > W * 0.7;
@@ -546,7 +546,7 @@
     var LO = Math.log(50), HI = Math.log(50000), COLS = 50, S = 14;
     var win = $('.icard.win'), card = $('#dog-card'), moment = $('#dog-moment'), wasFull = false, wave = 0, lastOps = 0;
     /* dots take the card's text colour, so they suit light and dark mode */
-    function ink() { return getComputedStyle(c).color || '#0a2a30'; }
+    function ink() { return getComputedStyle(c).color || '#111111'; }
     var MAX = 999999999, lastDots = 0;
     window.addEventListener('themechange', function () { if (!wave) draw(lastDots); });
     function draw(n) {
@@ -612,7 +612,7 @@
           var col = i % COLS, row = Math.floor(i / COLS), k = clamp((t - (col + row) / span * 750) / 280, 0, 1);
           if (k < 1) more = true;
           if (k <= 0) continue;
-          ctx.fillStyle = k < 1 ? '#0c869b' : ink();
+          ctx.fillStyle = k < 1 ? '#555555' : ink();
           ctx.beginPath(); ctx.arc(col * S + S / 2, row * S + S / 2, S * 0.36 * Math.max(0, back(k)), 0, 6.2832); ctx.fill();
         }
         wave = more ? requestAnimationFrame(step) : 0;
@@ -673,7 +673,7 @@
 
   function confetti(host) {
     if (calm) return;
-    var cols = ['#ffda1f', '#0c869b', '#a9dfe6', '#0a2a30', '#ff8f6b'];
+    var cols = ['#ffda1f', '#555555', '#d6d6d3', '#111111', '#ff8f6b'];
     for (var i = 0; i < 36; i++) {
       var c = doc.createElement('span'); c.className = 'confetti';
       c.style.background = cols[i % cols.length];
@@ -980,7 +980,7 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       var ink = getComputedStyle(canvas).color;
       for (var i = 0; i < N; i++) {
-        ctx.fillStyle = i < dPast ? '#0c869b' : i < dPast + dNow ? '#ffda1f' : ink;
+        ctx.fillStyle = i < dPast ? '#555555' : i < dPast + dNow ? '#ffda1f' : ink;
         ctx.globalAlpha = i < dPast + dNow ? 1 : .5;
         ctx.beginPath(); ctx.arc((i % cols) * S + S / 2, Math.floor(i / cols) * S + S / 2, S * .36, 0, 6.2832); ctx.fill();
       }

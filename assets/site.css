@@ -2,20 +2,20 @@
    Layout concept: a society that shows its working. Graph-paper grids, dots that
    stand for real units, mono labels for weeks and numbers, and one loud yellow. */
 :root {
-  --ink: #0a2a30;
-  --ink-soft: #3f5b61;
-  --paper: #f4f9f8;
+  --ink: #111111;
+  --ink-soft: #4b4b4b;
+  --paper: #fafaf8;
   --card: #ffffff;
-  --line: #cfe0e0;
-  --teal: #0c869b;
-  --teal-strong: #0a6c7e;
-  --deep: #054d5a;
-  --night: #04343d;
-  --night-shadow: #021f25;
-  --wash: #e0f0f1;
+  --line: #d9d9d6;
+  --teal: #333333;
+  --teal-strong: #111111;
+  --deep: #1f1f1f;
+  --night: #141414;
+  --night-shadow: #000000;
+  --wash: #efefec;
   --sun: #ffda1f;
   --sun-deep: #f0b51f;
-  --mist: #a9dfe6;
+  --mist: #d6d6d3;
   --display: "Bricolage Grotesque", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
@@ -67,7 +67,7 @@ a:hover { color: var(--deep); }
 .more .arrow { transition: transform .16s ease; }
 
 /* Header */
-.site-head { position: sticky; top: 0; z-index: 30; background: rgba(244, 249, 248, 0.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1.5px solid transparent; transition: border-color .2s ease, box-shadow .2s ease; view-transition-name: site-head; }
+.site-head { position: sticky; top: 0; z-index: 30; background: rgba(250, 250, 248, 0.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1.5px solid transparent; transition: border-color .2s ease, box-shadow .2s ease; view-transition-name: site-head; }
 .site-head.scrolled { border-bottom-color: var(--ink); }
 .nav { display: flex; align-items: center; gap: 22px; min-height: 72px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); margin-right: auto; }
@@ -93,9 +93,9 @@ a:hover { color: var(--deep); }
 .band-night a:not(.btn) { color: var(--sun); }
 .band-sun { background: var(--sun); }
 .band-sun .label { color: var(--deep); }
-.grid-paper { background-image: linear-gradient(rgba(12, 134, 155, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(12, 134, 155, 0.08) 1px, transparent 1px); background-size: 40px 40px; }
+.grid-paper { background-image: linear-gradient(rgba(51, 51, 51, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(51, 51, 51, 0.08) 1px, transparent 1px); background-size: 40px 40px; }
 .band-night.grid-paper { background-image: linear-gradient(rgba(169, 223, 230, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(169, 223, 230, 0.06) 1px, transparent 1px); }
-.band-sun.grid-paper { background-image: linear-gradient(rgba(10, 42, 48, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 42, 48, 0.07) 1px, transparent 1px); }
+.band-sun.grid-paper { background-image: linear-gradient(rgba(17, 17, 17, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 17, 17, 0.07) 1px, transparent 1px); }
 .sec-head { display: grid; gap: 14px; margin-bottom: 44px; max-width: 46em; }
 .sec-head h2 { font-size: clamp(34px, 4.6vw, 56px); }
 .sec-head p:not(.label) { font-size: 18.5px; color: var(--ink-soft); max-width: 36em; }
@@ -149,10 +149,10 @@ a.panel:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--in
 .panel h2, .panel h3 { font-size: clamp(27px, 3vw, 36px); }
 .panel p:not(.label) { color: var(--ink-soft); }
 .panel .more { margin-top: auto; padding-top: 8px; color: var(--teal-strong); }
-.panel-teal { background: var(--deep); color: #dcefee; }
-a.panel-teal:hover { color: #dcefee; }
+.panel-teal { background: var(--deep); color: #e6e6e3; }
+a.panel-teal:hover { color: #e6e6e3; }
 .panel-teal h2, .panel-teal h3 { color: #fff; }
-.panel-teal p:not(.label) { color: #c5e1e3; }
+.panel-teal p:not(.label) { color: #cfcfcb; }
 .panel-teal .label { color: var(--mist); }
 .panel-teal .more { color: var(--sun); }
 
@@ -194,7 +194,7 @@ a.panel-teal:hover { color: #dcefee; }
 .strip-key { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 12px; font-size: 14px; color: var(--ink-soft); }
 .strip-key i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--ink); background: var(--sun); margin-right: 7px; vertical-align: -1px; }
 .strip-key i.fe { background: var(--teal); }
-.strip-bar { position: sticky; top: 73px; z-index: 20; background: rgba(244, 249, 248, .95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1.5px solid var(--line); padding-block: 12px; }
+.strip-bar { position: sticky; top: 73px; z-index: 20; background: rgba(250, 250, 248, .95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1.5px solid var(--line); padding-block: 12px; }
 #tip { position: absolute; z-index: 60; max-width: 250px; background: var(--sun); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); padding: 8px 11px; border-radius: 10px; font: 500 14px/1.35 var(--body); pointer-events: none; opacity: 0; transform: translateY(4px); transition: opacity .14s ease, transform .14s ease; }
 #tip.show { opacity: 1; transform: none; }
 #tip b { display: block; font-weight: 700; }
@@ -267,7 +267,7 @@ a.tcard:hover { transform: translateY(-5px); box-shadow: 6px 8px 0 var(--ink); c
 /* Lens (scale, neglectedness, tractability) */
 .lens { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
 .lens-figure svg { display: block; width: 100%; height: auto; max-width: 440px; margin: 0 auto; overflow: visible; }
-.lens-c { fill: rgba(169, 223, 230, .12); stroke: var(--mist); stroke-width: 2.5; transition: transform .5s cubic-bezier(.3, 1.3, .5, 1), opacity .3s ease, fill .3s ease; transform-box: fill-box; transform-origin: center; }
+.lens-c { fill: rgba(214, 214, 211, .12); stroke: var(--mist); stroke-width: 2.5; transition: transform .5s cubic-bezier(.3, 1.3, .5, 1), opacity .3s ease, fill .3s ease; transform-box: fill-box; transform-origin: center; }
 .lens-c.off { opacity: .28; fill: transparent; stroke-dasharray: 6 7; }
 #lens-a.off { transform: translate(-22px, -16px); }
 #lens-b.off { transform: translate(22px, -16px); }
@@ -280,7 +280,7 @@ a.tcard:hover { transform: translateY(-5px); box-shadow: 6px 8px 0 var(--ink); c
 .toggle::before { content: ""; width: 18px; height: 18px; border-radius: 50%; border: 2px solid currentColor; display: grid; place-content: center; font: 800 12px/1 var(--body); }
 .toggle[aria-pressed="true"] { background: var(--sun); border-color: var(--sun); color: var(--ink); }
 .toggle[aria-pressed="true"]::before { content: "\2713"; background: var(--ink); border-color: var(--ink); color: var(--sun); }
-.lens-say { min-height: 3.2em; font-size: 17px; color: #c5e1e3; }
+.lens-say { min-height: 3.2em; font-size: 17px; color: #cfcfcb; }
 
 /* 80,000 hours dots */
 .hours { display: grid; grid-template-columns: repeat(16, 1fr); gap: 10px; max-width: 620px; }
@@ -319,9 +319,9 @@ a.tcard:hover { transform: translateY(-5px); box-shadow: 6px 8px 0 var(--ink); c
 .value:nth-child(odd):hover { transform: rotate(-1.5deg) translateY(-4px); }
 .value:nth-child(even):hover { transform: rotate(1.5deg) translateY(-4px); }
 .value:nth-child(2) { background: var(--sun); }
-.value:nth-child(3) { background: var(--deep); color: #dcefee; }
+.value:nth-child(3) { background: var(--deep); color: #e6e6e3; }
 .value:nth-child(3) h3 { color: #fff; }
-.value:nth-child(3) p:not(.label) { color: #c5e1e3; }
+.value:nth-child(3) p:not(.label) { color: #cfcfcb; }
 .value h3 { font-size: 24px; }
 .value p:not(.label) { font-size: 15.5px; color: var(--ink-soft); }
 .value:nth-child(2) p:not(.label) { color: var(--ink); }
@@ -339,7 +339,7 @@ a.tcard:hover { transform: translateY(-5px); box-shadow: 6px 8px 0 var(--ink); c
 .badge { position: absolute; width: 150px; height: 150px; right: max(4%, 24px); top: 34px; }
 .badge svg { width: 100%; height: 100%; overflow: visible; }
 .badge text { font: 500 11.5px var(--mono); letter-spacing: .14em; text-transform: uppercase; fill: var(--ink); }
-.foot { background: var(--night); border-top: 1.5px solid rgba(169, 223, 230, .18); color: #cfe0df; padding-block: 16px; }
+.foot { background: var(--night); border-top: 1.5px solid rgba(214, 214, 211, .18); color: #d9d9d6; padding-block: 16px; }
 .foot-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
 .foot .brand { color: #fff; margin: 0; }
 .foot .brand .bulb { color: var(--sun); width: 20px; height: 30px; }
@@ -439,12 +439,12 @@ a.tcard:hover { transform: translateY(-5px); box-shadow: 6px 8px 0 var(--ink); c
 /* ---------- v2 additions ---------- */
 /* Effective + Altruism word cards */
 .word { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 26px; align-items: center; padding: 30px; border: 2px solid var(--ink); border-radius: var(--radius); background: var(--card); box-shadow: 6px 6px 0 var(--ink); }
-.word-teal { background: var(--deep); color: #dcefee; }
+.word-teal { background: var(--deep); color: #e6e6e3; }
 .word-teal h3 { color: #fff; }
 .word h3 { font-size: clamp(34px, 4vw, 48px); }
 .word .def { font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.4; margin: 8px 0 10px; }
 .word p.more-text { color: var(--ink-soft); font-size: 16px; }
-.word-teal p.more-text { color: #c5e1e3; }
+.word-teal p.more-text { color: #cfcfcb; }
 .word-art { position: relative; width: 150px; height: 150px; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 50%; }
 .word-art svg { width: 100%; height: 100%; overflow: visible; display: block; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); }
 .word-art:hover svg { transform: scale(1.06) rotate(-3deg); }
@@ -489,7 +489,7 @@ input[type="range"] { width: 100%; max-width: 420px; accent-color: var(--teal); 
 .lens-ex { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 16px; align-items: center; padding: 16px 18px; border-radius: 16px; background: var(--deep); border: 2px solid var(--night-shadow); margin-top: 6px; animation: pop .4s cubic-bezier(.3, 1.5, .5, 1) both; }
 .lens-ex .art { width: 84px; height: 84px; }
 .lens-ex b { display: block; font: 700 21px/1.2 var(--display); color: #fff; letter-spacing: -0.01em; }
-.lens-ex span { color: #c5e1e3; font-size: 15.5px; }
+.lens-ex span { color: #cfcfcb; font-size: 15.5px; }
 .lens-ex .label { color: var(--sun); display: block; margin-bottom: 2px; }
 
 /* Cause tabs + video */
@@ -832,7 +832,7 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .site-head .nav-links a:not(.btn)::before { height: 3px; bottom: 3px; }
 .site-head .menu-toggle { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .7); }
 .site-head .btn { border-color: var(--night-shadow); box-shadow: 3px 3px 0 var(--night-shadow); }
-.site-head.light { background: rgba(244, 249, 248, .95); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom-color: var(--ink); }
+.site-head.light { background: rgba(250, 250, 248, .95); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom-color: var(--ink); }
 .site-head.light .brand { color: var(--ink); }
 .site-head.light .brand .bulb { color: var(--teal); }
 .site-head.light .brand-text b { color: var(--teal-strong); }
@@ -856,7 +856,7 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 /* Light bands */
 .band { position: relative; }
 .band-soft { background: var(--soft); }
-.band-soft.grid-paper { background-image: linear-gradient(rgba(10, 42, 48, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 42, 48, .05) 1px, transparent 1px); }
+.band-soft.grid-paper { background-image: linear-gradient(rgba(17, 17, 17, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 17, 17, .05) 1px, transparent 1px); }
 /* A faint light follows the cursor in the dark top section of each page only.
    Its size matches how far the hero dots react to the cursor (170px on inner
    pages, about 64px on the home page; see the two canvas blocks in site.js). */
@@ -865,9 +865,9 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .grid-paper > .wrap { position: relative; z-index: 1; }
 
 /* Parts that used to sit on dark bands */
-.lens-c { fill: rgba(12, 134, 155, .10); stroke: var(--teal); cursor: pointer; }
+.lens-c { fill: rgba(51, 51, 51, .10); stroke: var(--teal); cursor: pointer; }
 .lens-c.off { fill: transparent; }
-.lens-c:hover { fill: rgba(12, 134, 155, .2); }
+.lens-c:hover { fill: rgba(51, 51, 51, .2); }
 .lens-t { fill: var(--ink); pointer-events: none; }
 .toggle { border-color: var(--ink); color: var(--ink); background: var(--card); }
 .toggle[aria-pressed="true"] { border-color: var(--ink); }
@@ -962,7 +962,7 @@ button[disabled] { opacity: .6; cursor: progress; }
 .wk-fellow .arrow { align-self: center; }
 .wk-fellow .words { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
 .wk-fellow .w-lab { font: 600 14.5px/1.2 var(--hand); color: var(--sun); margin-right: 4px; }
-.wk-fellow .words i { font: 600 13.5px/1 var(--body); font-style: normal; padding: 5px 10px 6px; border-radius: 999px; border: 1.5px solid rgba(169, 223, 230, .6); color: #fff; }
+.wk-fellow .words i { font: 600 13.5px/1 var(--body); font-style: normal; padding: 5px 10px 6px; border-radius: 999px; border: 1.5px solid rgba(214, 214, 211, .6); color: #fff; }
 .wk-fellow .words i[data-tip] { cursor: help; }
 .wk-fellow .words i[data-tip]:hover { background: var(--sun); border-color: var(--sun); color: var(--ink); }
 .ideas { align-items: center; }
@@ -978,7 +978,7 @@ button[disabled] { opacity: .6; cursor: progress; }
    The band's grid is anchored to its bottom edge and the footer's to its top,
    so the grid lines run on without a seam. */
 .join.band-sun.grid-paper { background-position: left bottom; }
-.foot.foot-sun { background-color: var(--sun); background-image: linear-gradient(rgba(10, 42, 48, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 42, 48, 0.07) 1px, transparent 1px); background-size: 40px 40px; background-position: left top; border-top: 0; color: var(--ink); padding-bottom: 22px; }
+.foot.foot-sun { background-color: var(--sun); background-image: linear-gradient(rgba(17, 17, 17, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 17, 17, 0.07) 1px, transparent 1px); background-size: 40px 40px; background-position: left top; border-top: 0; color: var(--ink); padding-bottom: 22px; }
 .foot-sun .brand, .foot-sun .brand .bulb { color: var(--ink); }
 .foot-sun .brand-text b { color: var(--deep); }
 .foot-sun .social a { color: var(--ink); }
@@ -997,7 +997,7 @@ button[disabled] { opacity: .6; cursor: progress; }
 .say-hi a:hover, .say-hi a:focus-visible { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--ink); background: var(--ink); color: var(--sun); }
 .say-hi svg { width: 20px; height: 20px; display: block; flex: none; }
 .foot.foot-sun { padding-top: 0; }
-.foot-sun .foot-row { max-width: none; margin-inline: max(var(--gutter), calc(50% - 380px)); padding-inline: 0; border-top: 1.5px dashed rgba(10, 42, 48, .35); padding-top: 18px; justify-content: space-between; }
+.foot-sun .foot-row { max-width: none; margin-inline: max(var(--gutter), calc(50% - 380px)); padding-inline: 0; border-top: 1.5px dashed rgba(17, 17, 17, .35); padding-top: 18px; justify-content: space-between; }
 .foot-sun .arc-logo { height: 42px; }
 @media (max-width: 640px) {
   .join.band { padding-block: 34px 22px; }
@@ -1046,7 +1046,7 @@ button[disabled] { opacity: .6; cursor: progress; }
 .upnext:has(a:hover), .upnext:has(a:focus-visible) { box-shadow: 6px 6px 0 var(--ink); transform: rotate(-2deg) translate(-2px, -2px); }
 .upnext a:hover .arrow { transform: translateX(4px); }
 .dist-tip.tone-teal { background: var(--teal); color: #fff; }
-.dist-tip.tone-grey { background: #cfe0e0; color: var(--ink); }
+.dist-tip.tone-grey { background: #d9d9d6; color: var(--ink); }
 /* Session names under the fellowship path: bold display font so they stand out */
 .path span.n { font: 700 clamp(14.5px, 1.45vw, 18px)/1.15 var(--display); letter-spacing: -0.01em; color: var(--ink); text-wrap: balance; }
 @media (max-width: 640px) { .path li { padding: 0 1px; } .path span.n { font-size: 13.5px; letter-spacing: -0.025em; } }
@@ -1178,17 +1178,17 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
    colours, so they reset the ink back to dark inside them. */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --ink: #e4f1f0;
-  --ink-soft: #a7c3c6;
-  --paper: #0a1e22;
-  --card: #10303a;
-  --line: #24474f;
-  --teal: #2aa9bd;
-  --teal-strong: #74d2e0;
-  --wash: #0f2c33;
-  --soft: #1d2a1f;
-  --night: #04282f;
-  --night-shadow: #000f12;
+  --ink: #f0f0ee;
+  --ink-soft: #b3b3ae;
+  --paper: #121212;
+  --card: #1d1d1d;
+  --line: #3a3a38;
+  --teal: #c8c8c4;
+  --teal-strong: #ffe14d;
+  --wash: #1a1a1a;
+  --soft: #1f1d10;
+  --night: #0b0b0b;
+  --night-shadow: #000000;
 }
 :root[data-theme="dark"] a:hover { color: var(--mist); }
 /* light stickers keep dark ink */
@@ -1245,7 +1245,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 :root[data-theme="dark"] .yt .play,
 :root[data-theme="dark"] a.chip:hover,
 :root[data-theme="dark"] button.cause[aria-selected="true"] {
-  --ink: #0a2a30; --ink-soft: #3f5b61; --teal-strong: #0a6c7e; --card: #ffffff; --paper: #f4f9f8; --wash: #e0f0f1; --teal: #0c869b;
+  --ink: #111111; --ink-soft: #4b4b4b; --teal-strong: #111111; --card: #ffffff; --paper: #fafaf8; --wash: #efefec; --teal: #333333;
 }
 :root[data-theme="dark"] .faq summary::after,
 :root[data-theme="dark"] .nav-links a:not(.btn)::before,
@@ -1253,15 +1253,15 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 :root[data-theme="dark"] .sess summary::after,
 :root[data-theme="dark"] .steps li::before,
 :root[data-theme="dark"] .story li::before {
-  --ink: #0a2a30; color: #0a2a30;
+  --ink: #111111; color: #111111;
 }
 /* their own text colour too (zero specificity, so any colour a rule sets still wins) */
 :where(:root[data-theme="dark"]) :where(#tip, .avatar, .band-sun, .btn-sun, .bubble, .checks label:has(input:checked), .chip .pulse, .chipbtn:hover, .dist-tip, .extras a:hover, .face.back, .foot.foot-sun, .hours i:hover, .icard .fill, .ideas span[data-tip]:focus-visible, .ideas span[data-tip]:hover, .jar-token, .link-tile:hover, .marquee, .mbar .fill, .mbar .track, .on-dark .btn-ghost:hover, .path .last a, .path a, .path li a, .people i.you, .prog i, .read:hover, .res a:hover, .reward, .rich-warm, .rolecard.pick[aria-pressed="true"], .say-hi a, .sched-head .chip, .social a:hover, .star[aria-pressed="true"], .strip .dot, .strip li.on:hover, .strip-key i, .tag-sun, .tick, .tile.sunny, .toggle[aria-pressed="true"], .tray .tok, .upnext, .value:nth-child(2), .vs, .wk-fellow .emo-dot, .wk-fellow .words i[data-tip]:hover, .wk.is-now .wk-node, .yt .play, a.chip:hover, button.cause[aria-selected="true"]) { color: var(--ink); }
-:root[data-theme="dark"] .grid-paper:not(.band-night):not(.band-sun) { background-image: linear-gradient(rgba(169, 223, 230, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(169, 223, 230, 0.05) 1px, transparent 1px); }
-:root[data-theme="dark"] .site-head.light { background: rgba(10, 30, 34, .94); }
+:root[data-theme="dark"] .grid-paper:not(.band-night):not(.band-sun) { background-image: linear-gradient(rgba(214, 214, 211, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(214, 214, 211, 0.05) 1px, transparent 1px); }
+:root[data-theme="dark"] .site-head.light { background: rgba(18, 18, 18, .94); }
 :root[data-theme="dark"] .dm-in { background: var(--night-shadow); color: #fff; box-shadow: inset 0 0 0 2px var(--line); }
 /* line drawings: a thin light edge so their dark lines still show on dark cards */
-:root[data-theme="dark"] :is(.art, .res-i, .word-art) svg { filter: drop-shadow(1px 0 0 rgba(228, 241, 240, .85)) drop-shadow(-1px 0 0 rgba(228, 241, 240, .85)) drop-shadow(0 1px 0 rgba(228, 241, 240, .85)) drop-shadow(0 -1px 0 rgba(228, 241, 240, .85)); }
+:root[data-theme="dark"] :is(.art, .res-i, .word-art) svg { filter: drop-shadow(1px 0 0 rgba(240, 240, 238, .85)) drop-shadow(-1px 0 0 rgba(240, 240, 238, .85)) drop-shadow(0 1px 0 rgba(240, 240, 238, .85)) drop-shadow(0 -1px 0 rgba(240, 240, 238, .85)); }
 
 /* Theme button in the header */
 .theme-toggle { flex: none; display: grid; place-content: center; width: 40px; height: 40px; padding: 0; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .7); background: transparent; color: #fff; cursor: pointer; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), background-color .2s ease; }
@@ -1278,12 +1278,12 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .impact-head { margin-bottom: 30px; }
 
 /* Dark mode fixes found by the contrast check */
-:root[data-theme="dark"] .skip { color: #0a2a30; }
+:root[data-theme="dark"] .skip { color: #111111; }
 :root[data-theme="dark"] .strip li.is-now, :root[data-theme="dark"] .strip li.is-now:hover { background: var(--sun); border-color: var(--sun); }
-:root[data-theme="dark"] .strip li.is-now a { color: #0a2a30; }
-:root[data-theme="dark"] .strip li.is-now .dot { border-color: #0a2a30; }
+:root[data-theme="dark"] .strip li.is-now a { color: #111111; }
+:root[data-theme="dark"] .strip li.is-now .dot { border-color: #111111; }
 :root[data-theme="dark"] .tag:not(.tag-sun):not(.tag-line), :root[data-theme="dark"] .ideas span:not(:hover):not(:focus-visible) { color: var(--mist); }
-:root[data-theme="dark"] .strip-bar { background: rgba(10, 30, 34, .94); }
+:root[data-theme="dark"] .strip-bar { background: rgba(18, 18, 18, .94); }
 .give-note { margin-top: 22px; max-width: none; text-wrap: nowrap; }
 @media (max-width: 1000px) { .give-note { text-wrap: wrap; } }
 /* Which charity each card is about: name and mini logo on the right */
@@ -1294,7 +1294,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .lens .prose p.lens-sub { margin-top: 14px; font: 700 23px/1.2 var(--hand); letter-spacing: .01em; color: var(--teal-strong); }
 
 /* The people card stands out with a teal frame and a yellow tag instead of a yellow fill */
-.best-tag { position: absolute; top: 14px; right: 18px; z-index: 2; padding: 5px 10px 4px; border-radius: 8px; background: var(--sun); border: 2.5px solid #0a2a30; font: 700 13.5px/1.1 var(--hand); text-transform: uppercase; letter-spacing: .04em; color: #0a2a30; text-align: center; opacity: 0; visibility: hidden; transform: rotate(-6deg) scale(.6); pointer-events: none; white-space: nowrap; }
+.best-tag { position: absolute; top: 14px; right: 18px; z-index: 2; padding: 5px 10px 4px; border-radius: 8px; background: var(--sun); border: 2.5px solid #111111; font: 700 13.5px/1.1 var(--hand); text-transform: uppercase; letter-spacing: .04em; color: #111111; text-align: center; opacity: 0; visibility: hidden; transform: rotate(-6deg) scale(.6); pointer-events: none; white-space: nowrap; }
 /* shown at one whole guide dog, landing at the same moment as the Fully trained! stamp */
 #impact.is-full .best-tag { opacity: 1; visibility: visible; transform: rotate(-6deg); }
 .icard.win { overflow: hidden; }
@@ -1395,7 +1395,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 
 /* Session 1: birds */
 .bird-art svg { display: block; width: min(100%, 320px); height: auto; margin: 0 auto; }
-:root[data-theme="dark"] .bird-art .oil { fill: #000f12; stroke: #a7c3c6; stroke-width: 2; }
+:root[data-theme="dark"] .bird-art .oil { fill: #000000; stroke: #b3b3ae; stroke-width: 2; }
 .bird-bars { display: flex; align-items: flex-end; gap: 18px; margin: 14px 0 12px; }
 .bird-bar { flex: 1; display: grid; justify-items: center; gap: 6px; }
 .bird-bar i { display: block; width: 100%; background: var(--sun); border: 2px solid var(--ink); border-radius: 10px 10px 0 0; }
@@ -1419,11 +1419,11 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .ring:hover { stroke: var(--ink); stroke-dasharray: none; }
 .ring.in { fill: rgba(255, 218, 31, .36); stroke: var(--ink); stroke-dasharray: none; }
 .ring.edge { stroke-width: 4; }
-.ring-heart { fill: var(--sun); stroke: #0a2a30; stroke-width: 2.5; pointer-events: none; }
+.ring-heart { fill: var(--sun); stroke: #111111; stroke-width: 2.5; pointer-events: none; }
 .ring-list { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-wrap: wrap; gap: 7px; }
 .ring-list button { padding: 8px 13px; border: 2px solid var(--ink); border-radius: 999px; background: var(--card); color: var(--ink); font: 600 15px/1.1 var(--body); cursor: pointer; transition: background-color .15s ease, transform .15s ease; }
 .ring-list button:hover { transform: translateY(-2px); }
-.ring-list button.in { background: var(--sun); border-color: #0a2a30; }
+.ring-list button.in { background: var(--sun); border-color: #111111; }
 .ring-list button[aria-pressed="true"] { box-shadow: 3px 3px 0 var(--ink); }
 .ring-out { display: grid; gap: 6px; min-height: 11em; align-content: start; }
 .ring-count { font: 800 clamp(22px, 2.8vw, 31px)/1.1 var(--display); letter-spacing: -0.03em; overflow-wrap: anywhere; }
@@ -1445,8 +1445,8 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .sw { flex: none; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--ink); }
 .sw-a { background: var(--teal); } .sw-b { background: var(--sun); } .sw-c { background: #ff8f6b; }
 .vbar { display: flex; height: 44px; margin: 6px 0 16px; border: 2px solid var(--ink); border-radius: 12px; overflow: hidden; background: var(--paper); }
-.vbar i { display: grid; place-content: center; min-width: 0; font: 800 16px/1 var(--display); font-style: normal; color: #0a2a30; transition: width .25s ease; }
-.vbar i + i { border-left: 2px solid #0a2a30; }
+.vbar i { display: grid; place-content: center; min-width: 0; font: 800 16px/1 var(--display); font-style: normal; color: #111111; transition: width .25s ease; }
+.vbar i + i { border-left: 2px solid #111111; }
 .vbar .sw-a { color: #fff; }
 #try-views .try-say { min-height: 3.1em; }
 
@@ -1463,7 +1463,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .stamps { display: flex; flex-wrap: wrap; gap: 12px; }
 .stamp-b { width: 74px; height: 74px; border-radius: 50%; border: 2.5px dashed var(--ink-soft); background: var(--card); color: var(--ink-soft); font: 800 26px/1 var(--display); cursor: pointer; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1), background-color .2s ease; }
 .stamp-b:hover { transform: scale(1.08) rotate(-6deg); }
-.stamp-b[aria-pressed="true"] { border: 2.5px solid #0a2a30; background: var(--sun); color: #0a2a30; transform: rotate(-9deg); box-shadow: 3px 3px 0 var(--ink); }
+.stamp-b[aria-pressed="true"] { border: 2.5px solid #111111; background: var(--sun); color: #111111; transform: rotate(-9deg); box-shadow: 3px 3px 0 var(--ink); }
 .stamp-b:nth-child(even)[aria-pressed="true"] { transform: rotate(7deg); }
 #try-cert .try-say { min-height: 0; }
 .cert { position: relative; display: grid; gap: 8px; justify-items: center; text-align: center; max-width: 620px; padding: 30px 24px 24px; border: 3px double var(--ink); border-radius: 10px; background: var(--card); animation: popin .5s cubic-bezier(.3, 1.4, .5, 1) both; }
@@ -1476,9 +1476,9 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 
 /* dark mode: the yellow parts keep dark ink */
 :root[data-theme="dark"] .try:nth-child(even) { background: #17302a; }
-:root[data-theme="dark"] .ring-list button.in, :root[data-theme="dark"] .stamp-b[aria-pressed="true"], :root[data-theme="dark"] .tail-chart button.on { --ink: #0a2a30; color: #0a2a30; }
-:root[data-theme="dark"] .tail-chart button.on { outline-color: #e4f1f0; }
-:root[data-theme="dark"] .bird-bar i, :root[data-theme="dark"] .vbar { border-color: #e4f1f0; }
+:root[data-theme="dark"] .ring-list button.in, :root[data-theme="dark"] .stamp-b[aria-pressed="true"], :root[data-theme="dark"] .tail-chart button.on { --ink: #111111; color: #111111; }
+:root[data-theme="dark"] .tail-chart button.on { outline-color: #f0f0ee; }
+:root[data-theme="dark"] .bird-bar i, :root[data-theme="dark"] .vbar { border-color: #f0f0ee; }
 
 @media (max-width: 860px) {
   .try { padding: 20px 16px; }
@@ -1510,7 +1510,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .ideas4 { list-style: none; counter-reset: i4; margin: 0; padding: 0; display: grid; }
 .ideas4 li { counter-increment: i4; position: relative; display: grid; grid-template-columns: 58px minmax(0, 1fr) auto; gap: 4px 22px; align-items: center; padding: 22px 0; border-top: 2px solid var(--ink); }
 .ideas4 li:last-child { border-bottom: 2px solid var(--ink); }
-.ideas4 li::before { content: counter(i4); grid-row: 1 / span 2; display: grid; place-content: center; width: 58px; height: 58px; border-radius: 50%; background: var(--sun); border: 2px solid #0a2a30; color: #0a2a30; font: 800 26px/1 var(--display); transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
+.ideas4 li::before { content: counter(i4); grid-row: 1 / span 2; display: grid; place-content: center; width: 58px; height: 58px; border-radius: 50%; background: var(--sun); border: 2px solid #111111; color: #111111; font: 800 26px/1 var(--display); transition: transform .3s cubic-bezier(.3, 1.6, .5, 1); }
 .ideas4 li:hover::before { transform: rotate(-10deg) scale(1.12); }
 .ideas4 b { grid-column: 2; font: 800 clamp(28px, 4.4vw, 54px)/1.05 var(--display); letter-spacing: -0.035em; }
 .ideas4 span { grid-column: 2; font-size: 18px; color: var(--ink-soft); max-width: 36em; }
@@ -1524,7 +1524,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .pcard h3 { font-size: 22px; }
 .pcard p:not(.pn) { margin-top: 6px; font-size: 15.5px; color: var(--ink-soft); }
 .dos .do-n { font: 800 clamp(48px, 6vw, 76px)/.95 var(--display); letter-spacing: -0.045em; color: var(--teal-strong); }
-.dos .link-tile:hover .do-n { color: #0a2a30; }
+.dos .link-tile:hover .do-n { color: #111111; }
 .try .row b { white-space: nowrap; }
 .try .row { grid-template-columns: 6.6em minmax(40px, 1fr) 6.2em; }
 @media (max-width: 980px) {
@@ -1551,11 +1551,11 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
   .pledge-out p:not(.try-say) { grid-template-columns: minmax(0, 5.6em) minmax(0, 1fr); gap: 10px; }
   .cmp-win .n { font-size: 64px; }
 }
-:root[data-theme="dark"] .vbar .sw-a { color: #0a2a30; }
+:root[data-theme="dark"] .vbar .sw-a { color: #111111; }
 
 /* 17 Nov feedback */
 /* The brain's question bubble is blue, to match the brain (the heart's stays yellow) */
-.word-art:not([data-heart]) .bubble { background: #a9dfe6; }
+.word-art:not([data-heart]) .bubble { background: #d6d6d3; }
 /* Cards no longer lean towards the cursor; the ones that had no hover of their own now just lift */
 .icard, .reward { transition: transform .2s ease, box-shadow .2s ease; }
 .icard:hover, .reward:hover { transform: translateY(-4px); }
@@ -1577,13 +1577,13 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 :root[data-theme="dark"] .say-hi a:hover, :root[data-theme="dark"] .say-hi a:focus-visible { background: var(--ink); }
 :root[data-theme="dark"] .join .badge > svg > circle:first-child { fill: #f1ecd8; }
 /* Footer: copyright and "part of the global movement" lines, small, under the logo row */
-.foot-legal { margin-top: 12px; text-align: center; font-size: 13px; line-height: 1.5; color: #a7c3c6; }
+.foot-legal { margin-top: 12px; text-align: center; font-size: 13px; line-height: 1.5; color: #b3b3ae; }
 .foot-legal p { margin: 0; }
 .foot-legal a { color: var(--mist); font-weight: 600; }
 .foot-legal a:hover { color: #fff; }
-.foot-sun .foot-legal { color: #3f5b61; padding-bottom: 6px; }
-.foot-sun .foot-legal a { color: #0a2a30; }
-.foot-sun .foot-legal a:hover { color: #054d5a; }
+.foot-sun .foot-legal { color: #4b4b4b; padding-bottom: 6px; }
+.foot-sun .foot-legal a { color: #111111; }
+.foot-sun .foot-legal a:hover { color: #1f1f1f; }
 
 /* Less "template" (17 Nov). Hard offset shadows stay only on things you click (buttons, links, cards on hover, chosen options);
    boxes that just hold content are flat. */
@@ -1605,3 +1605,23 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .foot-legal p + p { margin-left: .35em; }
 .foot-row .foot-legal { margin: 0; flex: 1 1 280px; padding: 0; }
 .foot-row .foot-legal p { display: block; margin: 0; }
+
+/* UNSW colours (17 Nov): everything uses yellow, black, white and greys, except each page's title section and the navbar
+   while it sits over one, which keep the original teal. (--paper is not restored, so the wave at the bottom of a title
+   section still matches the page below it.) */
+html { background: #04343d; }
+:root[data-theme="dark"] { background: #04282f; }
+.hero, .page-hero, .site-head:not(.light) {
+  --ink: #0a2a30; --ink-soft: #3f5b61; --card: #ffffff; --line: #cfe0e0; --teal: #0c869b; --teal-strong: #0a6c7e;
+  --deep: #054d5a; --night: #04343d; --night-shadow: #021f25; --wash: #e0f0f1; --mist: #a9dfe6;
+}
+:root[data-theme="dark"] :is(.hero, .page-hero, .site-head:not(.light)) {
+  --ink: #e4f1f0; --ink-soft: #a7c3c6; --card: #10303a; --line: #24474f; --teal: #2aa9bd; --teal-strong: #74d2e0;
+  --wash: #0f2c33; --night: #04282f; --night-shadow: #000f12;
+}
+:root[data-theme="dark"] { --mist: #9a9a96; --deep: #1f1f1f; }
+/* About us letter circles: yellows, white and light greys, so none turns into a dark hole on the dark cards */
+.person:nth-child(2) .avatar { background: #ffffff; }
+.person:nth-child(3) .avatar { background: #d6d6d3; color: #111111; }
+.person:nth-child(4) .avatar { background: #f0b51f; }
+.person:nth-child(5) .avatar { background: #efefec; color: #111111; }
