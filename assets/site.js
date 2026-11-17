@@ -778,8 +778,11 @@
       for (var i = 0; i < pts.length; i++) {
         var p = pts[i], dx = p.x - m.x, dy = p.y - m.y, d = Math.sqrt(dx * dx + dy * dy), near = d < 200;
         if (near) { ctx.globalAlpha = (1 - d / 200) * .55; ctx.strokeStyle = '#ffda1f'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
-        ctx.globalAlpha = near ? 1 : p.a; ctx.fillStyle = near || p.sun ? '#ffda1f' : '#a9dfe6';
-        ctx.beginPath(); ctx.arc(p.x, p.y, near ? p.r + 1 : p.r, 0, 6.2832); ctx.fill();
+        /* the closer to the cursor, the yellower (and brighter): t runs from 0 at 200px to 1 at the cursor */
+        var t = near ? 1 - d / 200 : 0;
+        ctx.globalAlpha = p.a + (1 - p.a) * t;
+        ctx.fillStyle = p.sun ? '#ffda1f' : 'rgb(' + Math.round(169 + 86 * t) + ',' + Math.round(223 - 5 * t) + ',' + Math.round(230 - 199 * t) + ')';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r + t, 0, 6.2832); ctx.fill();
       }
       ctx.globalAlpha = 1;
     }
