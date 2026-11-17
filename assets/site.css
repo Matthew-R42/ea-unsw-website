@@ -1584,3 +1584,24 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 .foot-sun .foot-legal { color: #3f5b61; padding-bottom: 6px; }
 .foot-sun .foot-legal a { color: #0a2a30; }
 .foot-sun .foot-legal a:hover { color: #054d5a; }
+
+/* Less "template" (17 Nov). Hard offset shadows stay only on things you click (buttons, links, cards on hover, chosen options);
+   boxes that just hold content are flat. */
+.word, .money, .rich-out, .reward, .form-done, .try-card, .sess[open]:not(.closing), .wk.is-now .wk-panel,
+.icard.win, .try .icard.win, .cmp-win, .wk-card .emo, .sticker { box-shadow: none; }
+@media (max-width: 760px) { .word, .rich-out { box-shadow: none; } }
+/* Nothing floats or spins on its own any more */
+.float, .float-slow, .spin-slow { animation: none; }
+.hero.grid-paper::after, .page-hero.grid-paper::after { display: none; }
+/* The pulse stays, just softer and slower */
+.btn-sun::after { border-width: 2px; animation-duration: 3.4s; }
+@keyframes ring { 0% { opacity: .45; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.06, 1.28); } }
+.chip .pulse { animation-duration: 2.8s; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 218, 31, .45); } 70% { box-shadow: 0 0 0 6px rgba(255, 218, 31, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 218, 31, 0); } }
+/* "Last term we met in Mathews 309..." under the Term 1 schedule */
+.last-term { margin-top: 18px; max-width: 40em; font-size: 15.5px; color: var(--ink-soft); }
+/* Footer legal lines: one line under the logo row; on the home page they sit inside the row, between the name and the Arc logo */
+.foot-legal p { display: inline; }
+.foot-legal p + p { margin-left: .35em; }
+.foot-row .foot-legal { margin: 0; flex: 1 1 280px; padding: 0; }
+.foot-row .foot-legal p { display: block; margin: 0; }
