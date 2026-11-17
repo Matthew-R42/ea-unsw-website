@@ -237,7 +237,7 @@
     var LINES = {
       '111': 'When all three overlap, that is where an extra hour of your time has the most impact on the world.',
       '110': 'This is a very important issue that not many people have thought about. But unfortunately, there\'s nothing we can really <i>do</i> about it, at least with our current technology and research.',
-      '101': 'It\'s important, don\'t get us wrong, not to mention we know exactly how to fix it. But so many people are working on it already that your extra pair of hands could add much more value somewhere else.',
+      '101': 'It\'s important, don\'t get us wrong, not to mention we know exactly how to fix it. But so many people are working on it already that your extra pair of hands could add more value somewhere else.',
       '011': 'You know, it\'s nice to fix these small things. But there are much more pressing problems in the world we could be working on instead.',
       '100': 'Look, everyone cares about it, including us. But you\'ve got so many people already working on it, and, like, what are we supposed to do?',
       '010': 'Nobody is working on it.<br>There is probably a reason nobody is working on it.',
@@ -368,14 +368,17 @@
       var s = doc.createElement('span'); s.className = 'kl'; s.textContent = ch; s.style.setProperty('--i', i); s.setAttribute('aria-hidden', 'true'); k.appendChild(s);
     });
     k.setAttribute('tabindex', '0'); k.setAttribute('role', 'button');
-    function spread() {
+    function spread(e) {
       if (calm) return;
       k.classList.remove('hug'); void k.offsetWidth; k.classList.add('hug');
-      var ring = doc.createElement('span'); ring.className = 'kind-ring'; k.appendChild(ring);
+      /* Hearts burst from the click point; from the keyboard, from the middle of the word */
+      var r = k.getBoundingClientRect(), mouse = e && e.type === 'click' && e.detail > 0;
+      var ox = (mouse ? e.clientX - r.left : r.width / 2).toFixed(1) + 'px', oy = (mouse ? e.clientY - r.top : r.height / 2).toFixed(1) + 'px';
+      var ring = doc.createElement('span'); ring.className = 'kind-ring'; ring.style.left = ox; ring.style.top = oy; k.appendChild(ring);
       var n = 10, turn = Math.random() * Math.PI * 2, parts = [ring];
       for (var i = 0; i < n; i++) {
         var a = turn + i / n * Math.PI * 2, d = 55 + Math.random() * 35, h = doc.createElement('span');
-        h.className = 'kind-heart';
+        h.className = 'kind-heart'; h.style.left = ox; h.style.top = oy;
         h.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="1.5"/></svg>';
         h.style.setProperty('--tx', (Math.cos(a) * d * 1.3).toFixed(1) + 'px');
         h.style.setProperty('--ty', (Math.sin(a) * d).toFixed(1) + 'px');
@@ -797,13 +800,12 @@
     b.addEventListener('pointerleave', function () { b.style.setProperty('--mx', '-999px'); });
   });
 
-  /* Cards lean towards the cursor */
-  if (fine && !calm) $$('.tcard, .cause, .tile, .link-tile, .icard, .reward, .rolecard, .read, .person.flip').forEach(function (el) {
+  /* About us people cards lean towards the cursor (every other card just lifts, in CSS) */
+  if (fine && !calm) $$('.person.flip').forEach(function (el) {
     el.classList.add('tilts');
-    var big = el.classList.contains('person');   /* team cards lean further */
     el.addEventListener('pointermove', function (e) {
       var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      el.style.transform = 'perspective(800px) rotateX(' + (-y * (big ? 14 : 7)).toFixed(2) + 'deg) rotateY(' + (x * (big ? 18 : 8)).toFixed(2) + 'deg) translateY(' + (big ? -8 : -4) + 'px)' + (big ? ' scale(1.03)' : '');
+      el.style.transform = 'perspective(800px) rotateX(' + (-y * 14).toFixed(2) + 'deg) rotateY(' + (x * 18).toFixed(2) + 'deg) translateY(-8px) scale(1.03)';
     });
     el.addEventListener('pointerleave', function () { el.style.transform = ''; });
   });
