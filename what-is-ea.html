@@ -40,7 +40,7 @@
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
     <nav aria-label="Main">
       <ul class="nav-links" id="nav-links">
-        <li><a href="what-is-ea.html" aria-current="page">What is EA?</a></li><li><a href="events.html">Events</a></li><li><a href="fellowship.html">Fellowship</a></li><li><a href="play.html">Play</a></li><li><a href="team.html">About us</a></li>
+        <li><a href="what-is-ea.html" aria-current="page">What is EA?</a></li><li><a href="events.html">Events</a></li><li><a href="fellowship.html">Fellowship</a></li><li><a href="team.html">About us</a></li>
         <li><a class="btn btn-sun btn-sm" href="https://campus.hellorubric.com/?s=15954&amp;mid=23499" data-tip="100% of the money we get from sign-ups goes to effective charities :)">Join us!</a></li>
       </ul>
     </nav>
@@ -61,62 +61,78 @@
   <svg class="edge" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true"><path d="M0 48 V22 C240 2 480 40 720 24 C960 8 1200 40 1440 16 V48 Z"/></svg>
 </section>
 
-<section class="band" id="impact">
+<section class="band">
   <div class="wrap">
-    <div class="impact">
-      <div data-reveal>
-        <div class="sec-head impact-head">
-          <h2>Let's take an example</h2>
-          <p>How would you go about helping blind people?</p>
-        </div>
-        <div class="rich-form" style="margin-top:0">
-          <label for="give">If you gave</label>
-          <div class="money"><span aria-hidden="true">$</span><input id="give" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="9" autocomplete="off" value="2500" aria-label="Amount in dollars"></div>
-          <input id="give-range" type="range" min="0" max="1000" value="566" aria-label="Donation slider">
-        </div>
-      </div>
-      <div class="impact-out" data-reveal style="--i:1" aria-live="polite">
-        <div class="icard win"><span class="best-tag" aria-hidden="true">1000&times; the value<br>per dollar</span><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M8 60 C28 28 92 28 112 60 C92 92 28 92 8 60 Z" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="60" cy="60" r="20" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="60" cy="60" r="8" fill="#0a2a30"/><circle cx="66" cy="54" r="3.5" fill="#fff"/><path d="M100 16 Q100 24 108 24 Q100 24 100 32 Q100 24 92 24 Q100 24 100 16 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><p class="n" id="give-ops">50</p><div class="what-row"><p class="what" id="give-ops-what">people could see again</p><a class="via" href="https://www.hollows.org/"><img src="assets/logos/fred-hollows.png" alt="" width="22" height="22">Fred Hollows Foundation</a></div><canvas id="give-dots" aria-hidden="true"></canvas><p class="dot-key" id="give-key" hidden></p></div></div>
-        <p class="or">or</p>
-        <div class="icard" id="dog-card"><span class="dog-stamp" aria-hidden="true">Fully trained!</span><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M26 34 C10 38 10 70 24 78 L36 52 Z" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M94 34 C110 38 110 70 96 78 L84 52 Z" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 22 C36 22 28 40 28 60 C28 86 42 102 60 102 C78 102 92 86 92 60 C92 40 84 22 60 22 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="60" cy="80" rx="18" ry="14" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M53 72 H67 L60 80 Z" fill="#0a2a30" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 80 V88 M52 90 q8 6 16 0" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="54" r="4.5" fill="#0a2a30"/><circle cx="74" cy="54" r="4.5" fill="#0a2a30"/></svg></span><div><p class="n" id="give-dog">5%</p><div class="what-row"><p class="what" id="give-dog-what">of a guide dog</p><a class="via" href="https://guidedogs.com.au/"><img src="assets/logos/guide-dogs-australia.png" alt="" width="22" height="22">Guide Dogs Australia</a></div><div class="track"><div class="fill" id="give-fill"></div></div></div></div>
-        <p class="dog-moment" id="dog-moment"><span><span class="dm-in">The same $<span id="dm-amt">50,000</span> buys either <span id="dm-dogs">1 guide dog</span> or cures blindness in <b id="dm-ppl">1,000 people</b></span></span></p>
-      </div>
+    <p class="bigline" data-reveal>Effective altruism is about finding the <span class="hl">best ways to help others</span>, and then actually doing them.</p>
+    <div class="halves">
+      <div class="half" data-reveal><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M72 72 L102 102" fill="none" stroke="#0a2a30" stroke-width="11" stroke-linecap="round"/><path d="M72 72 L102 102" fill="none" stroke="#0c869b" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="50" r="32" fill="#e0f0f1" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="40" cy="44" r="2.5" fill="#0a2a30"/><circle cx="56" cy="38" r="2.5" fill="#0a2a30"/><circle cx="62" cy="54" r="2.5" fill="#0a2a30"/><circle cx="46" cy="60" r="2.5" fill="#0a2a30"/><circle cx="34" cy="56" r="2.5" fill="#0a2a30"/><circle cx="52" cy="49" r="4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2"/></svg></span><div><h3>Part research</h3><p>Which problems are biggest? What actually works? What is everyone else ignoring?</p></div></div>
+      <div class="half half-sun" data-reveal style="--i:1"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M44 38 V26 H76 V38" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="38" width="92" height="62" rx="10" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 64 H106" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="52" y="56" width="16" height="16" rx="3" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h3>Part action</h3><p>People pointing their careers, their donations and their spare time at the answers.</p></div></div>
     </div>
-    <p class="small give-note" data-reveal>$50 per operation, double the lowest figure from the <a href="https://www.hollows.org/who-we-are/about-the-foundation/faqs/">Fred Hollows Foundation</a>, to be conservative. $50,000 per guide dog, from <a href="https://guidedogs.com.au/">Guide Dogs Australia</a>.</p>
   </div>
 </section>
 
-<section class="band band-soft grid-paper">
-  <div class="wrap lens">
-    <div data-reveal>
-      <div class="prose">
-        <h2>How do we decide what problem to work on?</h2>
-        <p class="lens-sub">Three questions</p>
-      </div>
-      <div class="toggles" role="group" aria-label="Lenses">
-        <button class="toggle" type="button" id="t-big" data-lens="lens-a" aria-pressed="true">Is it big?</button>
-        <button class="toggle" type="button" id="t-overlooked" data-lens="lens-b" aria-pressed="true">Is it overlooked?</button>
-        <button class="toggle" type="button" id="t-solvable" data-lens="lens-c" aria-pressed="true">Is it solvable?</button>
-      </div>
-      <p class="lens-say" id="lens-say" aria-live="polite">When all three overlap, that is where an extra hour of your time has the most impact on the world.</p>
-      <a class="lens-ex" data-key="111" href="https://www.givewell.org/charities/amf"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M20 98 C20 52 40 24 60 24 C80 24 100 52 100 98 Z" fill="#e0f0f1" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 24 V98 M40 42 V98 M80 42 V98 M27 62 H93 M22 80 H98" fill="none" stroke="#0a2a30" stroke-width="2" stroke-linecap="round"/><circle cx="60" cy="18" r="6" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Malaria</b><span class="arrow" aria-hidden="true">&rarr;</span></a><a class="lens-ex" data-key="110" hidden href="https://www.wildanimalinitiative.org/"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M92 50 L110 44 L94 60 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 74 C22 46 50 30 76 34 C92 36 98 50 94 60 C88 84 54 96 22 74 Z" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 66 C48 52 64 52 70 62 C60 76 46 76 36 66 Z" fill="#a9dfe6" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="82" cy="48" r="3.5" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 90 V104 M62 88 V104" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Wild animal suffering</b><span class="arrow" aria-hidden="true">&rarr;</span></a><a class="lens-ex" data-key="101" hidden href="https://www.who.int/health-topics/cardiovascular-diseases"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M60 104 C20 76 8 52 18 34 C28 16 52 18 60 38 C68 18 92 16 102 34 C112 52 100 76 60 104 Z" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 60 H44 L51 44 L62 78 L70 58 H98" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Heart disease</b><span class="arrow" aria-hidden="true">&rarr;</span></a><a class="lens-ex" data-key="011" hidden href="https://en.wikipedia.org/wiki/Wikipedia:Typo_Team"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><rect x="22" y="14" width="62" height="86" rx="6" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 34 H72 M34 48 H64 M34 76 H58" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="32" y="56" width="30" height="12" rx="3" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M66 62 H74" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M78 98 L104 50 L112 55 L86 103 L76 108 Z" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M100 57 L108 62" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Wikipedia typos</b><span class="arrow" aria-hidden="true">&rarr;</span></a><a class="lens-ex" data-key="100" hidden href="https://www.un.org/en/global-issues/peace-and-security"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><circle cx="60" cy="60" r="40" fill="#e0f0f1" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 20 V100 M60 60 L32 88 M60 60 L88 88" fill="none" stroke="#0a2a30" stroke-width="5" stroke-linecap="round"/></svg></span><b>World peace</b><span class="arrow" aria-hidden="true">&rarr;</span></a><a class="lens-ex" data-key="010" hidden href="https://en.wikipedia.org/wiki/The_Sand_Reckoner"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M20 58 A40 40 0 0 1 100 58 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 18 V58 M40 24 Q46 40 44 58 M80 24 Q74 40 76 58" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 58 V100" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="18" cy="100" r="2.2" fill="#0a2a30"/><circle cx="30" cy="106" r="2.2" fill="#0a2a30"/><circle cx="42" cy="99" r="2.2" fill="#0a2a30"/><circle cx="74" cy="104" r="2.2" fill="#0a2a30"/><circle cx="86" cy="98" r="2.2" fill="#0a2a30"/><circle cx="98" cy="106" r="2.2" fill="#0a2a30"/><circle cx="108" cy="100" r="2.2" fill="#0a2a30"/><circle cx="24" cy="92" r="2.2" fill="#0a2a30"/><circle cx="92" cy="90" r="2.2" fill="#0a2a30"/></svg></span><b>Counting all the sand</b><span class="arrow" aria-hidden="true">&rarr;</span></a><a class="lens-ex" data-key="001" hidden href="https://en.wikipedia.org/wiki/Harvard_Management_Company"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M14 46 L60 16 L106 46 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="94" width="92" height="10" rx="2" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 46 V94 M49 46 V94 M71 46 V94 M92 46 V94" fill="none" stroke="#0a2a30" stroke-width="7" stroke-linecap="round"/><path d="M28 46 V94 M49 46 V94 M71 46 V94 M92 46 V94" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></span><b>Donating to Harvard</b><span class="arrow" aria-hidden="true">&rarr;</span></a><a class="lens-ex" data-key="000" hidden href="https://www.speedrun.com/sm64"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M54 12 H66 M60 12 V22 M88 26 L94 20" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="60" cy="64" r="40" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 64 L60 38 M60 64 L78 72" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="60" cy="64" r="4" fill="#0a2a30"/><path d="M96 76 L100 86 L111 87 L103 94 L106 105 L96 99 L86 105 L89 94 L81 87 L92 86 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Mario 64 speedruns</b><span class="arrow" aria-hidden="true">&rarr;</span></a>
-      <p class="small" style="margin-top:14px">Often called scale, neglectedness, and tractability. See <a href="https://80000hours.org/articles/problem-framework/">80,000 Hours' post</a>.</p>
+<section class="band band-soft grid-paper" id="example">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Say you want to help people who are blind.</h2>
     </div>
-    <div class="lens-figure all" id="lens-figure" data-reveal style="--i:1">
-      <svg viewBox="0 0 400 380" role="img" aria-label="Three overlapping circles labelled big, overlooked and solvable. The centre lights up when all three are on.">
-        <defs><clipPath id="clip-a"><circle class="m-a" cx="150" cy="150" r="110"/></clipPath><clipPath id="clip-b"><circle class="m-b" cx="250" cy="150" r="110"/></clipPath></defs>
-        
-        <circle class="lens-c" id="lens-a" cx="150" cy="150" r="110"/>
-        <circle class="lens-c" id="lens-b" cx="250" cy="150" r="110"/>
-        <circle class="lens-c" id="lens-c" cx="200" cy="236" r="110"/>
-        <g clip-path="url(#clip-a)"><g clip-path="url(#clip-b)"><circle class="lens-core m-c" cx="200" cy="236" r="110"/></g></g>
-        <text class="lens-t t-a" x="95" y="126">Big</text><text class="lens-t t-b" x="305" y="126">Overlooked</text><text class="lens-t t-c" x="200" y="320">Solvable</text>
-      </svg>
+    <div class="compare" data-reveal>
+      <div class="cmp"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M26 34 C10 38 10 70 24 78 L36 52 Z" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M94 34 C110 38 110 70 96 78 L84 52 Z" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 22 C36 22 28 40 28 60 C28 86 42 102 60 102 C78 102 92 86 92 60 C92 40 84 22 60 22 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="60" cy="80" rx="18" ry="14" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M53 72 H67 L60 80 Z" fill="#0a2a30" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 80 V88 M52 90 q8 6 16 0" fill="none" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="54" r="4.5" fill="#0a2a30"/><circle cx="74" cy="54" r="4.5" fill="#0a2a30"/></svg></span><p class="n">1</p><p class="cmp-what">guide dog, fully trained</p></div>
+      <div class="vs" aria-hidden="true">or</div>
+      <div class="cmp cmp-win"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M8 60 C28 28 92 28 112 60 C92 92 28 92 8 60 Z" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="60" cy="60" r="20" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="60" cy="60" r="8" fill="#0a2a30"/><circle cx="66" cy="54" r="3.5" fill="#fff"/><path d="M100 16 Q100 24 108 24 Q100 24 100 32 Q100 24 92 24 Q100 24 100 16 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><p class="n">1,000</p><p class="cmp-what">operations that give someone their sight back</p></div>
     </div>
+    <p class="punch" data-reveal>Both cost about $50,000. Both are kind. <br><span class="hl">One helps a thousand times more people.</span></p>
+    <p class="punch-sub" data-reveal>Noticing gaps like that, and acting on them, is the whole idea. <a class="more" href="fellowship.html#impact">Try your own numbers <span class="arrow">&rarr;</span></a></p>
+    <p class="small" style="margin-top:22px" data-reveal>$50 per operation, double the lowest figure from the <a href="https://www.hollows.org/who-we-are/about-the-foundation/faqs/">Fred Hollows Foundation</a>, to be conservative. $50,000 per guide dog, from <a href="https://guidedogs.com.au/">Guide Dogs Australia</a>.</p>
   </div>
 </section>
 
 <section class="band">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Four ideas hold it together</h2>
+    </div>
+    <ol class="ideas4">
+      <li data-reveal><b>Numbers matter.</b><span>Helping a thousand people beats helping one. Easy to say, hard to feel.</span><i>Scope sensitivity</i></li>
+      <li data-reveal><b>Everyone counts.</b><span>A stranger on the other side of the world matters as much as one down the road.</span><i>Impartiality</i></li>
+      <li data-reveal><b>Want the truth more than the win.</b><span>Go looking for where you might be wrong, and change your mind when you find it.</span><i>Scout mindset</i></li>
+      <li data-reveal><b>You can't do everything.</b><span>An hour or a dollar spent here can't be spent there. So choose on purpose.</span><i>Trade-offs</i></li>
+    </ol>
+    <p class="small" style="margin-top:26px" data-reveal>The same four that <a href="https://www.effectivealtruism.org/articles/introduction-to-effective-altruism">effectivealtruism.org</a> lists as what unites the community.</p>
+  </div>
+</section>
+
+<section class="band band-wash grid-paper">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>So which problem? Ask three questions.</h2>
+    </div>
+    <div class="trio">
+      <div class="tile" data-reveal><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><circle cx="26" cy="86" r="10" fill="#a9dfe6" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="54" cy="74" r="20" fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="84" cy="50" r="30" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3>Is it big?</h3><p>How many does it touch, and how badly?</p></div>
+      <div class="tile" data-reveal style="--i:1"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><circle cx="60" cy="60" r="46" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-dasharray="6 8" stroke-linecap="round"/><g fill="#0c869b" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="34" cy="44" r="7"/><circle cx="50" cy="34" r="7"/><circle cx="40" cy="62" r="7"/><circle cx="56" cy="52" r="7"/></g><circle cx="86" cy="80" r="9" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3>Is it overlooked?</h3><p>If a crowd is already on it, one more person adds less.</p></div>
+      <div class="tile" data-reveal style="--i:2"><span class="art"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><circle cx="38" cy="42" r="22" fill="#ffda1f" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="38" cy="42" r="8" fill="#fff" stroke="#0a2a30" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 58 L98 102 M82 86 L92 76 M92 96 L102 86" fill="none" stroke="#0a2a30" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3>Is it solvable?</h3><p>Is there something that would actually work?</p></div>
+    </div>
+    <p class="punch-sub" data-reveal>A problem that scores on all three is where your help goes furthest. <a class="more" href="fellowship.html#try-lens">Mix and match them, from malaria to Mario 64 speedruns <span class="arrow">&rarr;</span></a></p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Does any of this actually happen?</h2>
+      <p>Yes. A few things people in effective altruism have done so far.</p>
+    </div>
+    <div class="proof">
+      <article class="pcard" data-reveal><p class="pn">340,000</p><h3>lives saved</h3><p>GiveWell's estimate of what its donors' gifts have done, mostly through bed nets and other cheap, proven health programs.</p></article>
+      <article class="pcard" data-reveal style="--i:1"><p class="pn">100 million</p><h3>hens spared a cage</h3><p>From more than 2,500 company pledges to stop buying caged eggs, won by the Open Wing Alliance.</p></article>
+      <article class="pcard" data-reveal style="--i:2"><p class="pn">30,000</p><h3>volunteers</h3><p>Signed up through 1DaySooner to help test COVID-19 vaccines faster.</p></article>
+      <article class="pcard" data-reveal style="--i:3"><p class="pn">1 new field</p><h3>of research</h3><p>On keeping advanced AI safe. Ten years ago it barely existed.</p></article>
+    </div>
+    <p class="small" style="margin-top:22px" data-reveal>Figures as given in <a href="https://www.effectivealtruism.org/articles/introduction-to-effective-altruism">effectivealtruism.org's introduction</a>, read on 17 November 2026.</p>
+  </div>
+</section>
+
+<section class="band band-soft grid-paper" id="causes">
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <h2>Some of the cause areas we care about</h2>
@@ -135,6 +151,19 @@
         <p class="yt-cap"><b>We're Not Ready for Superintelligence</b>, by AI In Context, from 80,000 Hours</p></div>
         <div><ul class="res res-pics"><li><a href="https://80000hours.org/problem-profiles/artificial-intelligence/"><span class="res-t"><b>Risks from AI &nearr;</b><span>80,000 Hours' overview.</span></span><span class="res-i"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect x="14" y="14" width="20" height="20" rx="3" fill="#0c869b" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="19" y="19" width="10" height="10" rx="1.5" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 8 V14 M24 8 V14 M29 8 V14 M19 34 V40 M24 34 V40 M29 34 V40 M8 19 H14 M8 24 H14 M8 29 H14 M34 19 H40 M34 24 H40 M34 29 H40" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li><li><a href="https://80000hours.org/problem-profiles/preventing-catastrophic-pandemics/"><span class="res-t"><b>Preventing catastrophic pandemics &nearr;</b><span>What could go wrong, and what helps.</span></span><span class="res-i"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="10" fill="#a9dfe6" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M34.0 24.0 L39.0 24.0" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="41.0" cy="24.0" r="2.4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M31.1 31.1 L34.6 34.6" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="36.0" cy="36.0" r="2.4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24.0 34.0 L24.0 39.0" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24.0" cy="41.0" r="2.4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.9 31.1 L13.4 34.6" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12.0" cy="36.0" r="2.4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.0 24.0 L9.0 24.0" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.0" cy="24.0" r="2.4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.9 16.9 L13.4 13.4" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12.0" cy="12.0" r="2.4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24.0 14.0 L24.0 9.0" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24.0" cy="7.0" r="2.4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M31.1 16.9 L34.6 13.4" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="36.0" cy="12.0" r="2.4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="21" cy="22" r="1.8" fill="#0a2a30"/><circle cx="27" cy="27" r="1.4" fill="#0a2a30"/></svg></span></a></li><li><a href="https://80000hours.org/problem-profiles/nuclear-security/"><span class="res-t"><b>Nuclear weapons &nearr;</b><span>80,000 Hours' overview.</span></span><span class="res-i"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><ellipse cx="24" cy="24" rx="19" ry="7.5" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="24" cy="24" rx="19" ry="7.5" transform="rotate(60 24 24)" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="24" cy="24" rx="19" ry="7.5" transform="rotate(120 24 24)" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="24" r="4" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li><li><a href="https://theprecipice.com/"><span class="res-t"><b>The Precipice &nearr;</b><span>Toby Ord's book. It is in our library.</span></span><span class="res-i"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 13 C18 9 10 9 5 11 V38 C10 36 18 36 24 40 Z" fill="#fff" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 13 C30 9 38 9 43 11 V38 C38 36 30 36 24 40 Z" fill="#ffda1f" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 13 V40" fill="none" stroke="#0a2a30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li></ul></div>
       </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>What can you do with all this?</h2>
+    </div>
+    <div class="links dos" data-reveal>
+      <a class="link-tile link-big" href="fellowship.html#try-hours"><span class="do-n">80,000</span><strong>hours in a career <span>&rarr;</span></strong><span>Point some of them at a problem that matters.</span></a>
+      <a class="link-tile link-big" href="fellowship.html#try-pledge"><span class="do-n">10%</span><strong>of what you earn <span>&rarr;</span></strong><span>See what giving a slice of your pay could do.</span></a>
+      <a class="link-tile link-big" href="fellowship.html"><span class="do-n">7</span><strong>sessions with us <span>&rarr;</span></strong><span>Start with our Intro Fellowship in Term 1.</span></a>
+    </div>
   </div>
 </section>
 

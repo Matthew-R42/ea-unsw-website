@@ -6,10 +6,10 @@ Cloudflare Pages, like `mtw4244.work`. There is no build step.
 
 | File | Page |
 | --- | --- |
-| `index.html` | Home, including the income calculator |
-| `what-is-ea.html` | What is EA?, causes, videos |
+| `index.html` | Home |
+| `what-is-ea.html` | What is EA?: the idea in big statements, one example, causes, videos |
 | `events.html` | Term events timeline |
-| `fellowship.html` | Intro Fellowship syllabus and readings |
+| `fellowship.html` | Intro Fellowship syllabus, readings, and something to try in every session |
 | `fellowship-signup.html` | Fellowship sign-up form |
 | `team.html` | About us: exec team, where the money goes, subcommittee |
 | `subcommittee.html` | Subcommittee application form |
@@ -42,6 +42,28 @@ meaning (`data-tip`). The same words appear in each session on
 The black bars are `<span class="redact">` elements: replace one with plain
 text when a detail is ready to announce. The three teaser cards on the home
 page are separate and live in `index.html`.
+
+### Things to try on the fellowship page
+
+Every session on `fellowship.html` has one to three interactive blocks, each a
+`<section class="try" id="...">` placed after the session's words and before
+its readings. Their behaviour is in `assets/site.js` under "Fellowship:
+something to try in every session", one block of code per section, and their
+styles are at the end of `assets/site.css`.
+
+| Session | Blocks (`id`) |
+| --- | --- |
+| 1 | `try-birds` (the bird question), `impact` (guide dog or eyesight) |
+| 2 | `try-tail` (twenty health programs), `rich` (income chart) |
+| 3 | `try-circle` (moral circle) |
+| 4 | `try-future` (people not born yet), `try-risk` (risk per century) |
+| 5 | `try-views` (splitting between views) |
+| 6 | `try-hours` (80,000 hours), `try-lens` (three questions), `try-pledge` (10% of your pay) |
+| 7 | `try-cert` (stamp card and certificate preview) |
+
+Each block states its sources in the small print underneath it. If you change
+a number in `site.js`, change that small print too. A link such as
+`fellowship.html#try-lens` opens the right session and scrolls to the block.
 
 ## Sign-up emails
 

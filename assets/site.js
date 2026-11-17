@@ -270,18 +270,6 @@
     update();
   })();
 
-  /* 80 dots, each 1,000 hours */
-  (function () {
-    var grid = $('#hours');
-    if (!grid) return;
-    var dots = [];
-    for (var i = 0; i < 80; i++) { var d = doc.createElement('i'); grid.appendChild(d); dots.push(d); }
-    function fill() { dots.forEach(function (d, i) { setTimeout(function () { d.classList.add(i === 0 ? 'one' : 'on'); }, calm ? 0 : i * 22); }); }
-    if (calm || !('IntersectionObserver' in window)) { fill(); return; }
-    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { fill(); io.disconnect(); } }, { threshold: 0.4 });
-    io.observe(grid);
-  })();
-
   /* Term timeline: progress line and the week strip that follows you down the page */
   (function () {
     var tl = $('.timeline');
@@ -403,6 +391,124 @@
     k.addEventListener('click', spread);
     k.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); spread(); } });
   });
+
+  /* Where a student income sits in the world. World Bank income distribution, 2024,
+     in 2021 international dollars per day: [dollars per day, share of the world living on less].
+     Source: pip.worldbank.org */
+  var PIP = [[1, .0116], [2, .048], [3, .1012], [4.2, .1821], [6, .3249], [8.3, .4616], [10, .5287], [15, .6516], [20, .7239], [25, .7722], [30, .8067], [40, .855], [50, .8889], [60, .9142], [75, .9409], [100, .9668], [125, .9803], [150, .9876], [200, .9943], [250, .9969], [300, .9982], [400, .9992], [500, .9996]];
+  /* AUD today -> 2021 AUD (CPI 124.27 / 148.46) -> 2021 international dollars (PPP 1.5099) -> per day */
+  var K = (124.27 / 148.46) / 1.5099 / 365;
+  function share(aud) {
+    var d = aud * K;
+    if (d <= PIP[0][0]) return PIP[0][1] * d / PIP[0][0];
+    for (var i = 1; i < PIP.length; i++) if (d <= PIP[i][0]) {
+      var a = PIP[i - 1], b = PIP[i], t = (Math.log(d) - Math.log(a[0])) / (Math.log(b[0]) - Math.log(a[0]));
+      return a[1] + (b[1] - a[1]) * t;
+    }
+    return 0.9996;
+  }
+  (function () {
+    var box = $('#rich');
+    if (!box) return;
+    var NS = 'http://www.w3.org/2000/svg', svg = $('#dist'), input = $('#rich-income'), range = $('#rich-range');
+    var W = 560, H = 250, PADB = 26, PADT = 34, BINS = 44, X0 = Math.log(300), X1 = Math.log(400000), bars = [], heights = [], maxh = 0;
+    function el(name, attrs) { var e = doc.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); return e; }
+    function xOf(aud) { return clamp((Math.log(Math.max(aud, 300)) - X0) / (X1 - X0), 0, 1) * W; }
+    for (var i = 0; i < BINS; i++) {
+      var lo = Math.exp(X0 + (X1 - X0) * i / BINS), hi = Math.exp(X0 + (X1 - X0) * (i + 1) / BINS), h = share(hi) - share(lo);
+      heights.push(h); maxh = Math.max(maxh, h);
+    }
+    var bw = W / BINS;
+    heights.forEach(function (h, i) {
+      var bh = Math.max(2, h / maxh * (H - PADB - PADT));
+      bars.push(el('rect', { x: i * bw + 1, y: H - PADB - bh, width: bw - 2, height: bh, rx: 3 }));
+    });
+    el('line', { x1: 0, y1: H - PADB, x2: W, y2: H - PADB, stroke: '#0a2a30', 'stroke-width': 2 });
+    [[1000, '$1k'], [10000, '$10k'], [100000, '$100k a year']].forEach(function (t) {
+      var x = xOf(t[0]);
+      el('line', { x1: x, y1: H - PADB, x2: x, y2: H - PADB + 5, stroke: '#0a2a30', 'stroke-width': 2 });
+      el('text', { x: x, y: H - 6, 'text-anchor': t[0] === 100000 ? 'end' : 'middle' }).textContent = t[1];
+    });
+    var you = el('g', { 'class': 'you-line' });
+    function add(name, attrs, txt) { var e = doc.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); if (txt) e.textContent = txt; you.appendChild(e); return e; }
+    add('line', { x1: 0, y1: PADT - 6, x2: 0, y2: H - PADB, stroke: '#0a2a30', 'stroke-width': 2.5, 'stroke-dasharray': '5 5' });
+    add('circle', { cx: 0, cy: PADT - 8, r: 7, fill: '#ffda1f', stroke: '#0a2a30', 'stroke-width': 2.5 });
+    var youT = add('text', { x: 13, y: PADT - 2, 'class': 'you-t' }, 'you');
+    var LO = Math.log(1000), HI = Math.log(250000), mineNow = -1;
+    function render(aud) {
+      aud = clamp(aud || 0, 0, 5000000);
+      var pc = share(aud) * 100, x = xOf(aud), mine = Math.min(BINS - 1, Math.floor(x / bw)); mineNow = mine;
+      $('#rich-pct').textContent = pc >= 99.95 ? '99.9%' : (pc >= 99 ? pc.toFixed(1) + '%' : Math.round(pc) + '%');
+      bars.forEach(function (b, i) { b.setAttribute('fill', i < mine ? '#0c869b' : (i === mine ? '#ffda1f' : '#cfe0e0')); b.setAttribute('stroke', i === mine ? '#0a2a30' : 'none'); b.setAttribute('stroke-width', 2); });
+      you.setAttribute('transform', 'translate(' + x + ' 0)');
+      toneTip();
+      var flip = x > W * 0.7;
+      youT.setAttribute('x', flip ? -12 : 12); youT.setAttribute('text-anchor', flip ? 'end' : 'start');
+    }
+    function setAll(aud, from) {
+      if (from !== 'input') input.value = Math.round(aud);
+      if (from !== 'range') range.value = Math.round(clamp((Math.log(Math.max(aud, 1000)) - LO) / (HI - LO), 0, 1) * 1000);
+      render(aud);
+    }
+    input.addEventListener('input', function () { setAll(parseFloat(input.value.replace(/[^0-9.]/g, '')) || 0, 'input'); });
+    range.addEventListener('input', function () { var v = Math.exp(LO + (HI - LO) * range.value / 1000); setAll(v >= 10000 ? Math.round(v / 1000) * 1000 : Math.round(v / 100) * 100, 'range'); });
+    $$('[data-income]', box).forEach(function (b) { b.addEventListener('click', function () { setAll(parseFloat(b.getAttribute('data-income'))); }); });
+    var dragging = false;
+    function fromPointer(e) { var r = svg.getBoundingClientRect(), v = Math.exp(X0 + (X1 - X0) * clamp((e.clientX - r.left) / r.width, 0, 1)); setAll(v >= 10000 ? Math.round(v / 1000) * 1000 : Math.round(v / 100) * 100); }
+    svg.addEventListener('pointerdown', function (e) { dragging = true; if (svg.setPointerCapture) svg.setPointerCapture(e.pointerId); fromPointer(e); });
+    svg.addEventListener('pointermove', function (e) { if (dragging) fromPointer(e); });
+    ['pointerup', 'pointercancel'].forEach(function (n) { svg.addEventListener(n, function () { dragging = false; }); });
+    /* Keep "Richer than 99.9% of the world" on one line: size the heading so its widest
+       version fits the box, so the font doesn't jump as the number changes. */
+    var head = $('.rich-head', box), pct = $('#rich-pct');
+    function fitHead() {
+      if (!head) return;
+      var keep = pct.textContent;
+      head.style.fontSize = ''; pct.textContent = '99.9%';
+      var room = head.clientWidth, need = head.scrollWidth;
+      if (room && need > room) head.style.fontSize = (parseFloat(getComputedStyle(head).fontSize) * room / need * 0.98) + 'px';
+      pct.textContent = keep;
+    }
+    var fitT; window.addEventListener('resize', function () { clearTimeout(fitT); fitT = setTimeout(fitHead, 100); });
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(fitHead);
+
+    /* Hover a bar: highlight it and say who lives there */
+    var holder = svg.parentNode, hov = -1, tipEl = doc.createElement('div');
+    tipEl.className = 'dist-tip'; tipEl.setAttribute('aria-hidden', 'true'); holder.appendChild(tipEl);
+    function money(v) { return v < 1000 ? '$' + Math.round(v / 10) * 10 : (v < 10000 ? '$' + (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : '$' + Math.round(v / 1000) + 'k'); }
+    function people(f) { var m = f * 8100; return m >= 1000 ? 'About ' + (m / 1000).toFixed(1).replace(/\.0$/, '') + ' billion people' : (m >= 1 ? 'About ' + Math.round(m) + ' million people' : 'Under a million people'); }
+    /* The label takes the colour of the bar it describes: teal below you, yellow for you, grey above */
+    function toneTip() {
+      if (hov < 0) return;
+      tipEl.classList.toggle('tone-teal', hov < mineNow);
+      tipEl.classList.toggle('tone-grey', hov > mineNow);
+    }
+    function showBar(i) {
+      if (i === hov) return;
+      if (hov >= 0) bars[hov].classList.remove('hov');
+      hov = i;
+      if (i < 0) { svg.classList.remove('hovering'); tipEl.classList.remove('show'); return; }
+      bars[i].classList.add('hov'); svg.classList.add('hovering');
+      var lo = Math.exp(X0 + (X1 - X0) * i / BINS), hi = Math.exp(X0 + (X1 - X0) * (i + 1) / BINS);
+      tipEl.innerHTML = '';
+      var b = doc.createElement('b'); b.textContent = (i === 0 ? 'Under ' + money(hi) : money(lo) + ' to ' + money(hi)) + ' a year'; tipEl.appendChild(b);
+      toneTip();
+      tipEl.appendChild(doc.createTextNode(people(heights[i]) + ' (' + (heights[i] * 100 < 0.1 ? 'under 0.1' : (heights[i] * 100).toFixed(1)) + '%)'));
+      var sr = svg.getBoundingClientRect(), hr = holder.getBoundingClientRect(), br = bars[i].getBoundingClientRect();
+      tipEl.classList.add('show');
+      var tw = tipEl.offsetWidth, cx = br.left + br.width / 2 - hr.left;
+      tipEl.style.left = clamp(cx - tw / 2, 0, hr.width - tw) + 'px';
+      tipEl.style.top = (Math.min(br.top, sr.top + sr.height * 0.55) - hr.top - tipEl.offsetHeight - 10) + 'px';
+    }
+    svg.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      var r = svg.getBoundingClientRect(); showBar(clamp(Math.floor((e.clientX - r.left) / r.width * BINS), 0, BINS - 1));
+    });
+    svg.addEventListener('pointerleave', function () { showBar(-1); });
+
+    setAll(parseFloat(input.value) || 6000);
+    fitHead();
+  })();
 
   /* Causes: pick one to open its video and links */
   (function () {
@@ -577,7 +683,8 @@
   /* Syllabus: open the session named in the address, e.g. fellowship.html#s3 */
   function openFromHash() {
     var el = location.hash && doc.getElementById(location.hash.slice(1));
-    if (el && el.tagName === 'DETAILS') { el.open = true; el.scrollIntoView(); }
+    var d = el && (el.tagName === 'DETAILS' ? el : el.closest('details'));
+    if (d) { d.open = true; el.scrollIntoView(); }
   }
   window.addEventListener('hashchange', openFromHash);
   openFromHash();
@@ -783,5 +890,260 @@
       });
     });
     paintPath();
+  })();
+
+  /* ---------- Fellowship: something to try in every session ----------
+     Each block below belongs to one <section class="try"> in fellowship.html.
+     Every number has its source in the small print under its block on the page. */
+  function num(n) { return Math.round(n).toLocaleString('en-AU'); }
+  function sig(n, d) { if (!n) return 0; var p = Math.pow(10, Math.floor(Math.log(Math.abs(n)) / Math.LN10 + 1e-9) - (d - 1)); return Math.round(n / p) * p; }
+  /* 26000000000 -> "26 billion", 12187 -> "12,200" */
+  function big(n) {
+    var U = [[1e18, 'quintillion'], [1e15, 'quadrillion'], [1e12, 'trillion'], [1e9, 'billion'], [1e6, 'million']];
+    if (n < 1000) return num(n);
+    for (var i = 0; i < U.length; i++) if (n >= U[i][0] * 0.9995) { var v = n / U[i][0]; return (v < 10 ? String(Math.round(v * 10) / 10) : num(sig(v, 3))) + ' ' + U[i][1]; }
+    return num(sig(n, 3));
+  }
+  function times(r) { return r >= 10 ? num(sig(r, 2)) : String(Math.round(r * 10) / 10); }
+  function make(tag, cls, text) { var e = doc.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  /* The blocks sit inside closed dropdowns, so anything that measures itself is told to measure again when its session opens. */
+  $$('details.sess').forEach(function (d) { d.addEventListener('toggle', function () { if (d.open) window.dispatchEvent(new Event('resize')); }); });
+
+  /* Session 1: the bird question (scope insensitivity). Each visitor is asked about one flock, as in the study. */
+  (function () {
+    var box = $('#try-birds');
+    if (!box) return;
+    var ARMS = [2000, 20000, 200000], STUDY = [80, 78, 88], arm = 1;
+    var range = $('#bird-range'), val = $('#bird-val'), out = $('#bird-out'), art = $('#bird-art'), bars = $('#bird-bars'), say = $('#bird-say'), go = $('#bird-go');
+    function deal(not) {
+      do { arm = Math.floor(Math.random() * 3); } while (arm === not);
+      $('#bird-n').textContent = num(ARMS[arm]) + ' birds';
+      out.hidden = true; art.hidden = false; go.disabled = false; range.disabled = false;
+    }
+    range.addEventListener('input', function () { val.textContent = range.value + (+range.value === 300 ? '+' : ''); });
+    go.addEventListener('click', function () {
+      var v = +range.value, n = ARMS[arm], per = v / n;
+      bars.textContent = '';
+      ARMS.forEach(function (a, k) {
+        var col = make('div', 'bird-bar' + (k === arm ? ' mine' : '')), bar = make('i');
+        bar.style.height = STUDY[k] + 'px';
+        col.appendChild(make('b', '', '$' + STUDY[k])); col.appendChild(bar); col.appendChild(make('span', '', num(a) + ' birds'));
+        bars.appendChild(col);
+      });
+      var text = 'You were asked about ' + num(n) + ' birds and said $' + v + '. ';
+      if (v === 0) text += 'Zero is at least consistent: a hundred times zero is still zero.';
+      else if (arm < 2) text += 'At your price per bird, 200,000 birds would cost you $' + num(per * 200000) + '. Would you pay that?';
+      else text += 'At your price per bird, 2,000 birds would be worth ' + (per * 2000 < 1 ? Math.round(per * 200000) + ' cents' : '$' + num(per * 2000)) + ' to you. Would you really have offered that little?';
+      say.textContent = text;
+      art.hidden = true; out.hidden = false; go.disabled = true; range.disabled = true;
+    });
+    $('#bird-again').addEventListener('click', function () { deal(arm); });
+    deal(-1);
+  })();
+
+  /* Session 2: twenty programs, worst to best. The spread copies the real one (see the note on the page). */
+  (function () {
+    var chart = $('#tail-chart');
+    if (!chart) return;
+    var V = [0.02, 0.1, 0.3, 0.6, 1, 1.5, 2, 3, 4, 5, 5, 7, 9, 12, 16, 25, 40, 70, 150, 300], range = $('#tail-range'), bars = [];
+    V.forEach(function (v, k) {
+      var b = make('button'); b.type = 'button'; b.style.height = Math.max(2, v / 300 * 100) + '%';
+      b.setAttribute('aria-label', 'Program ' + (k + 1) + ': ' + v + ' healthy years');
+      b.addEventListener('click', function () { range.value = k + 1; show(); });
+      chart.appendChild(b); bars.push(b);
+    });
+    function show() {
+      var k = +range.value - 1, v = V[k];
+      bars.forEach(function (b, j) { b.classList.toggle('on', j === k); });
+      $('#tail-n').textContent = v;
+      $('#tail-say').textContent = k === 19 ? 'The best of the twenty. It does 60 times more than the one in the middle, and 15,000 times more than the worst.'
+        : k === 0 ? 'The worst of the twenty. The best one does 15,000 times more with the same $1,000.'
+        : 'The best program does ' + times(300 / v) + ' times more with the same $1,000.';
+    }
+    range.addEventListener('input', show);
+    show();
+  })();
+
+  /* Session 3: the moral circle */
+  (function () {
+    var fig = $('#ring-fig');
+    if (!fig) return;
+    var RINGS = [
+      ['You', 'Just you', 'Everyone starts here.'],
+      ['Family and friends', 'About 150 people', 'Roughly how many relationships one person can keep up.'],
+      ['Your country', 'About 28 million people', 'Everyone in Australia. For most of history the circle stopped well before here.'],
+      ['Everyone alive', 'About 8.2 billion people', 'The Universal Declaration of Human Rights drew this line in 1948.'],
+      ['People not born yet', '8.2 billion, plus everyone still to come', 'About 130 million babies arrive each year. Nobody knows how many generations are ahead.'],
+      ['Farmed animals', 'Add tens of billions of animals', 'Jeremy Bentham, 1789: "The question is not, Can they reason? nor, Can they talk? but, Can they suffer?"'],
+      ['Wild animals', 'Add trillions more', 'Fish, birds, frogs, everything out there. Almost nobody works on this.'],
+      ['Insects and other tiny things', 'About 10,000,000,000,000,000,000', 'Nobody is sure insects feel anything. Some researchers think it is worth finding out.']
+    ];
+    var NS = 'http://www.w3.org/2000/svg', svg = doc.createElementNS(NS, 'svg'), circles = [], items = [], list = $('#ring-list');
+    svg.setAttribute('viewBox', '0 0 480 480'); svg.setAttribute('class', 'ring-fig'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', 'Circles inside circles. Each one takes in more beings.');
+    for (var k = RINGS.length - 1; k >= 0; k--) (function (k) {
+      var c = doc.createElementNS(NS, 'circle');
+      c.setAttribute('cx', 240); c.setAttribute('cy', 240); c.setAttribute('r', 30 + k * 29); c.setAttribute('class', 'ring');
+      c.addEventListener('click', function () { set(k); });
+      svg.appendChild(c); circles[k] = c;
+    })(k);
+    var heart = doc.createElementNS(NS, 'path');
+    heart.setAttribute('d', 'M240 254 C222 242 216 231 221 223 C226 215 237 216 240 225 C243 216 254 215 259 223 C264 231 258 242 240 254 Z'); heart.setAttribute('class', 'ring-heart');
+    svg.appendChild(heart); fig.appendChild(svg);
+    RINGS.forEach(function (r, k) {
+      var li = make('li'), b = make('button', '', r[0]); b.type = 'button';
+      b.addEventListener('click', function () { set(k); });
+      li.appendChild(b); list.appendChild(li); items.push(b);
+    });
+    function set(k) {
+      circles.forEach(function (c, j) { c.classList.toggle('in', j <= k); c.classList.toggle('edge', j === k); });
+      items.forEach(function (b, j) { b.classList.toggle('in', j <= k); b.setAttribute('aria-pressed', j === k ? 'true' : 'false'); });
+      $('#ring-count').textContent = RINGS[k][1]; $('#ring-note').textContent = RINGS[k][2];
+    }
+    set(1);
+  })();
+
+  /* Session 4: how many people are still to come. Each dot is ten billion people, until there are too many dots. */
+  (function () {
+    var canvas = $('#lv-canvas');
+    if (!canvas || !canvas.getContext) return;
+    var PAST = 117e9, NOW = 8.2e9, BIRTHS = 132e6, ctx = canvas.getContext('2d'), range = $('#lv-range'), marks = $('#lv-marks');
+    var MARKS = [[1000, '1,000 years'], [10000, '10,000: as long as we have farmed'], [300000, '300,000: as long as our species has existed'], [1e6, '1 million: a typical mammal species'], [5e8, '500 million: while Earth stays liveable']];
+    function draw() {
+      var y = sig(Math.pow(10, range.value / 100), 2), future = y * BIRTHS, total = PAST + NOW + future, per = 1e10;
+      while (total / per > 900) per *= 10;
+      var dPast = Math.round(PAST / per), dNow = NOW / per >= .5 ? Math.max(1, Math.round(NOW / per)) : 0, dFut = Math.ceil(future / per), N = dPast + dNow + dFut;
+      var cssW = canvas.clientWidth;
+      $('#lv-years').textContent = num(y);
+      var say = $('#lv-say'); say.textContent = '';
+      say.appendChild(make('b', '', big(future) + ' people')); say.appendChild(doc.createTextNode(' still to come. That is ' + times(future / PAST) + ' times everyone who has ever lived.'));
+      $('#lv-key').textContent = 'Each dot is ' + big(per) + ' people. Teal: everyone who has ever lived' + (dPast ? '' : ' (now less than one dot)') + '. Yellow: everyone alive today' + (dNow ? '' : ' (less than one dot)') + '. The rest: not born yet.';
+      if (!cssW) return;   /* hidden inside a closed session: drawn when it opens */
+      var S = 10, cols = Math.max(10, Math.floor(cssW / S)), rows = Math.max(1, Math.ceil(N / cols)), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = cols * S * dpr; canvas.height = rows * S * dpr; canvas.style.height = rows * S + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var ink = getComputedStyle(canvas).color;
+      for (var i = 0; i < N; i++) {
+        ctx.fillStyle = i < dPast ? '#0c869b' : i < dPast + dNow ? '#ffda1f' : ink;
+        ctx.globalAlpha = i < dPast + dNow ? 1 : .5;
+        ctx.beginPath(); ctx.arc((i % cols) * S + S / 2, Math.floor(i / cols) * S + S / 2, S * .36, 0, 6.2832); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    MARKS.forEach(function (m) {
+      var b = make('button', 'chipbtn', m[1]); b.type = 'button';
+      b.addEventListener('click', function () { range.value = Math.round(Math.log(m[0]) / Math.LN10 * 100); draw(); });
+      marks.appendChild(b);
+    });
+    range.addEventListener('input', draw);
+    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(draw, 120); });
+    window.addEventListener('themechange', draw);
+    draw();
+  })();
+
+  /* Session 4: risk per century, and the odds of lasting */
+  (function () {
+    var rows = $('#risk-rows');
+    if (!rows) return;
+    var range = $('#risk-range'), SPANS = [[10, '1,000 years'], [100, '10,000 years'], [1000, '100,000 years']], fills = [], outs = [];
+    var TOP = Math.log(.5) / Math.LN10 + 3;   /* the slider runs from 1 in 1,000 up to 1 in 2, on a log scale */
+    SPANS.forEach(function (s) {
+      var row = make('div', 'row'), track = make('span', 'track'), fill = make('i'), out = make('b');
+      track.appendChild(fill); row.appendChild(make('span', '', s[1])); row.appendChild(track); row.appendChild(out);
+      rows.appendChild(row); fills.push(fill); outs.push(out);
+    });
+    function pc(p) { p *= 100; return p >= 99.5 ? 'over 99%' : p >= 10 ? Math.round(p) + '%' : p >= 1 ? p.toFixed(1) + '%' : p >= .01 ? p.toFixed(2) + '%' : 'almost 0%'; }
+    function show() {
+      var r = Math.pow(10, -3 + range.value / 100 * TOP), n = 1 / r;
+      n = n < 10 ? Math.round(n) : sig(n, 2); r = 1 / n;
+      $('#risk-n').textContent = '1 in ' + num(n);
+      SPANS.forEach(function (s, k) { var p = Math.pow(1 - r, s[0]); fills[k].style.width = (p * 100).toFixed(2) + '%'; outs[k].textContent = pc(p); });
+      $('#risk-say').textContent = 'On average, that gives us about another ' + num(sig(100 * n, 2)) + ' years. Halve the risk and you double it.';
+    }
+    function setN(n) { range.value = Math.round((Math.log(1 / n) / Math.LN10 + 3) / TOP * 100); show(); }
+    range.addEventListener('input', show);
+    $$('[data-risk]').forEach(function (b) { b.addEventListener('click', function () { setN(+b.getAttribute('data-risk')); }); });
+    setN(6);
+  })();
+
+  /* Session 5: all-in on one view, or split by how sure you are */
+  (function () {
+    var box = $('#views');
+    if (!box) return;
+    var ins = $$('input', box), NAMES = ['people alive today', 'animals', 'future generations'], CLS = ['sw-a', 'sw-b', 'sw-c'];
+    function bar(el, shares) {
+      el.textContent = '';
+      shares.forEach(function (s, k) {
+        if (s <= 0) return;
+        var seg = make('i', CLS[k], s >= .12 ? Math.round(s * 100) + '%' : ''); seg.style.width = (s * 100) + '%';
+        el.appendChild(seg);
+      });
+    }
+    function show() {
+      var w = ins.map(function (i) { return +i.value; }), sum = w[0] + w[1] + w[2];
+      if (!sum) { w = [1, 1, 1]; sum = 3; }
+      var s = w.map(function (x) { return x / sum; }), top = 0;
+      s.forEach(function (x, k) { if (x > s[top]) top = k; });
+      var sorted = s.slice().sort(function (a, b) { return b - a; });
+      bar($('#vbar-all'), s.map(function (x, k) { return k === top ? 1 : 0; }));
+      bar($('#vbar-split'), s);
+      $('#views-say').textContent = sorted[0] - sorted[1] < .04
+        ? 'Your top two are almost level. Nudge a slider and the top bar flips completely. The bottom one barely moves.'
+        : 'Going all-in on ' + NAMES[top] + ' ignores the ' + Math.round((1 - s[top]) * 100) + '% chance you gave to being wrong about that.';
+    }
+    ins.forEach(function (i) { i.addEventListener('input', show); });
+    show();
+  })();
+
+  /* Session 6: 80 dots, each 1,000 hours of a career */
+  (function () {
+    var grid = $('#hours');
+    if (!grid) return;
+    var dots = [], range = $('#hours-range');
+    for (var i = 0; i < 80; i++) { var d = doc.createElement('i'); grid.appendChild(d); dots.push(d); }
+    function show() {
+      var pc = +range.value, n = Math.round(pc / 100 * 80), yrs = n / 2;
+      dots.forEach(function (d, k) { d.classList.toggle('mine', k < n); d.classList.toggle('on', k >= n); });
+      $('#hours-n').textContent = num(n * 1000);
+      $('#hours-say').textContent = n === 0 ? 'None of it. Most people never ask the question at all.'
+        : n === 80 ? 'All of it: forty years of full-time work. That is where 80,000 Hours gets its name.'
+        : pc + '% of a career. That is ' + (yrs === 1 ? 'a year' : (yrs % 1 ? yrs.toFixed(1) : yrs) + ' years') + ' of full-time work.';
+    }
+    range.addEventListener('input', show);
+    show();
+  })();
+
+  /* Session 6: what 10% of your pay could do */
+  (function () {
+    var range = $('#pledge-range');
+    if (!range) return;
+    var USD = 0.65, NET = 5, LIFE = 5500, YEARS = 40;
+    function show() {
+      var pay = +range.value * 1000, gift = pay * .1, total = gift * YEARS * USD, pc = share(pay * .9) * 100;
+      $('#pledge-val').textContent = num(pay);
+      $('#pledge-year').textContent = '$' + num(gift);
+      $('#pledge-nets').textContent = num(sig(total / NET, 2));
+      $('#pledge-lives').textContent = num(total / LIFE);
+      $('#pledge-pct').textContent = pc >= 99.95 ? '99.9%' : pc >= 99 ? pc.toFixed(1) + '%' : Math.round(pc) + '%';
+    }
+    range.addEventListener('input', show);
+    show();
+  })();
+
+  /* Session 7: stamp six sessions and the certificate appears */
+  (function () {
+    var box = $('#stamps');
+    if (!box) return;
+    var btns = $$('.stamp-b', box), cert = $('#cert'), say = $('#cert-say'), name = $('#cert-name'), input = $('#cert-input'), had = false;
+    function show() {
+      var n = btns.filter(function (b) { return b.getAttribute('aria-pressed') === 'true'; }).length, got = n >= 6;
+      say.textContent = n === 0 ? 'Six stamps gets you the certificate and the book.' : got ? (n === 7 ? 'All seven. Certificate, book, and our respect.' : 'Six of seven. That is the certificate and the book.') : (6 - n) + ' more to go.';
+      cert.hidden = !got;
+      if (got && !had) confetti(cert);
+      had = got;
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); show(); }); });
+    input.addEventListener('input', function () { name.textContent = input.value.trim() || 'Your name here'; });
+    show();
   })();
 })();
