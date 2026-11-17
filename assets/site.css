@@ -1865,3 +1865,27 @@ main > section:has(+ section.join) { background-color: color-mix(in srgb, var(--
 
 /* 18 Nov: strip dots keep fixed slots (indoor, outdoor, fellowship); a missing event leaves the slot blank */
 .strip .dot.gap { visibility: hidden; cursor: default; }
+
+/* 18 Nov: on phones each week's events sit three to a row, as A4 portrait posters */
+.ev-media picture { display: block; }
+@media (max-width: 640px) {
+  .ev-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .ev-poster { aspect-ratio: 840 / 1188; }
+  .ev-box { border-radius: 10px; }
+  .ev-info { gap: 2px; padding: 7px 7px 9px; }
+  .ev-info h3 { font-size: 12.5px; line-height: 1.25; }
+  .ev-date { font-size: 11px; }
+  .ev-none { min-height: 0; padding: 8px 6px; border-radius: 10px; }
+  .ev-none p { font-size: 11.5px; line-height: 1.25; }
+}
+/* O-Week's heading never gets the highlighter */
+#ow.wk.is-now .wk-head h2, :root[data-theme="dark"] #ow.wk.is-now .wk-head h2 { background: none; }
+
+/* 18 Nov: navbar logo is always the EA blue-green bulb with a yellow "UNSW", on every background */
+header.site-head .brand .bulb, header.site-head.light .brand .bulb, :root[data-theme="dark"] header.site-head .brand .bulb { color: #0c869b; }
+header.site-head:not(.light) .brand .bulb, :root[data-theme="dark"] header.site-head.light .brand .bulb { color: #2aa9bd; }
+header.site-head .brand-text b, header.site-head.light .brand-text b, :root[data-theme="dark"] header.site-head .brand-text b { color: #ffda1f; }
+
+/* 18 Nov: less space between the home hero and the EA photo */
+.ea-band { padding-top: 40px; }
+@media (max-width: 640px) { .ea-band { padding-top: 28px; } }
