@@ -1681,7 +1681,7 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
 .word { padding-block: 12px 16px; gap: 22px; grid-template-columns: 128px minmax(0, 1fr); }
 .word-side { padding-top: 34px; }
 .word-art { width: 128px; height: 128px; }
-.word-art .bubble { top: -8px; }
+.word-art .bubble { top: -8px; font: 600 15.5px/1.2 var(--hand); }
 .word-blue { background: #fff3c4; }
 .word-teal { background: #ffe1dc; }
 :root[data-theme="dark"] .word-blue { background: #2b2610; }
