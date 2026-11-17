@@ -345,17 +345,6 @@
       var b = doc.createElement('span'); b.className = 'bubble'; b.textContent = words[n];
       btn.appendChild(b);
       btn.classList.remove('beat', 'fire'); void btn.offsetWidth; btn.classList.add(heart ? 'beat' : 'fire');
-      if (heart && !calm) {
-        var r = btn.getBoundingClientRect(), keyboard = e.detail === 0;
-        var x = keyboard ? r.width / 2 : e.clientX - r.left, y = keyboard ? r.height / 2 : e.clientY - r.top;
-        for (var k = 0; k < 5; k++) {
-          var f = doc.createElement('span'); f.className = 'floaty';
-          f.innerHTML = '<svg viewBox="0 0 20 20"><path d="M10 17 C3 12 1 8 3 5 C5 2 9 3 10 6 C11 3 15 2 17 5 C19 8 17 12 10 17 Z" fill="#ffda1f" stroke="#111111" stroke-width="1.5"/></svg>';
-          f.style.left = x + 'px'; f.style.top = y + 'px';
-          f.style.setProperty('--dx', (Math.random() * 140 - 70) + 'px'); f.style.animationDelay = (k * 70) + 'ms';
-          btn.appendChild(f); (function (f) { var gone = function () { if (f.parentNode) f.remove(); }; f.addEventListener('animationend', function (ev) { if (ev.target === f) gone(); }); setTimeout(gone, 2200); })(f);
-        }
-      }
       clearTimeout(timer); timer = setTimeout(function () { fade(b); btn.classList.remove('fire'); }, 2600);
     });
   });
@@ -803,24 +792,6 @@
     }
     var m = /[?&]area=([^&]+)/.exec(location.search);
     if (m) decodeURIComponent(m[1]).split('|').forEach(function (a) { $$('input[name="s-area"]').forEach(function (i) { if (i.value === a) i.checked = true; }); });
-  })();
-
-  /* Events: star the ones you're keen on. Stays in this browser. */
-  (function () {
-    var KEY = 'eaunsw-stars', stars = store(KEY);
-    function paint() { $$('.strip li[data-wk]').forEach(function (li) { li.classList.toggle('starred', stars.indexOf(li.getAttribute('data-wk')) >= 0); }); }
-    $$('.wk').forEach(function (wk) {
-      /* one star per week, in the week's header (weeks with no events get none) */
-      var body = $('.wk-head', wk), h = body && $('h2', body);
-      if (!body || !h || wk.classList.contains('wk-rest')) return;
-      var b = doc.createElement('button');
-      b.type = 'button'; b.className = 'star'; b.id = 'star-' + wk.id;
-      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 L14.9 8.6 L21.5 9.5 L16.7 14.1 L17.9 20.7 L12 17.5 L6.1 20.7 L7.3 14.1 L2.5 9.5 L9.1 8.6 Z"/></svg><span></span>';
-      function set() { var on = stars.indexOf(wk.id) >= 0; b.setAttribute('aria-pressed', on ? 'true' : 'false'); $('span', b).textContent = on ? 'See you there' : "I'm keen"; b.setAttribute('aria-label', (on ? 'Unstar ' : 'Star ') + h.textContent); }
-      b.addEventListener('click', function () { toggleIn(stars, wk.id); store(KEY, stars); set(); paint(); });
-      set(); body.appendChild(b);
-    });
-    paint();
   })();
 
   /* Fellowship: tick off readings. Stays in this browser. */

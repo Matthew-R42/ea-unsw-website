@@ -34,14 +34,16 @@ tokens, API keys, account credentials, or private member information here.
 ## Updating the site
 
 Each week on `events.html` is one `<section class="wk">` block with a row
-(`<div class="ev-row">`) of up to three boxes: the week's event, the fellowship
-session and the weekly stall. Each box is a landscape poster from
+(`<div class="ev-row">`) of three boxes, always in this order: indoor event,
+outdoor event, fellowship session. A column with nothing that week is a dashed
+`<div class="ev-box ev-none">` saying so. Each box is a landscape poster from
 `assets/events/` (800 x 400 WebP, made from the 2000 x 1000 posters) with the
 event's name and its Date, Time and Where below. To announce a detail, replace
-`TBA` in that box's `<dd>`. The coloured dots in the week strip at the top
-must match the boxes: yellow `dot ev` for events, grey `dot fe` for fellowship
-sessions, white `dot tb` for stalls; each dot's tooltip is its `data-tip-title`.
-The three teaser cards on the home page are separate and live in `index.html`.
+`TBA` in that box's `<dd>`. The dots in the week strip at the top must match
+the boxes: yellow `dot ev` for indoor events, white `dot tb` for outdoor
+events, grey `dot fe` for fellowship sessions. The whole page (and the three
+Week 1 boxes on the home page) can be regenerated with `build_events.py`,
+which sits outside the repo, but hand edits work too.
 
 The "Come say hi" band and yellow footer are copied onto every page, so change
 them in all seven files.
