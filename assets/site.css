@@ -1740,8 +1740,9 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
 /* 18 Nov: everything on the first screen rises in on load, not just the title.
    Below-the-fold blocks still rise as you scroll to them (site.js adds .reveal, which cancels this).
    Fill mode is backwards only, so hover transforms work once it has finished. */
-[data-reveal] { animation: rise .7s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(260ms + var(--i, 0) * 90ms); }
-[data-reveal].reveal { animation: none; }
+/* Only during the first moments after load (site.js adds .settled to <html> after 2.5 s): otherwise the rise
+   replays whenever a block's classes change or it is shown later (an opened session, a revealed block). */
+:root:not(.settled) [data-reveal]:not(.reveal):not(.later) { animation: rise .7s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: calc(260ms + var(--i, 0) * 90ms); }
 .hero-art, .page-hero-art, .strip-bar { animation: rise .8s cubic-bezier(.2, .8, .2, 1) .2s backwards; }
 .page-hero-art.float { animation: rise .8s cubic-bezier(.2, .8, .2, 1) .2s backwards, float 6s ease-in-out 1s infinite; }
 @media (prefers-reduced-motion: reduce) { [data-reveal], .hero-art, .page-hero-art, .strip-bar, .page-hero-art.float { animation: none; } }
@@ -1769,3 +1770,35 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
   .ea-credit { left: 14px; right: 14px; text-align: right; }
 }
 :root[data-theme="dark"] .ea-word .word-art[data-heart] .draw { filter: none; }
+
+/* 18 Nov: events colours follow the posters. Fellowship = the fellowship poster's blue, outdoor = its cream. */
+.strip .dot.fe, .strip-key i.fe, .ev-kind.fe::before { background: #054d5a; }
+.strip .dot.tb, .strip-key i.tb, .ev-kind.tb::before { background: #f6eedb; }
+#tip.teal { background: #054d5a; color: #ffffff; }
+#tip.white { background: #f6eedb; color: #111111; }
+:root[data-theme="dark"] .strip .dot.fe, :root[data-theme="dark"] .strip-key i.fe { background: #054d5a; border-color: #b3b3ae; }
+:root[data-theme="dark"] .strip .dot.tb, :root[data-theme="dark"] .strip-key i.tb { background: #f6eedb; }
+/* Week strip: the week you're looking at widens to O-Week's width (flex, so the change can ease) */
+.strip { display: flex; }
+.strip li { flex: 1 1 0; transition: transform .16s ease, border-color .16s ease, background-color .16s ease, flex-grow .35s cubic-bezier(.2, .8, .2, 1); }
+.strip li:first-child, .strip li.is-now { flex-grow: 1.6; }
+@media (max-width: 640px) { .strip li:first-child, .strip li.is-now { flex-grow: 1.5; } }
+/* site.js sets the page's scroll-padding to the bottom of the stuck week strip, so a week lands just under it */
+.wk { scroll-margin-top: 0; }
+.wk.reveal { transform: none; } /* weeks fade in without moving, so clicking a week lands it exactly under the strip */
+/* 18 Nov: the photo has no border */
+.ea-photo { border: 0; }
+/* "So, what is EA?" band: warm cream (the posters' paper), which sits better with the photo and the crayon */
+.ea-band { background: #f6eedb; }
+.hero .edge path { fill: #f6eedb; }
+
+/* 18 Nov: dark mode is blue-teal again (like the home page's top section), not black. Yellow accents stay. */
+:root[data-theme="dark"] {
+  --ink: #e4f1f0; --ink-soft: #a7c3c6; --paper: #0a1e22; --card: #10303a; --line: #24474f;
+  --wash: #0f2c33; --night: #04282f; --night-shadow: #000f12; --mist: #a9dfe6; --deep: #0c3a44; --teal: #8fc9d3;
+  --soft: #0d2a31;
+}
+:root[data-theme="dark"] .site-head.light, :root[data-theme="dark"] .strip-bar { background: rgba(8, 30, 35, .94); }
+:root[data-theme="dark"] .try:nth-child(even) { background: #0f2c33; }
+:root[data-theme="dark"] .ea-band { background: #0d262c; }
+:root[data-theme="dark"] .hero .edge path { fill: #0d262c; }

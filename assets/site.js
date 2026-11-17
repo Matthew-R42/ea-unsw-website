@@ -5,6 +5,8 @@
   var still = /[?&]still\b/.test(location.search);
   var calm = still || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   if (still) root.classList.add('still');
+  /* the load-time rise (CSS) only runs in the first moments; after that nothing rises again on its own */
+  setTimeout(function () { root.classList.add('settled'); }, 2500);
   function $(s, el) { return (el || doc).querySelector(s); }
   function $$(s, el) { return Array.prototype.slice.call((el || doc).querySelectorAll(s)); }
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
@@ -62,18 +64,25 @@
   /* Reveal on scroll. Only elements that start below the fold are hidden, so the
      first screen is always complete and the page works without this script. */
   if (!calm && 'IntersectionObserver' in window) {
+    function show(el) {
+      if (el.classList.contains('in')) return;
+      el.classList.add('in'); io.unobserve(el);
+      /* drop both classes afterwards so hover transforms on the element work again */
+      setTimeout(function () { el.classList.remove('reveal', 'in'); }, 1400);
+    }
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = e.target;
-        el.classList.add('in'); io.unobserve(el);
-        /* drop both classes afterwards so hover transforms on the element work again */
-        setTimeout(function () { el.classList.remove('reveal', 'in'); }, 1400);
-      });
+      entries.forEach(function (e) { if (e.isIntersecting) show(e.target); });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    /* Backup: if the observer misses one (it can, after a big jump), anything hidden that is on screen still appears */
+    var sweeping = false;
+    function sweep() {
+      sweeping = false;
+      $$('.reveal:not(.in)').forEach(function (el) { var r = el.getBoundingClientRect(); if (r.height && r.top < window.innerHeight * 0.95 && r.bottom > 0) show(el); });
+    }
+    window.addEventListener('scroll', function () { if (!sweeping) { sweeping = true; setTimeout(sweep, 150); } }, { passive: true });
     $$('[data-reveal]').forEach(function (el) {
       if (el.getBoundingClientRect().top > window.innerHeight * 0.92) {
-        el.classList.add('reveal');
+        el.classList.add('reveal', 'later');
         io.observe(el);
       }
     });
@@ -290,9 +299,16 @@
         if (c) c.classList.toggle('is-now', on);
       });
     }
+    /* Clicking a week (or arriving with #w2) lands it just below the stuck week strip, past the line update() uses */
+    function pad() {
+      if (!bar) return;
+      var stuck = (parseFloat(getComputedStyle(bar).top) || 0) + bar.offsetHeight;
+      doc.documentElement.style.scrollPaddingTop = Math.round(stuck + 16) + 'px';
+    }
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    window.addEventListener('resize', update);
-    update();
+    window.addEventListener('resize', function () { pad(); update(); });
+    pad(); update();
+    if (location.hash && /^#(ow|w\d+)$/.test(location.hash)) { var t0 = doc.getElementById(location.hash.slice(1)); if (t0) t0.scrollIntoView(); }
   })();
   /* One shared tooltip for anything with data-tip (week dots, black bars, join button) */
   (function () {
