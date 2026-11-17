@@ -1642,7 +1642,7 @@ html { background: #04343d; }
   .word-art[data-heart]:hover .draw { animation: beat-hold 1.1s ease-in-out infinite; }
 }
 /* The hover heartbeat swells quickly, stays big for a while, then settles */
-@keyframes beat-hold { 0%, 100% { transform: scale(1); } 18% { transform: scale(1.14); } 42% { transform: scale(1.13); } 64% { transform: scale(.98); } }
+@keyframes beat-hold { 0%, 100% { transform: scale(1); } 18% { transform: scale(1.14); } 46% { transform: scale(1.13); } 67% { transform: scale(.98); } }
 /* the heart's black outline needs a light edge on dark cards; the brain's yellow outline already shows */
 :root[data-theme="dark"] .word-art[data-heart] .draw { filter: drop-shadow(1px 0 0 rgba(240, 240, 238, .85)) drop-shadow(-1px 0 0 rgba(240, 240, 238, .85)) drop-shadow(0 1px 0 rgba(240, 240, 238, .85)) drop-shadow(0 -1px 0 rgba(240, 240, 238, .85)); }
 @media (prefers-reduced-motion: reduce) { .word-art .draw, .word-art.beat .draw, .word-art[data-heart]:hover .draw { animation: none; } }
