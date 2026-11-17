@@ -1700,3 +1700,6 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
   .foot-sun .foot-row .arc-link { justify-self: end; }
 }
 .foot-legal { text-align: center; }
+/* "Session N of 7" sits to the right of the Fellowship label */
+.ev-kind .ev-sub { display: inline; margin: 0 0 0 4px; font: 600 13.5px/1.2 var(--body); color: var(--ink-soft); }
+.ev-kind .ev-sub::before { content: "\00b7"; margin-right: 6px; }
