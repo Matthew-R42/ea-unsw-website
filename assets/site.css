@@ -1710,3 +1710,44 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
 /* "Session N of 7" sits to the right of the Fellowship label */
 .ev-kind.fe { display: flex; }
 .ev-kind .ev-sub { margin: 0 0 0 auto; font: 600 13.5px/1.2 var(--body); color: var(--ink-soft); }
+
+/* Event pages (event-*.html, fellowship-session-*.html): poster left, details right */
+.evp-hero .wrap { grid-template-columns: minmax(0, 1fr); padding-block: 48px 64px; }
+.evp-hero h1 { margin: 10px 0 18px; }
+.evp-back { display: flex; width: fit-content; gap: 8px; align-items: center; margin-bottom: 18px; font: 600 15.5px/1 var(--body); color: #fff; text-decoration: none; opacity: .85; }
+.evp-back:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+.page-hero.band-night a.evp-back { color: #fff; }
+.evp { padding-block: 64px 80px; }
+.evp-grid { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 56px; align-items: start; }
+.evp-poster { margin: 0; position: sticky; top: 100px; }
+.evp-poster img { display: block; width: 100%; height: auto; border: 2px solid var(--ink); border-radius: 10px; background: var(--wash); }
+.evp-main h2 { font-size: clamp(28px, 3.2vw, 36px); margin: 44px 0 20px; }
+.evp-when { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 6px 30px; margin: 0; padding: 18px 22px; border: 2px solid var(--ink); border-radius: 14px; background: var(--card); }
+.evp-when dt { font: 600 15px/1.3 var(--hand); color: var(--ink-soft); }
+.evp-when dd { margin: 0; font-weight: 700; }
+.evp-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+.evp-steps li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 16px; align-items: start; }
+.evp-n { display: grid; place-content: center; width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--ink); background: var(--sun); color: #111111; font: 800 21px/1 var(--display); }
+.evp-steps h3 { font-size: 22px; line-height: 1.2; margin: 8px 0 4px; }
+.evp-steps p { margin: 0; color: var(--ink-soft); max-width: 34em; }
+.evp-good { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.evp-good li { position: relative; padding-left: 30px; }
+.evp-good li::before { content: ""; position: absolute; left: 2px; top: .5em; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--ink); background: var(--sun); }
+.evp-main a:not(.evp-step-link) { color: inherit; text-decoration-color: var(--sun-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.evp-pn { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; }
+.evp-step-link { display: grid; gap: 4px; padding: 14px 18px; border: 2px solid var(--ink); border-radius: 14px; background: var(--card); color: var(--ink); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.evp-step-link .hand { font-size: 15px; color: var(--ink-soft); }
+.evp-step-link b { font: 700 18px/1.25 var(--display); }
+.evp-step-link.next { grid-column: 2; text-align: right; }
+.evp-step-link:hover, .evp-step-link:focus-visible { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--ink); color: var(--ink); }
+.evp-blank { min-height: 40vh; }
+@media (max-width: 860px) {
+  .evp-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .evp-poster { position: static; width: min(100%, 380px); justify-self: center; }
+  .evp-when { grid-template-columns: repeat(2, auto); }
+}
+@media (max-width: 520px) {
+  .evp-pn { grid-template-columns: minmax(0, 1fr); }
+  .evp-step-link.next { grid-column: 1; }
+  .evp { padding-block: 44px 64px; }
+}
