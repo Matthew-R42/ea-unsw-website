@@ -1769,5 +1769,3 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
   .ea-credit { left: 14px; right: 14px; text-align: right; }
 }
 :root[data-theme="dark"] .ea-word .word-art[data-heart] .draw { filter: none; }
-/* 18 Nov: once the navbar turns light on scroll (light mode only), "UNSW" under the name is UNSW yellow */
-:root[data-theme="light"] .site-head.light .brand-text b { color: #ffda1f; }
