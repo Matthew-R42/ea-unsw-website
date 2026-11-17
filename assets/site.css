@@ -1745,3 +1745,29 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
 .hero-art, .page-hero-art, .strip-bar { animation: rise .8s cubic-bezier(.2, .8, .2, 1) .2s backwards; }
 .page-hero-art.float { animation: rise .8s cubic-bezier(.2, .8, .2, 1) .2s backwards, float 6s ease-in-out 1s infinite; }
 @media (prefers-reduced-motion: reduce) { [data-reveal], .hero-art, .page-hero-art, .strip-bar, .page-hero-art.float { animation: none; } }
+
+/* 18 Nov: home "So, what is Effective Altruism?" = one photo (EA Global London 2023, CC0) with the two words
+   on yellow crayon scribbles on top of it, instead of two boxes. The crayon is an SVG zigzag roughened by #crayon. */
+.ea-photo { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; align-items: center; min-height: 520px; padding: 56px 52px 70px; border: 2px solid var(--ink); border-radius: var(--radius); overflow: hidden; background: #2a2a2a; }
+.ea-photo picture, .ea-photo-bg { position: absolute; inset: 0; z-index: -2; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 58%; }
+.ea-photo::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(17, 17, 17, .18), rgba(17, 17, 17, .38)); pointer-events: none; }
+.ea-word { position: relative; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 18px; align-items: center; padding: 34px 42px 38px 30px; color: #111111; }
+.ea-eff { align-self: start; transform: rotate(-2deg); }
+.ea-alt { align-self: end; transform: rotate(1.5deg); }
+.ea-word .crayon { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.ea-word .crayon path { fill: none; stroke: #ffda1f; stroke-width: 46; stroke-linecap: round; stroke-linejoin: round; }
+.ea-word h3 { font-size: clamp(38px, 4.4vw, 56px); color: #111111; }
+.ea-word .def { margin: 6px 0 0; font: italic 500 19px/1.35 var(--serif); color: #111111; max-width: 20em; }
+.ea-word .word-art { width: 112px; height: 112px; }
+.ea-word .word-art .draw { filter: none; }
+.ea-credit { position: absolute; right: 14px; bottom: 10px; margin: 0; font-size: 12px; line-height: 1.3; color: rgba(255, 255, 255, .88); text-shadow: 0 1px 3px rgba(0, 0, 0, .7); }
+@media (max-width: 760px) {
+  .ea-photo { grid-template-columns: minmax(0, 1fr); gap: 34px; min-height: 0; padding: 34px 18px 54px; }
+  .ea-word { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 24px 26px 28px 18px; }
+  .ea-word .word-art { width: 84px; height: 84px; }
+  .ea-eff { transform: rotate(-1.5deg); } .ea-alt { transform: rotate(1.2deg); }
+  .ea-credit { left: 14px; right: 14px; text-align: right; }
+}
+:root[data-theme="dark"] .ea-word .word-art[data-heart] .draw { filter: none; }
+/* 18 Nov: once the navbar turns light on scroll (light mode only), "UNSW" under the name is UNSW yellow */
+:root[data-theme="light"] .site-head.light .brand-text b { color: #ffda1f; }

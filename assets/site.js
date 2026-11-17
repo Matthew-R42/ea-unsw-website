@@ -340,6 +340,8 @@
     }
     btn.addEventListener('click', function (e) {
       $$('.bubble', btn).forEach(fade);
+      /* no words (the home page drawings since 18 Nov): just the heartbeat / brain flash, no bubble */
+      if (!words[0]) { btn.classList.remove('beat', 'fire'); void btn.offsetWidth; btn.classList.add(heart ? 'beat' : 'fire'); return; }
       var n; do { n = Math.floor(Math.random() * words.length); } while (n === last && words.length > 1);
       last = n;
       var b = doc.createElement('span'); b.className = 'bubble'; b.textContent = words[n];
