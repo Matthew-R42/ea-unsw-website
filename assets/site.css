@@ -1905,3 +1905,13 @@ header.site-head .brand-text b, header.site-head.light .brand-text b, :root[data
 /* 18 Nov: home hero ("Let's work out...") a little shorter top and bottom */
 .hero-grid { padding-top: 60px; padding-bottom: 92px; }
 @media (max-width: 980px) { .hero-grid { padding-top: 40px; padding-bottom: 28px; } }
+
+/* phones: centre the "Can I really help" block and the fellowship call-out (18 Nov) */
+@media (max-width: 760px) {
+  .yescan { text-align: center; }
+  .yescan h2 { margin-left: auto; margin-right: auto; text-wrap: balance; }
+  .yes-how { justify-content: center; text-align: left; }
+  .fellow-copy { text-align: center; }
+  .fellow-copy h2 { margin-left: auto; margin-right: auto; }
+  .fellow-copy .actions { justify-content: center; }
+}
