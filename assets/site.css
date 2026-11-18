@@ -1318,7 +1318,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 :root[data-theme="dark"] .hl { background: linear-gradient(transparent 56%, rgba(255, 218, 31, .34) 56% 92%, transparent 92%); }
 /* Arc logo links to Arc */
 .arc-link { display: block; flex: none; border-radius: 6px; transition: transform .2s cubic-bezier(.3, 1.6, .5, 1); }
-.arc-link:hover { transform: rotate(-4deg) scale(1.06); }
+.arc-link:hover { transform: scale(1.06); }
 
 /* Above 1,000 people the dots are scaled; this says by how much */
 .dot-key { margin-top: 8px; font: 700 14px/1.2 var(--hand); color: var(--ink-soft); }
@@ -1790,9 +1790,9 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
 .wk.reveal { transform: none; } /* weeks fade in without moving, so clicking a week lands it exactly under the strip */
 /* 18 Nov: the photo has no border */
 .ea-photo { border: 0; }
-/* "So, what is EA?" band: warm cream (the posters' paper), which sits better with the photo and the crayon */
-.ea-band { background: #f6eedb; }
-.hero .edge path { fill: #f6eedb; }
+/* "So, what is EA?" band: plain paper, no tint */
+.ea-band { background: var(--paper); }
+.hero .edge path { fill: var(--paper); }
 
 /* 18 Nov: dark mode is blue-teal again (like the home page's top section), not black. Yellow accents stay. */
 :root[data-theme="dark"] {
@@ -1885,6 +1885,8 @@ main > section:has(+ section.join) { background-color: color-mix(in srgb, var(--
 header.site-head .brand .bulb, header.site-head.light .brand .bulb, :root[data-theme="dark"] header.site-head .brand .bulb { color: #0c869b; }
 header.site-head:not(.light) .brand .bulb, :root[data-theme="dark"] header.site-head.light .brand .bulb { color: #2aa9bd; }
 header.site-head .brand-text b, header.site-head.light .brand-text b, :root[data-theme="dark"] header.site-head .brand-text b { color: #ffda1f; }
+/* 19 Nov: in light mode the navbar is pale, so the yellow "UNSW" is a deeper golden yellow to stay readable */
+:root:not([data-theme="dark"]) header.site-head.light .brand-text b { color: #d9a300; }
 
 /* 18 Nov: less space between the home hero and the EA photo */
 .ea-band { padding-top: 40px; }
@@ -1920,3 +1922,108 @@ header.site-head .brand-text b, header.site-head.light .brand-text b, :root[data
 /* same look as the home page fellowship call-out: slight tilt, soft shadow, no floating */
 .page-hero-art.hero-poster { width: min(100%, 300px); animation: rise .8s cubic-bezier(.2, .8, .2, 1) .2s backwards; }
 .page-hero-art.hero-poster img { display: block; width: 100%; height: auto; aspect-ratio: 840 / 1188; border: 0; border-radius: 10px; box-shadow: 0 14px 34px rgba(0, 0, 0, .35); rotate: -1.5deg; }
+
+/* 19 Nov: fellowship call-out text is centred; "Intro to EA Fellowship" stays on one line */
+.fellow-copy { text-align: center; }
+.fellow-copy h2 { max-width: none; margin-left: auto; margin-right: auto; text-wrap: balance; }
+.fellow-copy h2 .nw { white-space: nowrap; }
+.fellow-copy .actions { justify-content: center; }
+@media (max-width: 400px) { .fellow-copy h2 { font-size: 26px; } }
+
+/* 19 Nov: fellowship poster nudged right on wide screens (stacked layout stays centred) */
+@media (min-width: 761px) { .fellow-cta .fellow-poster { position: relative; left: 28px; } }
+
+/* 19 Nov: hovering the navbar lightbulb no longer tilts it; it rises a little and "switches on" (bright yellow with a soft glow, straight on, no flicker) */
+header.site-head .brand .bulb { transition: color .25s ease, filter .35s ease, transform .3s ease; }
+header.site-head .brand:hover .bulb, header.site-head .brand:focus-visible .bulb {
+  transform: translateY(-3px) !important;
+  color: #ffd21f !important;
+  filter: drop-shadow(0 0 5px rgba(255, 190, 0, .95)) drop-shadow(0 0 14px rgba(255, 190, 0, .6));
+}
+@media (prefers-reduced-motion: reduce) {
+  header.site-head .brand:hover .bulb, header.site-head .brand:focus-visible .bulb { transition: none; }
+}
+
+/* 19 Nov: the footer bulb has no hover effect at all */
+.foot .brand:hover .bulb, .foot .brand:focus-visible .bulb { transform: none; color: var(--ink); filter: none; animation: none; }
+
+/* 19 Nov: "Come to our events" and the event list are one section */
+.can-events { margin-top: 36px; }
+@media (max-width: 760px) { .can-events { margin-top: 24px; } }
+
+/* 19 Nov: the "Yes, you can" block sits at the far right; its arrow sweeps down-left over the whole event row instead of pointing at one poster */
+.yes-how { flex-direction: column; align-items: flex-end; gap: 6px; text-align: right; }
+.yes-how svg { width: 210px; height: 62px; margin-top: 0; }
+@media (min-width: 981px) { .yescan > div:last-child { justify-self: end; text-align: right; } }
+@media (max-width: 980px) { .yes-how { align-items: center; text-align: center; } }
+
+/* 19 Nov: home page events are a full-width carousel of every event in the term, in date order.
+   It runs edge to edge of the screen (not stopping at the page column); phones get the portrait posters and swipe. */
+#can { overflow-x: clip; }
+.ev-car { position: relative; width: 100vw; margin-left: calc(50% - 50vw); }
+.ev-car-track { --pad: max(var(--gutter), calc((100vw - var(--wrap)) / 2 + var(--gutter))); display: flex; gap: 18px; overflow-x: auto; overscroll-behavior-x: contain; padding: 8px calc(var(--fs) + 90px) 24px calc(var(--fs) + 90px); scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.ev-car-track::-webkit-scrollbar { display: none; }
+.ev-car-track:focus-visible { outline: 2px solid var(--ink); outline-offset: -4px; }
+.ev-car .ev-box[hidden] { display: none; }
+/* when everything fits, the cards bunch up in the middle (auto margins vanish when it overflows, so scrolling still reaches both ends) */
+.ev-car .ev-box.edge-l { margin-left: auto; }
+.ev-car .ev-box.edge-r { margin-right: auto; }
+.ev-car .ev-box { flex: 0 0 clamp(300px, 29vw, 440px); translate: var(--ov, 0px) 0; }
+.ev-car-btn { position: absolute; top: calc(8px + (clamp(300px, 29vw, 440px) / 2 * .5)); width: 48px; height: 48px; margin-top: -24px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); font: 600 22px/1 var(--body); cursor: pointer; display: grid; place-items: center; box-shadow: none; transition: opacity .2s ease, transform .15s ease; z-index: 2; }
+.ev-car-btn.prev { left: max(10px, calc(var(--gutter) - 20px)); }
+.ev-car-btn.next { right: max(10px, calc(var(--gutter) - 20px)); }
+.ev-car-btn:hover:not(:disabled), .ev-car-btn:focus-visible { transform: translateY(-2px); }
+.ev-car-btn:disabled { opacity: 0; pointer-events: none; }
+@media (max-width: 640px) {
+  .ev-car-track { gap: 12px; padding-left: var(--pad); padding-right: var(--pad); }
+  .ev-car .ev-box { flex: 0 0 min(64vw, 280px); }
+  .ev-car .ev-info { gap: 3px; padding: 10px 12px 13px; }
+  .ev-car .ev-info h3 { font-size: 16px; line-height: 1.25; }
+  .ev-car .ev-date { font-size: 13.5px; }
+  .ev-car-btn { top: calc(8px + min(64vw, 280px) * .707); width: 40px; height: 40px; margin-top: -20px; font-size: 18px; }
+  .ev-car-btn.prev { left: 6px; }
+  .ev-car-btn.next { right: 6px; }
+}
+
+/* 19 Nov: (carousel has a margin at the left again, lined up with the page column; arrows stay near the screen edges with no shadow) heading is just "Our Upcoming Events" and a lightbulb */
+.upcoming-head h2 { display: flex; align-items: center; gap: 14px; font-size: clamp(32px, 4.2vw, 50px); }
+.upcoming-head .bulb { width: 34px; height: 50px; flex: none; color: #0c869b; }
+:root[data-theme="dark"] .upcoming-head .bulb { color: #2aa9bd; }
+@media (max-width: 760px) { .upcoming-head h2 { justify-content: center; text-align: center; } }
+
+/* 19 Nov: every yellow button with the pulse (Join us, Sign up, ...) pulses very softly and barely reacts to hover.
+   Home page: outside the navbar the pulse is a faint glow instead of a ring. The navbar keeps its own original hover. */
+.btn-sun::after { border-width: 2px; animation: ring-soft 3.8s ease-in-out infinite; }
+@keyframes ring-soft { 0% { opacity: .2; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.04, 1.14); } }
+.home .btn-sun[href*="hellorubric"]:not(.join-late)::after { inset: 0; border: 0; border-radius: inherit; transform: none; animation: glow-soft 3.8s ease-in-out infinite; }
+@keyframes glow-soft { 0%, 100% { opacity: 0; box-shadow: 0 0 0 0 rgba(255, 210, 31, 0); } 50% { opacity: 1; box-shadow: 0 0 12px 2px rgba(255, 210, 31, .32); } }
+.btn-sun:hover::after { animation: none; }
+/* 19 Nov: no hover effect at all on the yellow Join us / Sign up buttons or the navbar Join us: hovering keeps the resting look */
+.btn.btn-sun:hover, .btn.join-late:hover { transform: none; box-shadow: 3px 3px 0 var(--ink); }
+.on-dark .btn.btn-sun:hover, .site-head .btn.btn-sun:hover { box-shadow: 3px 3px 0 var(--night-shadow); }
+.site-head.light .btn.btn-sun:hover { box-shadow: 3px 3px 0 var(--ink); }
+/* navbar "Join us!" while it is see-through (over the dark navbar): its original hover is back, it fills white */
+/* the only pulse/glow left is the hero "Join us on Rubric" on the home page; Sign up and the navbar Join us never pulse */
+.btn-sun::after, .btn-sun:hover::after { animation: none; opacity: 0; }
+.home .btn-sun[href*="hellorubric"]:not(.join-late)::after { animation: glow-soft 3.8s ease-in-out infinite; opacity: 1; }
+.home .btn-sun[href*="hellorubric"]:not(.join-late):hover::after { animation: none; opacity: 0; }
+/* the navbar "Join us!" tooltip is plain white over the dark navbar */
+#tip.snow, :root[data-theme="dark"] #tip.snow { background: #ffffff; color: #111111; }
+
+/* 19 Nov: cards fade out as they near either edge of the screen (arrows sit outside the track, so they are not faded) */
+.ev-car-track { --fs: calc(max(10px, calc(var(--gutter) - 20px)) + 48px + 10px); -webkit-mask-image: linear-gradient(to right, transparent 0, transparent var(--fs), #000 calc(var(--fs) + 90px), #000 calc(100% - var(--fs) - 90px), transparent calc(100% - var(--fs)), transparent 100%); mask-image: linear-gradient(to right, transparent 0, transparent var(--fs), #000 calc(var(--fs) + 90px), #000 calc(100% - var(--fs) - 90px), transparent calc(100% - var(--fs)), transparent 100%); }
+@media (max-width: 640px) { .ev-car-track { -webkit-mask-image: none; mask-image: none; } }
+
+/* 19 Nov: "Our Upcoming Events" is centred, no lightbulb */
+.upcoming-head h2 { justify-content: center; text-align: center; }
+
+/* 19 Nov: click and drag the event carousel with the mouse */
+.ev-car-track { cursor: grab; }
+.ev-car-track.dragging { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+.ev-car-track.dragging a { pointer-events: none; }
+.ev-car-track img { -webkit-user-drag: none; user-select: none; }
+@media (hover: none) { .ev-car-track { cursor: auto; } }
+.ev-car-track { position: relative; }
+
+/* 19 Nov: "See our full schedule" under the carousel is centred */
+.can-events > p { text-align: center; }

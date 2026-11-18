@@ -327,6 +327,7 @@
       tip.appendChild(doc.createTextNode(t));
       tip.classList.toggle('teal', el.getAttribute('data-tip-tone') === 'teal');
       tip.classList.toggle('white', el.getAttribute('data-tip-tone') === 'white');
+      tip.classList.toggle('snow', !!(el.matches && el.matches('.join-late') && el.closest('.site-head:not(.light)')));  /* Join us over the dark navbar: plain white box */
       tip.style.left = '0px'; tip.style.top = '0px';
       var r = el.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
       var x = clamp(r.left + r.width / 2 - tw / 2, 8, root.clientWidth - tw - 8);
@@ -1146,4 +1147,134 @@
     input.addEventListener('input', function () { name.textContent = input.value.trim() || 'Your name here'; });
     show();
   })();
+  /* Event carousel on the home page: arrows scroll by about one screenful of cards, and fade at either end (19 Nov) */
+  $$('.ev-car').forEach(function (car) {
+    var track = $('.ev-car-track', car), prev = $('.ev-car-btn.prev', car), next = $('.ev-car-btn.next', car);
+    /* only the current week and the next one: weeks start on a Monday (data-start); before term it shows the first two, after term the last two */
+    (function () {
+      var cards = $$('.ev-box[data-start]', track), starts = [];
+      cards.forEach(function (c) { if (starts.indexOf(c.dataset.start) < 0) starts.push(c.dataset.start); });
+      starts.sort();
+      if (!starts.length) return;
+      var d = new Date(), today = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+      var i = -1;
+      starts.forEach(function (s, n) { if (s <= today) i = n; });
+      i = Math.max(0, Math.min(i, starts.length - 2));
+      var keep = starts.slice(i, i + 2);
+      cards.forEach(function (c) { c.hidden = keep.indexOf(c.dataset.start) < 0; });
+      var shown = cards.filter(function (c) { return !c.hidden; });
+      shown[0].classList.add('edge-l'); shown[shown.length - 1].classList.add('edge-r');
+    })();
+    if (!track || !prev || !next) return;
+    function step() { var c = $('.ev-box', track); return c ? (c.getBoundingClientRect().width + 18) * (window.innerWidth > 900 ? 2 : 1) : 300; }
+    function update() {
+      var max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft < 4;
+      next.disabled = track.scrollLeft > max - 4;
+    }
+    /* own easing animation: the browser's smooth scrolling is switched off in some browsers, and snap fights it */
+    var anim = 0;
+    function animateTo(to) {
+      stopPhys(); track.style.setProperty('--ov', '0px');
+      var max = track.scrollWidth - track.clientWidth, from = track.scrollLeft;
+      to = clamp(to, 0, max);
+      cancelAnimationFrame(anim);
+      if (calm) { track.scrollLeft = to; track.style.scrollSnapType = ''; return; }
+      var t0 = null, dur = 450;
+      track.style.scrollSnapType = 'none';
+      function tick(t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        track.scrollLeft = from + (to - from) * e;
+        if (k < 1) anim = requestAnimationFrame(tick); else track.style.scrollSnapType = '';
+      }
+      anim = requestAnimationFrame(tick);
+    }
+    function go(dx) { animateTo(track.scrollLeft + dx); }
+    /* click and drag with a mouse (touch already scrolls natively). Physics: past either end the cards stretch with
+       resistance and spring back; on release the row keeps gliding and slows down. x is the unbounded position. */
+    var drag = null, moved = false, x = 0, vel = 0, phys = 0, samples = [], wheelTimer = 0;
+    function maxLeft() { return Math.max(0, track.scrollWidth - track.clientWidth); }
+    function setPos(v) {
+      var m = maxLeft(), edge = clamp(v, 0, m);
+      x = v;
+      track.scrollLeft = edge;
+      track.style.setProperty('--ov', (-(v - edge)).toFixed(1) + 'px');
+    }
+    function rubber(raw) { var m = maxLeft(); return raw < 0 ? raw * 0.45 : raw > m ? m + (raw - m) * 0.45 : raw; }
+    function stopPhys() { cancelAnimationFrame(phys); phys = 0; }
+    function release(v0) {
+      stopPhys();
+      var m = maxLeft(), last = null;
+      vel = v0;
+      if (calm) { setPos(clamp(x, 0, m)); return; }
+      function tick(t) {
+        if (last === null) last = t;
+        var dt = Math.min(32, t - last) || 16; last = t;
+        m = maxLeft();
+        var edge = clamp(x, 0, m), d = x - edge;
+        if (d !== 0) {                                   /* past an end: spring back, critically damped */
+          vel += (-0.0004 * d - 0.04 * vel) * dt;
+          x += vel * dt;
+          if (Math.abs(d) < 0.4 && Math.abs(vel) < 0.01) { setPos(edge); phys = 0; return; }
+        } else {                                         /* inside: friction, a long soft glide */
+          x += vel * dt;
+          vel *= Math.exp(-dt / 320);
+          if (Math.abs(vel) < 0.015) { setPos(clamp(x, 0, m)); phys = 0; return; }
+        }
+        setPos(x);
+        phys = requestAnimationFrame(tick);
+      }
+      phys = requestAnimationFrame(tick);
+    }
+    track.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      cancelAnimationFrame(anim); stopPhys();
+      x = track.scrollLeft;
+      drag = { x: e.clientX, left: x };
+      samples = [{ t: performance.now(), x: e.clientX }];
+      moved = false;
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      if (!moved && Math.abs(dx) < 5) return;
+      if (!moved) { moved = true; track.classList.add('dragging'); }
+      var now = performance.now();
+      samples.push({ t: now, x: e.clientX });
+      while (samples.length > 2 && now - samples[0].t > 90) samples.shift();
+      setPos(calm ? clamp(drag.left - dx, 0, maxLeft()) : rubber(drag.left - dx));
+    });
+    function endDrag() {
+      if (!drag) return;
+      drag = null;
+      if (!moved) return;
+      track.classList.remove('dragging');
+      var f = samples[0], l = samples[samples.length - 1], v = 0;
+      if (l && f && l.t - f.t > 8 && performance.now() - l.t < 80) v = -(l.x - f.x) / (l.t - f.t);
+      release(clamp(v, -4, 4));
+    }
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+    /* sideways trackpad / shift-wheel: stretch past the ends too, then spring back once the wheel stops */
+    track.addEventListener('wheel', function (e) {
+      if (calm || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      cancelAnimationFrame(anim); stopPhys();
+      var m = maxLeft(), d = e.deltaX;
+      if (x < 0 || x > m) d *= 0.45; else x = track.scrollLeft;
+      setPos(x + d);
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(function () { release(0); }, 90);
+    }, { passive: false });
+    /* a drag must not count as a click on the card under the mouse */
+    track.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    track.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    prev.addEventListener('click', function () { go(-step()); });
+    next.addEventListener('click', function () { go(step()); });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    track.scrollLeft = 0;  /* always open on the first card (O-Week), never on a restored scroll position */
+    update();
+  });
 })();
