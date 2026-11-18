@@ -1917,5 +1917,6 @@ header.site-head .brand-text b, header.site-head.light .brand-text b, :root[data
 }
 
 /* Fellowship page: the A4 fellowship poster replaces the open-book drawing at the top (18 Nov) */
-.page-hero-art.hero-poster { width: min(100%, 270px); }
-.page-hero-art.hero-poster img { display: block; width: 100%; height: auto; border-radius: 10px; border: 2px solid rgba(255, 255, 255, .28); box-shadow: 0 18px 40px rgba(0, 0, 0, .35); }
+/* same look as the home page fellowship call-out: slight tilt, soft shadow, no floating */
+.page-hero-art.hero-poster { width: min(100%, 300px); animation: rise .8s cubic-bezier(.2, .8, .2, 1) .2s backwards; }
+.page-hero-art.hero-poster img { display: block; width: 100%; height: auto; aspect-ratio: 840 / 1188; border: 0; border-radius: 10px; box-shadow: 0 14px 34px rgba(0, 0, 0, .35); rotate: -1.5deg; }
