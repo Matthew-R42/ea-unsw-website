@@ -294,7 +294,7 @@
       weeks.forEach(function (w) { if (w.getBoundingClientRect().top <= line) best = w; });
       weeks.forEach(function (w) {
         var on = w === best && r.top < window.innerHeight && r.bottom > 0;
-        w.classList.toggle('is-now', on);
+        w.classList.toggle('is-now', on && !w.classList.contains('wk-rest'));  /* no-event weeks (W6): no highlighter, node doesn't grow */
         var c = cells[w.id];
         if (c) c.classList.toggle('is-now', on);
       });
@@ -308,7 +308,7 @@
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     window.addEventListener('resize', function () { pad(); update(); });
     pad(); update();
-    /* Clicking a dot in the strip also goes to its week (the tooltip still shows) */
+    /* Clicking a dot in the strip also goes to its week */
     $$('.strip .dot:not(.gap)').forEach(function (d) {
       d.addEventListener('click', function () { var a = d.closest('li').querySelector('a'); if (a) a.click(); });
     });
@@ -1315,4 +1315,18 @@
     track.scrollLeft = 0;  /* always open on the first card (O-Week), never on a restored scroll position */
     update();
   });
+})();
+
+/* About us "Want to join us?": keep the line break after the first sentence only while that sentence fits on one line */
+(function () {
+  var p = document.querySelector('.subcomm-panel p'), first = p && p.querySelector('.first-sentence');
+  if (!first) return;
+  function check() {
+    p.classList.remove('one-para');
+    if (first.getClientRects().length > 1) p.classList.add('one-para');
+  }
+  check();
+  window.addEventListener('resize', check);
+  window.addEventListener('load', check);  /* web fonts change line widths; fonts.ready can resolve before they even start loading */
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', check);
 })();

@@ -902,10 +902,20 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .person.flip:focus-visible { outline: 3px solid var(--sun-deep); outline-offset: 4px; border-radius: var(--radius); }
 
 /* Pick the subcommittee roles that sound like you */
-.subcomm-panel { margin-top: 64px; padding-top: 44px; border-top: 2px dashed rgba(17, 17, 17, .18); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 48px; align-items: center; }
+.subcomm-panel { margin-top: 64px; padding-top: 44px; border-top: 2px dashed rgba(17, 17, 17, .18); }
+/* shrink-to-fit so the button's right edge lines up with the longest line of text below it */
+.subcomm-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 48px; align-items: center; width: fit-content; max-width: 100%; }
 .subcomm-panel h2 { font-size: clamp(26px, 3vw, 36px); margin: 0; }
 .subcomm-panel p { grid-column: 1 / -1; font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
-@media (max-width: 760px) { .subcomm-panel { grid-template-columns: 1fr; } .subcomm-panel .btn { justify-self: start; } }
+/* site.js adds .one-para when the first sentence wraps: then drop the line break so the text reads as one paragraph */
+.subcomm-panel p.one-para br { display: none; }
+/* phone: button sits beside the heading, description runs as one paragraph */
+@media (max-width: 760px) {
+  .subcomm-inner { width: auto; gap: 14px 12px; }
+  .subcomm-panel h2 { font-size: 22px; }
+  .subcomm-panel .btn { font-size: 14px; padding: 10px 14px; }
+  .subcomm-panel p br { display: none; }
+}
 :root[data-theme="dark"] .subcomm-panel { border-top-color: var(--line); }
 .pick-hint { font-family: var(--hand); font-weight: 600; font-size: 18px; color: var(--teal-strong); margin: -22px 0 18px; }
 .rolecard.pick { cursor: pointer; position: relative; user-select: none; -webkit-user-select: none; }
@@ -2128,3 +2138,23 @@ header.site-head .brand:hover .bulb, header.site-head .brand:focus-visible .bulb
 .pp-photo { aspect-ratio: 3 / 4; border-radius: 20px; }
 @media (max-width: 640px) { .pp-photo { width: 200px; } }
 .person-pop { border-radius: 10px; }
+
+/* 23 Nov: week strip dots just count the week's events (no indoor/outdoor/fellowship colours, no hover tooltips) */
+.strip .dots { gap: 4px; min-height: 10px; }
+.strip .dot { width: 10px; height: 10px; border-width: 1.5px; background: var(--sun); cursor: inherit; transition: none; }
+.strip .dot:not(.none):hover, .strip .dot:not(.none):focus-visible { transform: none; }
+/* no hover effect on the week cells either (no lift, no yellow fill) */
+.strip li:hover { transform: none; }
+.strip li.on:not(.is-now):hover, :root[data-theme="dark"] .strip li.on:not(.is-now):hover { background: var(--card); }
+@media (max-width: 640px) {
+  .strip .dots { flex-direction: row; gap: 2px; min-height: 6px; }
+  .strip .dot { width: 6px; height: 6px; border-width: 1px; flex: none; }
+}
+@media (max-width: 360px) { .strip .dots { gap: 1px; } .strip .dot { width: 5px; height: 5px; } }
+/* 23 Nov: the yellow highlighter under the current week's heading draws in from the left instead of snapping on
+   (site.js never marks no-event weeks like W6 as current) */
+.wk-head h2 { background: linear-gradient(var(--sun), var(--sun)) 0 87.9% / 0 34% no-repeat; transition: background-size .45s cubic-bezier(.2, .8, .2, 1); }
+.wk.is-now .wk-head h2 { background: linear-gradient(var(--sun), var(--sun)) 0 87.9% / 100% 34% no-repeat; }
+:root[data-theme="dark"] .wk-head h2 { background: linear-gradient(rgba(255, 218, 31, .4), rgba(255, 218, 31, .4)) 0 87.9% / 0 34% no-repeat; }
+:root[data-theme="dark"] .wk.is-now .wk-head h2 { background: linear-gradient(rgba(255, 218, 31, .4), rgba(255, 218, 31, .4)) 0 87.9% / 100% 34% no-repeat; }
+@media (prefers-reduced-motion: reduce) { .wk-head h2 { transition: none; } }
