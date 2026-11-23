@@ -198,16 +198,19 @@
         var p = parts[i];
         var dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
         if (d2 < 4000 && d2 > 0.01) { var f = (1 - d2 / 4000) * 1.6, d = Math.sqrt(d2); p.vx += dx / d * f; p.vy += dy / d * f; }
-        if (p.free || el < p.delay) {
+        var flung = p.scat && now < p.scat;
+        if (p.free || el < p.delay || flung) {
           p.vx += Math.cos(now / 2300 + p.seed) * 0.004; p.vy += Math.sin(now / 2700 + p.seed) * 0.004;
-          p.vx *= 0.985; p.vy *= 0.985;
+          var drag = flung ? 0.95 : 0.985; p.vx *= drag; p.vy *= drag;
           p.x += p.vx; p.y += p.vy;
           if (p.x < -10) p.x = W + 10; else if (p.x > W + 10) p.x = -10;
           if (p.y < -10) p.y = H + 10; else if (p.y > H + 10) p.y = -10;
         } else {
           bound++;
           var tx = p.tx + Math.sin(now / 1500 + p.seed) * 1.1, ty = p.ty + Math.cos(now / 1700 + p.seed) * 1.1;
-          p.vx = (p.vx + (tx - p.x) * 0.014) * 0.88; p.vy = (p.vy + (ty - p.y) * 0.014) * 0.88;
+          /* after a click scatter, the pull back starts weak and builds up over ~1.8 s, so the dots drift home slowly */
+          var k = p.scat ? 0.014 * Math.min(1, 0.3 + 0.7 * (now - p.scat) / 1800) : 0.014;
+          p.vx = (p.vx + (tx - p.x) * k) * 0.88; p.vy = (p.vy + (ty - p.y) * k) * 0.88;
           p.x += p.vx; p.y += p.vy;
           if (Math.abs(p.tx - p.x) + Math.abs(p.ty - p.y) < 6) settled++;
         }
@@ -229,7 +232,15 @@
     hero.addEventListener('click', function (e) {
       if (e.target.closest('a, button')) return;
       var r = hero.getBoundingClientRect(), cx = e.clientX - r.left, cy = e.clientY - r.top;
-      parts.forEach(function (p) { var dx = p.x - cx, dy = p.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1; if (d < 340) { var f = (1 - d / 340) * 18; p.vx += dx / d * f; p.vy += dy / d * f; } });
+      /* click: dots near the click scatter outwards (closer ones fly further), drift for a moment, then fly back into the lightbulb */
+      var now = performance.now(), R = 170;
+      parts.forEach(function (p) {
+        var dx = p.x - cx, dy = p.y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d >= R) return;
+        var a = Math.atan2(dy, dx) + (Math.random() - 0.5) * 0.7, v = (1 - d / R) * (8 + Math.random() * 6);
+        p.vx += Math.cos(a) * v; p.vy += Math.sin(a) * v;
+        if (!p.free) p.scat = now + 600 + Math.random() * 300;
+      });
     });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) start(); else stop(); }).observe(hero);
