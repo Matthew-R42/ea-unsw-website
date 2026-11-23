@@ -904,7 +904,7 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 /* Pick the subcommittee roles that sound like you */
 .subcomm-panel { margin-top: 64px; padding-top: 44px; border-top: 2px dashed rgba(17, 17, 17, .18); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 48px; align-items: center; }
 .subcomm-panel h2 { font-size: clamp(26px, 3vw, 36px); margin: 0; }
-.subcomm-panel p { grid-column: 1 / -1; font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
+.subcomm-panel p { grid-column: 1 / -1; font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
 @media (max-width: 760px) { .subcomm-panel { grid-template-columns: 1fr; } .subcomm-panel .btn { justify-self: start; } }
 :root[data-theme="dark"] .subcomm-panel { border-top-color: var(--line); }
 .pick-hint { font-family: var(--hand); font-weight: 600; font-size: 18px; color: var(--teal-strong); margin: -22px 0 18px; }
