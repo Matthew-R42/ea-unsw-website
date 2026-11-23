@@ -802,8 +802,9 @@
     }
     size();
     var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(size, 150); });
-    hero.addEventListener('pointermove', function (e) { var r = hero.getBoundingClientRect(); m.x = e.clientX - r.left; m.y = e.clientY - r.top; if (calm) draw(); });
-    hero.addEventListener('pointerleave', function () { m.x = m.y = -999; if (calm) draw(); });
+    /* follow the cursor even a little below the hero, so the lines fade in as it comes up rather than switching on at the edge */
+    window.addEventListener('pointermove', function (e) { var r = hero.getBoundingClientRect(); m.x = e.clientX - r.left; m.y = e.clientY - r.top; if (m.y > H + 220 || m.y < -220) m.x = m.y = -999; if (calm) draw(); }, { passive: true });
+    doc.addEventListener('pointerleave', function () { m.x = m.y = -999; if (calm) draw(); });
     if (calm) return;
     function go(v) { if (v && !on) { on = true; raf = requestAnimationFrame(tick); } else if (!v) { on = false; cancelAnimationFrame(raf); } }
     if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { go(es[0].isIntersecting && !doc.hidden); }).observe(hero); else go(true);
@@ -812,18 +813,25 @@
 
   /* A faint light follows the cursor in the top section of each page (not the bands below) */
   if (fine) $$('.hero.grid-paper, .page-hero.grid-paper').forEach(function (b) {
-    b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.setProperty('--mx', (e.clientX - r.left) + 'px'); b.style.setProperty('--my', (e.clientY - r.top) + 'px'); });
-    b.addEventListener('pointerleave', function () { b.style.setProperty('--mx', '-999px'); });
+    /* tracked across the window, so the light slides in from the edge when the cursor comes up from below */
+    window.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.setProperty('--mx', (e.clientX - r.left) + 'px'); b.style.setProperty('--my', (e.clientY - r.top) + 'px'); }, { passive: true });
+    doc.addEventListener('pointerleave', function () { b.style.setProperty('--mx', '-999px'); });
   });
 
   /* About us people cards lean towards the cursor (every other card just lifts, in CSS) */
   if (fine && !calm) $$('.person.flip').forEach(function (el) {
     el.classList.add('tilts');
+    var settle, box = null;
+    /* the lift and grow ease in quickly, then the tilt tracks the cursor with no delay.
+       The card is measured flat on entry, so its own tilt can't feed back into the maths. */
+    window.addEventListener('scroll', function () { box = null; }, { passive: true });
+    el.addEventListener('pointerenter', function () { box = el.getBoundingClientRect(); el.style.transition = ''; clearTimeout(settle); settle = setTimeout(function () { el.style.transition = 'none'; }, 100); });
     el.addEventListener('pointermove', function (e) {
-      var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      el.style.transform = 'perspective(800px) rotateX(' + (-y * 14).toFixed(2) + 'deg) rotateY(' + (x * 18).toFixed(2) + 'deg) translateY(-8px) scale(1.03)';
+      if (!box) { var t = el.style.transform; el.style.transform = ''; box = el.getBoundingClientRect(); el.style.transform = t; }
+      var r = box, x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      el.style.transform = 'perspective(800px) rotateX(' + (-y * 18).toFixed(2) + 'deg) rotateY(' + (x * 24).toFixed(2) + 'deg) translateY(-8px) scale(1.06)';
     });
-    el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+    el.addEventListener('pointerleave', function () { clearTimeout(settle); box = null; el.style.transition = ''; el.style.transform = ''; });
   });
 
   /* Illustrations bounce when poked */
@@ -839,31 +847,61 @@
     el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fn(e); } });
   }
 
-  /* Team cards flip over */
-  $$('.person.flip').forEach(function (card) {
-    pressable(card, function () { var on = card.classList.toggle('flipped'); card.setAttribute('aria-pressed', on ? 'true' : 'false'); });
-  });
+  /* Team cards open a bigger pop-up with the person's details (falls back to flipping if a page has no pop-up) */
+  var pop = $('#person-pop');
+  if (pop && pop.showModal) {
+    var opener = null;
+    var closePop = function () {
+      if (!pop.open || pop.classList.contains('closing')) return;
+      pop.classList.add('closing');
+      setTimeout(function () { pop.classList.remove('closing'); pop.close(); }, calm ? 0 : 160);
+    };
+    $$('.person.flip').forEach(function (card) {
+      pressable(card, function () {
+        opener = card;
+        $('.pp-photo', pop).src = card.getAttribute('data-photo') || $('.avatar img', card).src;
+        $('#pp-name', pop).textContent = card.getAttribute('data-full') || $('h3', card).textContent;
+        $('.pp-role', pop).textContent = $('.role', card).textContent;
+        var st = $('.study', card); $('.pp-study', pop).textContent = st ? st.textContent : '';
+        var more = $('.person-more', card), box = $('.pp-more', pop); box.innerHTML = more ? more.innerHTML : '';
+        /* skip questions that have not been answered yet (placeholder .todo), and their labels */
+        $$('.todo', box).forEach(function (t) { var a = t.closest('p'), l = a && a.previousElementSibling; if (l && l.classList.contains('hand')) l.remove(); if (a) a.remove(); });
+        card.style.transform = '';
+        pop.showModal();
+      });
+    });
+    pop.addEventListener('cancel', function (e) { e.preventDefault(); closePop(); });
+    pop.addEventListener('click', function (e) { if (e.target === pop) closePop(); });
+    pop.addEventListener('close', function () { if (opener) opener.focus(); });
+  } else {
+    $$('.person.flip').forEach(function (card) {
+      pressable(card, function () { var on = card.classList.toggle('flipped'); card.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    });
+  }
 
   /* Lens circles are switches too */
   $$('.toggle[data-lens]').forEach(function (b) { var c = doc.getElementById(b.getAttribute('data-lens')); if (c) c.addEventListener('click', function () { b.click(); }); });
 
-  /* Subcommittee: pick the roles that sound like you, and the form opens with them ticked */
+  /* Subcommittee: tap the roles that sound like you, and the matching boxes on the form get ticked */
   (function () {
-    var picks = $$('.rolecard.pick'), apply = $('#apply-subcom'), hint = $('#pick-hint');
-    if (picks.length && apply) {
-      var base = apply.getAttribute('href');
-      picks.forEach(function (card) {
-        pressable(card, function () {
-          card.setAttribute('aria-pressed', card.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
-          var chosen = picks.filter(function (p) { return p.getAttribute('aria-pressed') === 'true'; });
-          var areas = chosen.map(function (p) { return p.getAttribute('data-area'); });
-          apply.setAttribute('href', areas.length ? base + '?area=' + encodeURIComponent(areas.join('|')) : base);
-          if (hint) hint.textContent = areas.length ? 'Nice. We will tick ' + chosen.map(function (p) { return $('h3', p).textContent; }).join(' + ') + ' on your application.' : 'Tap the ones that sound like you.';
-        });
-      });
+    var picks = $$('.rolecard.pick'), hint = $('#pick-hint'), boxes = $$('input[name="s-area"]');
+    function box(area) { return boxes.filter(function (i) { return i.value === area; })[0]; }
+    function paint() {
+      var chosen = picks.filter(function (p) { return p.getAttribute('aria-pressed') === 'true'; });
+      if (hint) hint.textContent = chosen.length ? 'Nice. We\u2019ve ticked ' + chosen.map(function (p) { return $('h3', p).textContent; }).join(' + ') + ' on the form below.' : 'Tap the ones that sound like you, and we\u2019ll tick them below.';
     }
+    picks.forEach(function (card) {
+      var b = box(card.getAttribute('data-area'));
+      pressable(card, function () {
+        var on = card.getAttribute('aria-pressed') !== 'true';
+        card.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (b) b.checked = on;
+        paint();
+      });
+      if (b) b.addEventListener('change', function () { card.setAttribute('aria-pressed', b.checked ? 'true' : 'false'); paint(); });
+    });
     var m = /[?&]area=([^&]+)/.exec(location.search);
-    if (m) decodeURIComponent(m[1]).split('|').forEach(function (a) { $$('input[name="s-area"]').forEach(function (i) { if (i.value === a) i.checked = true; }); });
+    if (m) decodeURIComponent(m[1]).split('|').forEach(function (a) { var b = box(a); if (b) { b.checked = true; b.dispatchEvent(new Event('change')); } });
   })();
 
   /* Fellowship: tick off readings. Stays in this browser. */

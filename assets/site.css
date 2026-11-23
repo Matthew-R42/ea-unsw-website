@@ -461,7 +461,7 @@ a.tcard:hover { transform: translateY(-5px); box-shadow: 6px 8px 0 var(--ink); c
 .together .em { white-space: normal; }
 
 /* How rich am I */
-.rich { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+.rich { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
 .rich-form { display: grid; gap: 14px; margin-top: 24px; }
 .rich-form label { font-weight: 700; font-size: 15px; }
 .money { display: flex; align-items: center; gap: 10px; border: 2px solid var(--ink); border-radius: 14px; background: var(--card); padding: 6px 16px; box-shadow: 4px 4px 0 var(--ink); max-width: 320px; }
@@ -805,7 +805,8 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .word { padding-block: 20px; }
 .word-side { padding-top: 40px; }
 .word-art .bubble { top: -4px; }
-.together .hu { text-decoration: underline; text-decoration-color: var(--teal-strong); text-decoration-thickness: 3px; text-underline-offset: 6px; }
+.together .hu { background: linear-gradient(transparent 58%, var(--sun) 58% 92%, transparent 92%); padding: 0 .08em; }
+:root[data-theme="dark"] .together .hu { background: none; color: var(--sun); }
 .sched-head { display: flex; justify-content: space-between; align-items: center; gap: 20px 32px; flex-wrap: wrap; margin-bottom: 44px; }
 .sched-head .sec-head { margin-bottom: 0; }
 .sched-head .upnext { margin: 0; }
@@ -851,6 +852,8 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .sunny { color: var(--sun); font-weight: inherit; }
 .edge { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 44px; display: block; z-index: 2; pointer-events: none; }
 .edge path { fill: var(--paper); }
+.page-hero:has(+ .band-soft) .edge path { fill: var(--soft); }
+.page-hero + .band-soft.grid-paper { background-position: 0 -1px; }
 .hero-grid { padding-bottom: 124px; }
 
 /* Light bands */
@@ -899,6 +902,11 @@ a.chip:hover { background: #fff; color: var(--night); transform: translateY(-2px
 .person.flip:focus-visible { outline: 3px solid var(--sun-deep); outline-offset: 4px; border-radius: var(--radius); }
 
 /* Pick the subcommittee roles that sound like you */
+.subcomm-panel { margin-top: 64px; padding-top: 44px; border-top: 2px dashed rgba(17, 17, 17, .18); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 48px; align-items: center; }
+.subcomm-panel h2 { font-size: clamp(26px, 3vw, 36px); margin: 0; }
+.subcomm-panel p { grid-column: 1 / -1; font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
+@media (max-width: 760px) { .subcomm-panel { grid-template-columns: 1fr; } .subcomm-panel .btn { justify-self: start; } }
+:root[data-theme="dark"] .subcomm-panel { border-top-color: var(--line); }
 .pick-hint { font-family: var(--hand); font-weight: 600; font-size: 18px; color: var(--teal-strong); margin: -22px 0 18px; }
 .rolecard.pick { cursor: pointer; position: relative; user-select: none; -webkit-user-select: none; }
 .rolecard.pick::after { content: ""; position: absolute; top: 18px; right: 18px; width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; display: grid; place-content: center; font: 800 16px/1 var(--body); }
@@ -1329,7 +1337,7 @@ a.lens-ex b { font-size: clamp(22px, 2.3vw, 29px); white-space: nowrap; min-widt
 @keyframes bob { 0% { transform: translate(0, 0); } 40% { transform: translate(-3px, -9px); } 70% { transform: translate(-3px, -1px); } 100% { transform: translate(-3px, -3px); } }
 @media (prefers-reduced-motion: reduce) { .wk-card:hover { animation: none; } }
 /* Team cards lean towards the cursor (site.js); the old sideways turn on hover is dropped for them */
-.person.flip.tilts { transition: transform .2s ease; }
+.person.flip.tilts { transition: transform .1s ease-out; }
 .person.flip.tilts:hover .flip-in { transform: none; }
 .person.flip.tilts.flipped:hover .flip-in { transform: rotateY(180deg); }
 
@@ -1705,7 +1713,7 @@ a.ev-box:hover, a.ev-box:focus-visible { transform: translate(-3px, -3px); box-s
 .evp-back:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
 .page-hero.band-night a.evp-back { color: #fff; }
 .evp { padding-block: 64px 80px; }
-.evp-grid { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 56px; align-items: start; }
+.evp-grid { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 56px; align-items: center; }
 .evp-poster { margin: 0; position: sticky; top: 100px; }
 .evp-poster img { display: block; width: 100%; height: auto; border: 2px solid var(--ink); border-radius: 10px; background: var(--wash); }
 .evp-main h2 { font-size: clamp(28px, 3.2vw, 36px); margin: 44px 0 20px; }
@@ -1893,8 +1901,8 @@ header.site-head .brand-text b, header.site-head.light .brand-text b, :root[data
 @media (max-width: 640px) { .ea-band { padding-top: 28px; } }
 
 /* 18 Nov: the events hero shows a real EA event photo instead of the calendar drawing */
-.page-hero-art.hero-photo { width: min(100%, 460px); margin: 0; }
-.hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 60%; border-radius: 18px; border: 3px solid #ffffff; box-shadow: 0 18px 40px rgba(0, 0, 0, .35); rotate: 2deg; }
+.page-hero-art.hero-photo { width: min(100%, 460px); margin: 0; rotate: 1deg; }
+.hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 60%; border-radius: 18px; border: 3px solid #ffffff; box-shadow: 0 18px 40px rgba(0, 0, 0, .35); }
 .hero-photo figcaption { margin-top: 12px; font-size: 11.5px; line-height: 1.4; color: rgba(255, 255, 255, .72); text-align: right; }
 .hero-photo figcaption a { color: inherit; }
 
@@ -2027,3 +2035,96 @@ header.site-head .brand:hover .bulb, header.site-head .brand:focus-visible .bulb
 
 /* 19 Nov: "See our full schedule" under the carousel is centred */
 .can-events > p { text-align: center; }
+
+/* 20 Nov: Join us buttons turn their text blue on hover in light mode too, as they do in dark mode (the nav one over the hero already goes dark teal on white) */
+:root:not([data-theme="dark"]) .btn.btn-sun:hover, :root:not([data-theme="dark"]) .site-head.light .btn.join-late:hover { color: #a9dfe6; }
+
+/* 23 Nov: team card name + role in Inter, like the reference screenshot (semi-bold name, plain grey role) */
+.person h3, .person .role { font-family: "Inter", var(--body); }
+.person h3 { font-size: 22px; font-weight: 600; letter-spacing: -.01em; }
+.person .role { font-size: 15px; font-weight: 400; letter-spacing: 0; text-transform: none; color: #b88a00; font-weight: 600; }
+:root[data-theme="dark"] .person .role { color: var(--sun); }
+
+/* 23 Nov: About us "Our place in EA" section (replaces Where the money goes): intro + mission quote, then photo beside a numbered list of aims */
+.role-top { margin-bottom: 56px; }
+.role-intro { display: grid; gap: 14px; }
+.role-intro h2 { font-size: clamp(34px, 4.6vw, 56px); }
+.role-intro p:not(.label) { font-size: 18px; line-height: 1.65; color: var(--ink-soft); }
+.role-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 56px; align-items: center; }
+.about-photo { margin: 0; }
+.about-photo img, .photo-slot { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius); border: 2px solid var(--ink); }
+.photo-slot { display: grid; place-content: center; background: var(--card); border-style: dashed; box-shadow: none; color: var(--ink-soft); font: 600 16px/1 var(--hand); }
+.role-sub { font-size: clamp(24px, 2.6vw, 32px); margin-bottom: 8px; }
+.aim-list { list-style: none; margin: 0; padding: 0; }
+.aim-item { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 18px; align-items: start; padding: 20px 0; border-bottom: 2px dashed var(--line); }
+.aim-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.aim-n { width: 48px; height: 48px; display: grid; place-content: center; border: 2px solid var(--ink); border-radius: 50%; background: var(--sun); color: #111111; font: 800 21px/1 var(--display); }
+.aim-item h4 { font: 700 20px/1.25 var(--display); letter-spacing: -0.01em; margin: 2px 0 6px; }
+.aim-item p { font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
+@media (max-width: 860px) {
+  .role-body { grid-template-columns: 1fr; gap: 30px; }
+  .role-top { margin-bottom: 44px; }
+}
+.about-photo img { aspect-ratio: 1 / 1; }
+.about-photo figcaption { margin-top: 16px; font-size: 12px; line-height: 1.45; color: var(--ink-soft); }
+.about-photo figcaption a { color: inherit; }
+.page-hero-art.team-photo { rotate: -1deg; }
+
+/* 23 Nov: money line at the bottom of "What EA UNSW is for" */
+.give-line { margin: 64px auto 0; max-width: 48em; text-wrap: balance; text-align: center; font-size: clamp(18px, 1.9vw, 22px); line-height: 1.6; color: var(--ink); }
+.give-line mark { background: linear-gradient(transparent 55%, var(--sun) 55%); color: inherit; font-weight: 700; padding: 0 2px; }
+:root[data-theme="dark"] .give-line mark { background: none; color: var(--sun); }
+.sec-head.sec-head-center { margin-left: auto; margin-right: auto; text-align: center; justify-items: center; }
+@media (max-width: 640px) { .team .flip-in { height: 276px; } }
+/* 23 Nov: degree line under each role on the front of the team cards */
+.person .study { font-family: "Inter", var(--body); font-size: 13px; line-height: 1.35; color: var(--ink-soft); opacity: .8; max-width: 15em; margin-top: -2px; }
+.team .face.front { align-content: start; padding-top: 26px; }
+.person .study { text-wrap: balance; }
+.team { padding-bottom: 8px; }
+
+/* 23 Nov: team cards open a pop-up instead of flipping */
+.person-pop { width: min(720px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 2.5px solid var(--ink); border-radius: 24px; background: var(--card); color: var(--ink); overflow: auto; }
+.person-pop::backdrop { background: rgba(10, 12, 12, .55); backdrop-filter: blur(3px); }
+.person-pop[open] { animation: pp-in .28s cubic-bezier(.3, 1.35, .45, 1) both; }
+.person-pop[open]::backdrop { animation: pp-fade .2s ease both; }
+.person-pop.closing { animation: pp-out .16s ease-in both; }
+.person-pop.closing::backdrop { animation: pp-fade .16s ease-in reverse both; }
+@keyframes pp-in { from { opacity: 0; transform: translateY(18px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes pp-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(10px) scale(.95); } }
+@keyframes pp-fade { from { opacity: 0; } to { opacity: 1; } }
+.pp-grid { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 34px; align-items: center; padding: 38px 40px 40px; }
+.pp-photo { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 3px solid var(--ink); background: var(--wash); display: block; }
+.pp-text { display: grid; gap: 6px; }
+.pp-text h3 { font: 600 34px/1.1 "Inter", var(--body); letter-spacing: -.015em; }
+.pp-text .role { font-size: 17px; }
+.pp-text .study { font-size: 15px; opacity: .85; max-width: none; margin: 0; }
+.pp-more { margin-top: 14px; padding-top: 14px; border-top: 2px dashed var(--line); display: grid; gap: 4px; }
+.pp-more .hand { font-family: var(--hand); font-weight: 600; font-size: 16px; margin-top: 8px; }
+.pp-more .hand:first-child { margin-top: 0; }
+.pp-more p:not(.hand) { font-size: 16px; line-height: 1.55; color: var(--ink-soft); }
+.pp-close { position: absolute; top: 12px; right: 14px; width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--ink); background: var(--sun); color: #111111; font: 700 24px/1 var(--body); cursor: pointer; display: grid; place-content: center; padding: 0 0 2px; }
+.pp-close:hover { transform: rotate(90deg); transition: transform .2s ease; }
+.pp-close:focus-visible { outline: 3px solid var(--sun-deep); outline-offset: 3px; }
+@media (max-width: 640px) {
+  .pp-grid { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 20px; padding: 46px 22px 28px; }
+  .pp-photo { width: 190px; }
+  .pp-text { justify-items: center; }
+  .pp-more { justify-items: center; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .person-pop[open], .person-pop.closing, .person-pop[open]::backdrop { animation: none; } }
+.still .person-pop[open] { animation: none; }
+.pp-text .role, .pp-text .study { font-family: "Inter", var(--body); }
+.pp-text .role { font-weight: 600; color: #b88a00; }
+:root[data-theme="dark"] .pp-text .role { color: var(--sun); }
+.pp-text .study { color: var(--ink-soft); }
+/* 23 Nov: pop-up labels in the headline font (Bricolage Grotesque), "Why I joined" answer as a Newsreader italic quote */
+.pp-more { gap: 6px; }
+.pp-more .hand { font: 700 13px/1.3 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); margin-top: 14px; }
+.pp-more .hand:first-child { margin-top: 0; }
+.pp-more p:not(.hand) { font-size: 16.5px; color: var(--ink); }
+.pp-more p:last-child:not(.hand) { font: italic 400 21px/1.45 "Newsreader", Georgia, serif; color: var(--ink); }
+.pp-more p:last-child .todo { font-family: var(--body); font-style: normal; }
+/* 23 Nov: pop-up photo is a rounded portrait rectangle showing head and shoulders */
+.pp-photo { aspect-ratio: 3 / 4; border-radius: 20px; }
+@media (max-width: 640px) { .pp-photo { width: 200px; } }
+.person-pop { border-radius: 10px; }
