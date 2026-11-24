@@ -203,8 +203,14 @@
           p.vx += Math.cos(now / 2300 + p.seed) * 0.004; p.vy += Math.sin(now / 2700 + p.seed) * 0.004;
           var drag = flung ? 0.95 : 0.985; p.vx *= drag; p.vy *= drag;
           p.x += p.vx; p.y += p.vy;
-          if (p.x < -10) p.x = W + 10; else if (p.x > W + 10) p.x = -10;
-          if (p.y < -10) p.y = H + 10; else if (p.y > H + 10) p.y = -10;
+          if (flung) {
+            /* scattered bulb dots bounce off the hero edges instead of wrapping to the other side */
+            if (p.x < p.r) { p.x = p.r; p.vx = Math.abs(p.vx) * 0.5; } else if (p.x > W - p.r) { p.x = W - p.r; p.vx = -Math.abs(p.vx) * 0.5; }
+            if (p.y < p.r) { p.y = p.r; p.vy = Math.abs(p.vy) * 0.5; } else if (p.y > H - p.r) { p.y = H - p.r; p.vy = -Math.abs(p.vy) * 0.5; }
+          } else {
+            if (p.x < -10) p.x = W + 10; else if (p.x > W + 10) p.x = -10;
+            if (p.y < -10) p.y = H + 10; else if (p.y > H + 10) p.y = -10;
+          }
         } else {
           bound++;
           var tx = p.tx + Math.sin(now / 1500 + p.seed) * 1.1, ty = p.ty + Math.cos(now / 1700 + p.seed) * 1.1;

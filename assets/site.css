@@ -2158,3 +2158,37 @@ header.site-head .brand:hover .bulb, header.site-head .brand:focus-visible .bulb
 :root[data-theme="dark"] .wk-head h2 { background: linear-gradient(rgba(255, 218, 31, .4), rgba(255, 218, 31, .4)) 0 87.9% / 0 34% no-repeat; }
 :root[data-theme="dark"] .wk.is-now .wk-head h2 { background: linear-gradient(rgba(255, 218, 31, .4), rgba(255, 218, 31, .4)) 0 87.9% / 100% 34% no-repeat; }
 @media (prefers-reduced-motion: reduce) { .wk-head h2 { transition: none; } }
+
+/* 24 Nov: "What is Effective Altruism?" title above the home EA photo, same style as "Upcoming Events" */
+.ea-head h2 { margin: 0 0 28px; }
+@media (max-width: 640px) { .ea-head h2 { margin-bottom: 20px; } }
+
+/* 24 Nov: home intro block like MathSoc's (heading + paragraph + button on the left, exec photo on the right), its own soft band */
+.intro-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+.intro-copy h2 { font-size: clamp(32px, 4.2vw, 50px); margin: 0 0 16px; }
+.intro-copy p { font-size: clamp(17px, 1.5vw, 19px); max-width: 34em; margin: 0 0 24px; }
+.intro-photo { margin: 0; }
+.intro-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 60%; border-radius: 18px; }
+@media (max-width: 760px) {
+  .intro-grid { grid-template-columns: 1fr; }
+  .intro-photo { order: -1; }
+}
+/* light mode colours, top to bottom: teal (What is EA?) -> white (intro) -> grey (events) -> yellow */
+:root:not([data-theme="dark"]) .ea-band { background: #e3f3f5; }
+:root:not([data-theme="dark"]) .hero .edge path { fill: #e3f3f5; }
+:root:not([data-theme="dark"]) .intro-band { background-color: var(--paper); }
+.intro-photo img { aspect-ratio: auto; }  /* keep the stall photo at the user's own crop shape */
+/* 24 Nov: events hero trivia photo is zoomed in (16:9 crop) and wider than the usual hero photo */
+.page-hero-art.hero-photo.trivia-photo { width: min(100%, 600px); }
+.trivia-photo img { aspect-ratio: 16 / 9; }
+.page-hero .wrap:has(.trivia-photo) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+.intro-copy p:last-child { margin-bottom: 0; }
+/* "25+ events" in the home intro: yellow highlighter in light mode, yellow text in dark mode (same as head/heart) */
+.intro-copy .hu { background: linear-gradient(transparent 58%, var(--sun) 58% 92%, transparent 92%); padding: 0 .08em; font-weight: 700; }
+:root[data-theme="dark"] .intro-copy .hu { background: none; color: var(--sun); }
+.intro-copy p + p { margin-top: -10px; }
+/* 24 Nov: handwritten "25+ events" note with a curved arrow pointing down to Upcoming Events (same style as the old "We'll show you how") */
+.intro-copy .ev-note { display: flex; align-items: flex-start; gap: 10px; margin: 26px 0 0; font: 600 clamp(20px, 2.4vw, 26px)/1.25 var(--hand); color: var(--ink); }
+.ev-note svg { flex: none; width: 54px; height: 62px; margin-top: 14px; overflow: visible; }
+.ev-note svg path { fill: none; stroke: currentColor; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.intro-copy .ev-note .hu { font-weight: 700; }
