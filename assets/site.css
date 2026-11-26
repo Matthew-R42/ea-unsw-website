@@ -2207,3 +2207,5 @@ header.site-head .brand:hover .bulb, header.site-head .brand:focus-visible .bulb
   .team .face { position: relative; inset: auto; height: 100%; padding: 22px 10px 20px; }
   .team .person.flip:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 8px); }
 }
+/* 26 Nov: "What's on in Term 1." stays on one line on phones */
+@media (max-width: 640px) { .page-hero h1.one-line { white-space: nowrap; font-size: min(10.2vw, 44px); } }
