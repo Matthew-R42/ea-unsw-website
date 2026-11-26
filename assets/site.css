@@ -2211,3 +2211,5 @@ header.site-head .brand:hover .bulb, header.site-head .brand:focus-visible .bulb
 @media (max-width: 640px) { .page-hero h1.one-line { white-space: nowrap; font-size: min(10.2vw, 44px); } }
 /* 26 Nov: fellowship book image only tilts when it sits beside the text */
 @media (max-width: 760px) { .fellow-cta .fellow-poster { rotate: 0deg; } }
+/* 26 Nov: tapping anywhere closes the team pop-up */
+.person-pop { cursor: pointer; }

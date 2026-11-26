@@ -888,7 +888,7 @@
       });
     });
     pop.addEventListener('cancel', function (e) { e.preventDefault(); closePop(); });
-    pop.addEventListener('click', function (e) { if (e.target === pop) closePop(); });
+    pop.addEventListener('click', function (e) { if (!e.target.closest('a')) closePop(); });   /* any tap closes it, inside or outside (links still work) */
     pop.addEventListener('close', function () { if (opener) opener.focus(); });
   } else {
     $$('.person.flip').forEach(function (card) {
